@@ -6,16 +6,6 @@ except ImportError:
     # backport
     from typing_extensions import Literal
 
-
-def DiscordStringResponse(content: str, tts: bool = False, **kwargs):
-    return {
-        "type": 4,
-        "data": {
-            "tts": tts,
-            "content": content
-        }
-    }
-
 class DiscordStringResponse(object):
     def __init__(self, content: str = None, tts: bool = False, **kwargs):
         
