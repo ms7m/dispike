@@ -19,6 +19,13 @@ def DiscordStringResponse(content: str, tts: bool = False, **kwargs):
 class DiscordStringResponse(object):
     def __init__(self, content: str = None, tts: bool = False, **kwargs):
         
+        
+        if isinstance(content, str) == False or content == None or content == "":
+            raise TypeError("content must be a string")
+
+        if isinstance(tts, bool) == False:
+            raise TypeError("tts must be a bool")
+
         self._content = content
         self._tts = tts
 
