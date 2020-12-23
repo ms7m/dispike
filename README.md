@@ -18,7 +18,7 @@ from dispike.server import (
     DiscordVerificationMiddleware
 )
 from dispike.models.incoming import IncomingDiscordInteraction # For Type Hinting
-from dispike.response import DiscordStringResponse
+from dispike.response import DiscordResponse
  
 
 app = FastAPI()
@@ -31,10 +31,25 @@ app.include_router(router)
 
 # Arguments that you pass to your function are the same arugments you defined/registered with discord + payload argument.
 
-@interaction.on("bot_command_name")
-async def handle_command(botcommandargument, payload: IncomingDiscordInteraction):
-    _response = DiscordStringResponse()
-    _response.content = f"Hello, {payload.member.user.username}!"
+@interaction.on("sendmessage")	
+async def testing(message: str, payload: IncomingDiscordInteraction):	
+    logger.info("Emitted.")	
+
+    logger.debug(payload.member.user.id)	
+    logger.debug(payload.member.roles)	
+
+    _response = DiscordResponse()	
+    _response.content = f"Hello, {payload.member.user.username}! Your message was {message}"	
+
+
+    embed = Embed()
+    embed.title = "Test"
+    embed.add_field(name="Message", value="Value")
+
+    _response.add_new_embed(
+        embed
+    )
+
     return _response.response
 
 ```
