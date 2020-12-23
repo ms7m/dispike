@@ -1,5 +1,6 @@
 
 import datetime
+import re
 
 def parse_time(timestamp):
     if timestamp:
