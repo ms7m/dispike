@@ -7,8 +7,6 @@ from .eventer import EventHandler
 import json
 import typing
 
-from dispike.models.arguments import DiscordString
-
 router = APIRouter()
 interaction = EventHandler()
 

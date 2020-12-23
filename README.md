@@ -29,9 +29,10 @@ app.include_router(router)
 
 # Now build your bot.
 
+# Arguments that you pass to your function are the same arugments you defined/registered with discord + payload argument.
 
 @interaction.on("bot_command_name")
-async def handle_command(payload: IncomingDiscordInteraction):
+async def handle_command(botcommandargument, payload: IncomingDiscordInteraction):
     _response = DiscordStringResponse()
     _response.content = f"Hello, {payload.member.user.username}!"
     return _response.response
