@@ -7,11 +7,10 @@ except ImportError:
     from typing_extensions import Literal
 
 class DiscordStringResponse(object):
-    def __init__(self, content: str = None, tts: bool = False, **kwargs):
+    def __init__(self, content: str = "Default String", tts: bool = False, **kwargs):
         
-        
-        if isinstance(content, str) == False or content == None or content == "":
-            raise TypeError("content must be a string")
+        if isinstance(content, str) == False or content == "":
+            raise TypeError(f"content must be a string. recieved: {content}")
 
         if isinstance(tts, bool) == False:
             raise TypeError("tts must be a bool")
@@ -37,6 +36,9 @@ class DiscordStringResponse(object):
         
     @property
     def response(self):
+        if self.content == None:
+            raise TypeError("Content cannot be empty.")
+
         return {
             "type": 4,
             "data": {
