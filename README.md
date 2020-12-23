@@ -40,12 +40,20 @@ async def handle_command(payload: IncomingDiscordInteraction):
 ## Result
 
 <p >
-  <a href="https://ms7m.me">
     <img
       alt="Website"
       src="./docs/images/demo.png"
     />
-  </a>
+</p>
+
+
+When configuring your endpoint on discord settings, be sure to append ``/interactions`` to your domain.
+
+<p >
+    <img
+      alt="Website"
+      src="./docs/images/domain.png"
+    />
 </p>
 
 ## Caveats
