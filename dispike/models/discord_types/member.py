@@ -16,10 +16,12 @@ from .user import User
 class Member(BaseModel):
     class Config:
         arbitrary_types_allowed = True
-    
+
     user: User
     roles: typing.List[str]
-    premium_since: typing.Union[None, str, int] # ? Discord docs doesn't talk about this so..
+    premium_since: typing.Union[
+        None, str, int
+    ]  # ? Discord docs doesn't talk about this so..
     permissions: str
     pending: bool
     nick: typing.Union[None, str]

@@ -1,23 +1,30 @@
-
 from pydantic import BaseModel
 from .helper.embed import Embed
 import typing
+
 try:
     from typing import Literal
 except ImportError:
     # backport
     from typing_extensions import Literal
 
+
 class DiscordResponse(object):
-    def __init__(self, content: str = None, tts: bool = False, embeds: typing.List[Embed] = [], show_user_input: bool = False):
-        
+    def __init__(
+        self,
+        content: str = None,
+        tts: bool = False,
+        embeds: typing.List[Embed] = [],
+        show_user_input: bool = False,
+    ):
+
         if content != None:
             if isinstance(content, str) == False:
                 raise TypeError(f"Content must be a string")
             elif content == "":
                 content = None
-                
-        #if isinstance(content, str) == False or content == "" or content != None:
+
+        # if isinstance(content, str) == False or content == "" or content != None:
         #    raise TypeError(f"content must be a string. recieved: {content}")
 
         if isinstance(tts, bool) == False:
@@ -31,7 +38,6 @@ class DiscordResponse(object):
         else:
             self._type_response = 4
 
-
     @property
     def embeds(self):
         return self._embeds
@@ -41,7 +47,6 @@ class DiscordResponse(object):
             self._embeds.append(embed_to_add.to_dict())
         else:
             raise TypeError("embed must be a Embed object.")
-
 
     @property
     def content(self):
@@ -58,7 +63,7 @@ class DiscordResponse(object):
     @tts.setter
     def tts(self, new_tts: bool):
         self._tts = new_tts
-        
+
     @property
     def response(self):
         if self.content == "":
@@ -66,14 +71,8 @@ class DiscordResponse(object):
 
         return {
             "type": self._type_response,
-            "data": {
-                "tts": self.tts,
-                "content": self.content,
-                "embeds": self.embeds
-            }
+            "data": {"tts": self.tts, "content": self.content, "embeds": self.embeds},
         }
 
     def __call__(self):
         return self.response
-
-
