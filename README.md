@@ -32,7 +32,7 @@ app.include_router(router)
 
 @interaction.on("bot_command_name")
 async def handle_command(payload: IncomingDiscordInteraction):
-    _response = DiscordStringResponse
+    _response = DiscordStringResponse()
     _response.content = f"Hello, {payload.member.user.username}!"
     return _response.response
 
