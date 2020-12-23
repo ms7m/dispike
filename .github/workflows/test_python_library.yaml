@@ -31,8 +31,8 @@ jobs:
       - name: Lint with pylint
         run: |
           # stop the build if there are Python syntax errors or undefined names
-          pylint --errors-only dispike/
+          python -m pylint --errors-only dispike/
       - name: Test with pytest
         run: |
           pip install pytest
-          python -m pytest tests/
+          python -m pytest
