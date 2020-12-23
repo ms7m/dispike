@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dispike"
-version = "0.2.0-alpha.0"
+version = "0.2.1-alpha.0"
 description = ""
 authors = ["Mustafa Mohamed <ms7mohamed@gmail.com>"]
 
