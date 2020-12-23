@@ -27,7 +27,6 @@ jobs:
         run: |
           pip install poetry
           poetry install
-          poetry shell
       - name: Lint with pylint
         run: |
           # stop the build if there are Python syntax errors or undefined names
