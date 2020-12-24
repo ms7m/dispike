@@ -52,6 +52,13 @@ async def testing(message: str, payload: IncomingDiscordInteraction):
 
     return _response.response
 
+
+
+if __name__ == "__main__":
+    # Use any compatiable AWSGI Server. This library prefers uvicorn.
+    from uvicorn import run
+    run(app=app, port=5000)
+    
 ```
 ## Result
 
