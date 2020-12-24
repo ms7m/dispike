@@ -11,35 +11,31 @@ Powered by FastAPI.
 
 ```python
 
-from fastapi import FastAPI
-from dispike.server import (
-    router,
-    interaction,
-    DiscordVerificationMiddleware
-)
+
 from dispike.models.incoming import IncomingDiscordInteraction # For Type Hinting
 from dispike.response import DiscordResponse
- 
 
-app = FastAPI()
-app.add_middleware(DiscordVerificationMiddleware, client_public_key="< Public Key >")
-app.include_router(router)
+from dispike import Dispike
+
+bot = Dispike(client_public_key="< Public Key >")
 
 
 
 # Now build your bot.
 
-# Arguments that you pass to your function are the same arugments you defined/registered with discord + payload argument.
+# Arguments that you pass to your function are 
+# the same arugments you defined/registered with discord..
+# Don't forget to have an argument for a ctx (context). 
 
-@interaction.on("sendmessage")	
-async def testing(message: str, payload: IncomingDiscordInteraction):	
+@bot.interaction.on("sendmessage")	
+async def testing(message: str, ctx: IncomingDiscordInteraction):	
     logger.info("Emitted.")	
 
-    logger.debug(payload.member.user.id)	
-    logger.debug(payload.member.roles)	
+    logger.debug(ctx.member.user.id)	
+    logger.debug(ctx.member.roles)	
 
     _response = DiscordResponse()	
-    _response.content = f"Hello, {payload.member.user.username}! Your message was {message}"	
+    _response.content = f"Hello, {ctx.member.user.username}! Your message was {message}"	
 
 
     embed = Embed()
@@ -53,11 +49,10 @@ async def testing(message: str, payload: IncomingDiscordInteraction):
     return _response.response
 
 
+# Run your bot.
+# Powered by uvicorn.
 
-if __name__ == "__main__":
-    # Use any compatiable AWSGI Server. This library prefers uvicorn.
-    from uvicorn import run
-    run(app=app, port=5000)
+bot.run(port=5000)
     
 ```
 ## Result

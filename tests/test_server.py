@@ -1,7 +1,5 @@
-from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from dispike.server import router, DiscordVerificationMiddleware
-
+from dispike import Dispike
 
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey
@@ -17,12 +15,9 @@ signed_value = _generated_signing_key.sign(
 )
 verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
 
-app = FastAPI()
-app.add_middleware(
-    DiscordVerificationMiddleware, client_public_key=verification_key.decode()
-)
-app.include_router(router)
 
+bot = Dispike(client_public_key=verification_key.decode())
+app = bot.referenced_application
 client = TestClient(app)
 
 

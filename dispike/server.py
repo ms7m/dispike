@@ -31,6 +31,6 @@ async def handle_interactions(request: Request) -> Response:
     else:
         arguments = {}
 
-    arguments["payload"] = _parse_to_object
+    arguments["ctx"] = _parse_to_object
 
     return await interaction.emit(_parse_to_object.data.name, **arguments)
