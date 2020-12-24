@@ -12,6 +12,7 @@ pydantic = "^1.7.3"
 typing-extensions = "^3.7.4"
 PyNaCl = "^1.4.0"
 httpx = "^0.16.1"
+uvicorn = "^0.13.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
