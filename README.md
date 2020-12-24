@@ -7,6 +7,18 @@ Powered by FastAPI.
 
 
 
+# Installation
+
+```
+pip install dispike
+```
+
+```
+poetry add dispike
+```
+
+``.whl`` files are also available.
+
 ## Example
 
 ```python
@@ -77,7 +89,5 @@ When configuring your endpoint on discord settings, be sure to append ``/interac
 ## Caveats
 
 - Does not handle registring new commands.
-- Does not handle anything other then string responses. (However you are free to return any valid dict in your handler.)
-- Not on PyPi
 - Does not speak over the discord gateway. You'll need a server to handle requests and responses.
 - Python 3.6+
