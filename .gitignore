@@ -3,3 +3,4 @@ __pycache__
 *.pyc
 bot.py
 register.py
+.venv
