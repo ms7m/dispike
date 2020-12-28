@@ -106,3 +106,8 @@ When configuring your endpoint on discord settings, be sure to append ``/interac
 - ~~Not on PyPi~~
 - Does not speak over the discord gateway. You'll need a server to handle requests and responses.
 - Python 3.6+
+- Does not support the following endpoints
+  - [Create Followup Message](https://discord.com/developers/docs/interactions/slash-commands#create-followup-message)
+  - [Edit Followup Message](https://discord.com/developers/docs/interactions/slash-commands#edit-followup-message)
+  - [Delete Followup Message](https://discord.com/developers/docs/interactions/slash-commands#delete-followup-message)
+- Handling followup messages.
