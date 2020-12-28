@@ -3,9 +3,8 @@ import typing
 from loguru import logger
 from .server import router, DiscordVerificationMiddleware
 from .server import interaction as router_interaction
-
-from .register.register import RegisterCommands
-from .register.models.options import DiscordCommand
+from .register import RegisterCommands
+from .register.models import DiscordCommand
 
 
 import uvicorn
