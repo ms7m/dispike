@@ -35,6 +35,7 @@ jobs:
           pip install poetry
           poetry install
       - name: Lint with pylint
+        if: ${{ matrix.python-version }} != 3.9 # Python 3.9 Pylint issue https://github.com/PyCQA/pylint/issues/3882
         run: |
           # stop the build if there are Python syntax errors or undefined names
           # Bug with pylint and pydantic
