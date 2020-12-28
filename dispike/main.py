@@ -97,10 +97,10 @@ class Dispike(object):
             raise DiscordAPIError(_send_request.status_code, _send_request.text)
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
-            return False
+            raise
         except Exception:
             logger.exception("Unknown exception returned")
-            return False
+            raise
 
     def edit_command(
         self,
