@@ -47,7 +47,7 @@ class RegisterCommands(object):
         raise PermissionError("You cannot view the bot token directly.")
 
     @bot_token.setter
-    def _set_bot_token(self, new_bot_token):
+    def bot_token(self, new_bot_token):
         if new_bot_token == self.__bot_token:
             raise TypeError("Bot token already set to that.")
         self.__bot_token = new_bot_token
