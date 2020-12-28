@@ -20,4 +20,4 @@ jobs:
       - name: Build wheels
         env:
           APIKEY: ${{ secrets.PYPI_TOKEN }}
-        run: poetry publish --build --username='__token__' --password='$APIKEY' --dry-run
+        run: poetry publish --build --username='__token__' --password='$APIKEY'
