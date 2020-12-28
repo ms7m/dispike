@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dispike"
-version = "0.2.5-alpha.0"
+version = "0.3.8-alpha.0"
 description = ""
 authors = ["Mustafa Mohamed <ms7mohamed@gmail.com>"]
 
@@ -22,7 +22,12 @@ uvicorn = "^0.13.2"
 requests = "^2.25.1"
 pytest-asyncio = "^0.14.0"
 pylint = "^2.6.0"
+pyperclip = "^1.8.1"
+taskipy = "^1.6.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+test = "python -m pytest tests/"

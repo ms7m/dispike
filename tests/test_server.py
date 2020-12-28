@@ -16,7 +16,11 @@ signed_value = _generated_signing_key.sign(
 verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
 
 
-bot = Dispike(client_public_key=verification_key.decode())
+bot = Dispike(
+    client_public_key=verification_key.decode(),
+    bot_token="NotNeeded",
+    application_id="NotNeeded",
+)
 app = bot.referenced_application
 client = TestClient(app)
 
