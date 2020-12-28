@@ -1,5 +1,6 @@
-from dispike.register.models.options import CommandChoice, CommandOption
-from dispike.register.register import *
+from dispike.register import RegisterCommands
+from dispike.register.models import *
+
 
 expectation = {
     "name": "blep",
