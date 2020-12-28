@@ -25,7 +25,7 @@ from dispike.response import DiscordResponse
 
 
 bot = Dispike(
-	client_public_key="< PublicKey >"
+  client_public_key="< PublicKey >"
   bot_token="< Bot Token >",
   application_id="< AppID >"
 )
