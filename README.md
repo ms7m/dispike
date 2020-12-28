@@ -7,7 +7,7 @@ Powered by FastAPI.
 
 
 
-## Example
+## Example (a simple bot)
 
 ```python
 
@@ -86,6 +86,47 @@ from dispike.helper import Embed
 
 _response = DiscordResponse()
 _response.embed = Embed() # your embed created.
+```
+
+## Getting, Deleting and Editing Commands
+
+
+
+```python
+from dispike import Dispike
+
+# For creating commands.
+from dispike.register.models import DiscordCommand, CommandOption, CommandChoice, CommandTypes
+
+
+bot = Dispike(
+	client_public_key="< PublicKey >"
+  bot_token="< Bot Token >",
+  application_id="< AppID >"
+)
+
+all_commands = bot.get_commands()
+
+for command in all_commands:
+  print(f"{command.name} -> {command.id}")
+ 
+target_command = all_commands[0]
+
+command_to_be_created = DiscordCommand(
+    name="salute" # this is the main command name.,
+    description="Send a salute to a nice person! ",
+    options=[
+        CommandOption(
+            name="person" # this is the attribute assigned to the value passed.,
+            description="person to target" # this describes the value to pass,
+          	required=True,
+            type=CommandTypes.USER
+        )
+    ]
+)
+
+bot.edit_command(target_command.id, command_to_be_created)
+bot.delete_command(all_commands[1].id)
 ```
 
 
