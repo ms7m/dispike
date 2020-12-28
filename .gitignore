@@ -5,3 +5,5 @@ bot.py
 register.py
 .venv
 test.py
+.coverage
+coverage.xml
