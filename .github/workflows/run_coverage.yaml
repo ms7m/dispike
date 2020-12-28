@@ -42,6 +42,6 @@ jobs:
       - name: Pytest
         run: |
           poetry run pytest --cov=dispike tests/
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v1.1.1
         with:
           fail_ci_if_error: true
