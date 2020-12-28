@@ -5,7 +5,7 @@ from .server import router, DiscordVerificationMiddleware
 from .server import interaction as router_interaction
 from .register import RegisterCommands
 from .register.models import DiscordCommand
-
+from .models import IncomingApplicationCommand
 
 import uvicorn
 
@@ -56,7 +56,7 @@ class Dispike(object):
 
     def get_commands(
         self, guild_only=False, guild_id_passed=None
-    ) -> typing.List[DiscordCommand]:
+    ) -> typing.List[IncomingApplicationCommand]:
         """Returns a list of ``DiscordCommands`` either globally or for a specific guild.
 
         Args:
@@ -84,7 +84,7 @@ class Dispike(object):
                 _url, headers=self._registrator.request_headers
             )
             if _send_request.status_code == 200:
-                return [DiscordCommand(**x) for x in _send_request.json()]
+                return [IncomingApplicationCommand(**x) for x in _send_request.json()]
 
             # TODO: Add custom exceptions for Discord API failures.
             raise Exception(
