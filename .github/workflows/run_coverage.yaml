@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - dev
+      - master
     paths-ignore:
       - "*.md"
   pull_request:
@@ -38,6 +39,9 @@ jobs:
           # Bug with pylint and pydantic
           # https://github.com/samuelcolvin/pydantic/issues/1961
           poetry run pylint --errors-only --extension-pkg-whitelist='pydantic' dispike
-      - name: Test with pytest
+      - name: Pytest
         run: |
-          poetry run pytest
+          poetry run pytest --cov=dispike tests/
+      - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
