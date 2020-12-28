@@ -49,7 +49,7 @@ class SubcommandOption(BaseModel):
     options: typing.List[CommandOption]
 
     @validator("options")
-    def options_must_contain_type_1(cls, v):
+    def options_must_contain_type_1(cls, v):  # pylint: disable=no-self-argument
         item: CommandOption
         for item_location, item in enumerate(v):
             if item.type != 1:
