@@ -2,6 +2,8 @@ from pydantic import BaseModel, ValidationError, validator
 import typing
 from .discord_types.member import Member
 
+from ..register.models import CommandOption, SubcommandOption
+
 try:
     from typing import Literal
 except ImportError:
@@ -35,3 +37,14 @@ class IncomingDiscordInteraction(BaseModel):
     member: Member
     token: str
     version: typing.Optional[Literal[1]] = None
+
+
+class IncomingApplicationCommand(BaseModel):
+    class Config:
+        arbitary_types_allowed = True
+
+    id: int
+    application_id: int
+    name: str
+    description: str
+    options: typing.List[typing.Union[CommandOption, SubcommandOption]]

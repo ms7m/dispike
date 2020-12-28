@@ -4,4 +4,5 @@ from .incoming import (
     IncomingDiscordInteraction,
     IncomingDiscordOption,
     IncomingDiscordOptionList,
+    IncomingApplicationCommand,
 )
