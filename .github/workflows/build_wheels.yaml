@@ -1,0 +1,22 @@
+name: Build Wheels + Publish to PyPi
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python to Build Wheel
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Poetry
+        run: pip install poetry
+          poetry install
+      - name: Build wheels
+        env:
+          APIKEY: ${{ secrets.PYPI_TOKEN }}
+        run: poetry build --username='__token__' --password='$APIKEY' --dry-run
