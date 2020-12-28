@@ -1,6 +1,7 @@
 from httpx import Client
 from .models import DiscordCommand
 from loguru import logger
+from ..errors.network import DiscordAPIError
 
 
 class RegisterCommands(object):
@@ -33,9 +34,7 @@ class RegisterCommands(object):
             if _send_request.status_code in [200, 201]:
                 return True
 
-            raise Exception(
-                f"Discord returned an {_send_request.status_code}. Check payload and try again. -> {_send_request.text}"
-            )
+            raise DiscordAPIError(_send_request.status_code, _send_request.text)
         except Exception:
             raise
 

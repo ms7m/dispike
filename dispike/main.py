@@ -7,7 +7,12 @@ from .register import RegisterCommands
 from .register.models import DiscordCommand
 from .models import IncomingApplicationCommand
 
+from .errors.network import DiscordAPIError
+
 import uvicorn
+
+if typing.TYPE_CHECKING:
+    import httpx
 
 
 class Dispike(object):
@@ -54,6 +59,10 @@ class Dispike(object):
     def register(self) -> RegisterCommands.register:
         return self._registrator.register
 
+    @property
+    def shared_client(self) -> "httpx.Client":
+        return self._registrator._client
+
     def get_commands(
         self, guild_only=False, guild_id_passed=None
     ) -> typing.List[IncomingApplicationCommand]:
@@ -64,7 +73,7 @@ class Dispike(object):
             guild_id_passed ([type], optional): guild id if guild_only is set to True. Defaults to None.
 
         Raises:
-            TypeError:
+            DiscordAPIError: any Discord returned errors.
 
         Returns:
             typing.List[DiscordCommand]: Array of DiscordCommand
@@ -79,19 +88,19 @@ class Dispike(object):
             _url = f"/commands"
 
         try:
-            # TODO: Create a self attribute for a Client for <Dispike> object
             _send_request = self._registrator._client.get(
                 _url, headers=self._registrator.request_headers
             )
             if _send_request.status_code == 200:
                 return [IncomingApplicationCommand(**x) for x in _send_request.json()]
 
-            # TODO: Add custom exceptions for Discord API failures.
-            raise Exception(
-                f"Discord API returned an unknown error for getting commands: [{_send_request.status_code}] -> {_send_request.text}"
-            )
+            raise DiscordAPIError(_send_request.status_code, _send_request.text)
+        except DiscordAPIError:
+            logger.exception("Discord API Failure.")
+            return False
         except Exception:
-            raise
+            logger.exception("Unknown exception returned")
+            return False
 
     def edit_command(
         self,
@@ -109,8 +118,8 @@ class Dispike(object):
             guild_id_passed ([type], optional): guild id if guild_only is set to True. Defaults to None.
 
         Raises:
-            TypeError: [description]
-            Exception: [description]
+            TypeError: Invalid types passed.
+            DiscordAPIError: any Discord returned errors.
 
         Returns:
             DiscordCommand: Returns the DiscordCommand object created. (Will return a DiscordCommand irregardless of new_command)
@@ -133,12 +142,14 @@ class Dispike(object):
                 _url, headers=self._registrator.request_headers, json=_new_command
             )
             if _send_request.status_code != 200:
-                raise Exception(
-                    f"Discord API returned an unknown error for getting commands: [{_send_request.status_code}] -> {_send_request.text}"
-                )
+                raise DiscordAPIError(_send_request.status_code, _send_request.text)
             return DiscordCommand(**_send_request.json())
+        except DiscordAPIError:
+            logger.exception("Discord API Failure.")
+            return False
         except Exception:
-            raise
+            logger.exception("Unknown exception returned")
+            return False
 
     def delete_command(
         self, command_id: int, guild_only=False, guild_id_passed=None
@@ -151,8 +162,8 @@ class Dispike(object):
             guild_id_passed ([type], optional): Guild ID if guild_only is set to True. Defaults to None.
 
         Raises:
-            TypeError: [description]
-            Exception: [description]
+            TypeError: Invalid types passed.
+            DiscordAPIError: any Discord returned errors.
 
         Returns:
             bool: True if status code is 201, otherwise will LOG exception and return False.
@@ -171,12 +182,13 @@ class Dispike(object):
                 _url, headers=self._registrator.request_headers
             )
             if _send_request.status_code != 204:
-                raise Exception(
-                    f"Discord API returned an unknown error for getting commands: [{_send_request.status_code}] -> {_send_request.text}"
-                )
+                raise DiscordAPIError(_send_request.status_code, _send_request.text)
             return True
-        except Exception:
+        except DiscordAPIError:
             logger.exception("Discord API Failure.")
+            return False
+        except Exception:
+            logger.exception("Unknown exception returned")
             return False
 
     def run(self, port: int = 5000):
