@@ -1,6 +1,12 @@
 # dispike
 
 ***
+[![codecov](https://codecov.io/gh/ms7m/dispike/branch/master/graph/badge.svg?token=E5AXLZDP9O)](https://codecov.io/gh/ms7m/dispike) ![Test Dispike](https://github.com/ms7m/dispike/workflows/Test%20Dispike/badge.svg?branch=master) ![PyPi Link](https://img.shields.io/badge/Available%20on%20PyPi-Dispike-blue?logo=pypi&link=%22https://pypi.org/project/dispike%22)
+
+***
+
+
+
 an *extremely-extremely* early WIP library for easily creating REST-based webhook bots for discord using the new Slash Commands feature. 
 
 Powered by FastAPI.
@@ -152,3 +158,11 @@ When configuring your endpoint on discord settings, be sure to append ``/interac
   - [Edit Followup Message](https://discord.com/developers/docs/interactions/slash-commands#edit-followup-message)
   - [Delete Followup Message](https://discord.com/developers/docs/interactions/slash-commands#delete-followup-message)
 - Handling followup messages.
+
+
+
+# Development
+
+Help is wanted in mantaining this library. Please try to direct PRs to the ``dev`` branch, and use black formatting (if possible).
+
+![Test Dispike](https://github.com/ms7m/dispike/workflows/Test%20Dispike/badge.svg?branch=dev)

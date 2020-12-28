@@ -19,25 +19,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Set up Python 3.7
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: ${{ matrix.python-version }}
       - name: Install Poetry
         run: |
           pip install poetry
           poetry install
-      - name: Lint with pylint
-        run: |
-          # stop the build if there are Python syntax errors or undefined names
-          # Bug with pylint and pydantic
-          # https://github.com/samuelcolvin/pydantic/issues/1961
-          poetry run pylint --errors-only --extension-pkg-whitelist='pydantic' dispike
       - name: Test with pytest
         run: |
           poetry run pytest
