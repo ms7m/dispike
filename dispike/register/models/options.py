@@ -12,6 +12,17 @@ except ImportError:
     from typing_extensions import Literal
 
 
+class CommandTypes:
+    SUB_COMMAND = 1
+    SUB_COMMAND_GROUP = 2
+    STRING = 3
+    INTEGER = 4
+    BOOLEAN = 5
+    USER = 6
+    CHANNEL = 7
+    ROLE = 8
+
+
 class CommandChoice(BaseModel):
     name: str
     value: str
