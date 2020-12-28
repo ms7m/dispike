@@ -5,7 +5,7 @@ description = ""
 authors = ["Mustafa Mohamed <ms7mohamed@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 loguru = "^0.5.3"
 fastapi = "^0.63.0"
 pydantic = "^1.7.3"
