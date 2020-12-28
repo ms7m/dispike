@@ -18,7 +18,7 @@ from dispike.models.incoming import IncomingDiscordInteraction # For Type Hintin
 from dispike import Dispike
 
 # For creating commands.
-from dispike.register.models import DiscordCommand, CommandOption, CommandChoice
+from dispike.register.models import DiscordCommand, CommandOption, CommandChoice, CommandTypes
 
 # For responding to commands.
 from dispike.response import DiscordResponse
@@ -44,7 +44,7 @@ command_to_be_created = DiscordCommand(
             name="person" # this is the attribute assigned to the value passed.,
             description="person to target" # this describes the value to pass,
           	required=True,
-            type=6
+            type=CommandTypes.USER
         )
     ]
 )
