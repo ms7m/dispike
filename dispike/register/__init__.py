@@ -1,1 +1,1 @@
-from .register import RegisterCommands
+from .registrator import RegisterCommands
