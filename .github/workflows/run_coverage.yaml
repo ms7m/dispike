@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 2
       - name: Set up Python 3.7
         uses: actions/setup-python@v1
         with:
@@ -33,15 +33,10 @@ jobs:
         run: |
           pip install poetry
           poetry install
-      - name: Lint with pylint
+      - name: Pytest Code Cov
         run: |
-          # stop the build if there are Python syntax errors or undefined names
-          # Bug with pylint and pydantic
-          # https://github.com/samuelcolvin/pydantic/issues/1961
-          poetry run pylint --errors-only --extension-pkg-whitelist='pydantic' dispike
-      - name: Pytest
-        run: |
-          poetry run pytest --cov=dispike tests/
+          poetry run pytest --cov=dispike tests/ --cov-report=xml
       - uses: codecov/codecov-action@v1.1.1
         with:
           fail_ci_if_error: true
+          file: ./coverage.xml
