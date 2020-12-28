@@ -1,6 +1,5 @@
 from httpx import Response
 from dispike.models.incoming import IncomingApplicationCommand
-from pytest_httpx import HTTPXMock
 from dispike import Dispike
 
 from pydantic import ValidationError

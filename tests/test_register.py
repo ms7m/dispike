@@ -1,5 +1,4 @@
-import httpx
-from pytest_httpx import HTTPXMock
+from httpx import Response
 from dispike.register.models import (
     DiscordCommand,
     CommandOption,
@@ -8,14 +7,14 @@ from dispike.register.models import (
 )
 import pytest
 from dispike.errors.network import DiscordAPIError
+import respx
 
 
-def test_register_command_globally_successful(httpx_mock: HTTPXMock):
-    httpx_mock.add_response(
-        status_code=200,
-        url=f"https://discord.com/api/v8/applications/EXAMPLE_APP_ID/commands",
+@respx.mock
+def test_register_command_globally_successful():
+    respx.post("https://discord.com/api/v8/applications/EXAMPLE_APP_ID/commands").mock(
+        return_value=Response(200)
     )
-
     from dispike.register.registrator import RegisterCommands
 
     target_item = RegisterCommands(
@@ -36,11 +35,10 @@ def test_register_command_globally_successful(httpx_mock: HTTPXMock):
     assert target_item.register(command_to_be_created) == True
 
 
-def test_register_command_globally_unsuccessful(httpx_mock: HTTPXMock):
-    httpx_mock.add_response(
-        status_code=404,
-        url=f"https://discord.com/api/v8/applications/EXAMPLE_APP_ID/commands",
-        method="POST",
+@respx.mock
+def test_register_command_globally_unsuccessful():
+    respx.post("https://discord.com/api/v8/applications/EXAMPLE_APP_ID/commands").mock(
+        return_value=Response(404)
     )
 
     from dispike.register.registrator import RegisterCommands
@@ -64,12 +62,12 @@ def test_register_command_globally_unsuccessful(httpx_mock: HTTPXMock):
         target_item.register(command_to_be_created)
 
 
-def test_register_command_guild_only_successful(httpx_mock: HTTPXMock):
-    httpx_mock.add_response(
-        status_code=200,
-        url=f"https://discord.com/api/v8/applications/EXAMPLE_APP_ID/guilds/EXAMPLE_GUILD/commands",
-        method="POST",
-    )
+@respx.mock
+def test_register_command_guild_only_successful():
+
+    respx.post(
+        "https://discord.com/api/v8/applications/EXAMPLE_APP_ID/guilds/EXAMPLE_GUILD/commands"
+    ).mock(return_value=Response(200))
 
     from dispike.register.registrator import RegisterCommands
 
@@ -96,12 +94,10 @@ def test_register_command_guild_only_successful(httpx_mock: HTTPXMock):
     )
 
 
-def test_register_command_guild_only_unsuccessful(httpx_mock: HTTPXMock):
-    httpx_mock.add_response(
-        status_code=404,
-        url=f"https://discord.com/api/v8/applications/EXAMPLE_APP_ID/guilds/EXAMPLE_GUILD/commands",
-        method="POST",
-    )
+def test_register_command_guild_only_unsuccessful():
+    respx.post(
+        "https://discord.com/api/v8/applications/EXAMPLE_APP_ID/guilds/EXAMPLE_GUILD/commands"
+    ).mock(return_value=Response(500))
 
     from dispike.register.registrator import RegisterCommands
 
