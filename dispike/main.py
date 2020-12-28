@@ -51,7 +51,7 @@ class Dispike(object):
         return self._internal_application
 
     @property
-    def register(self):
+    def register(self) -> RegisterCommands.register:
         return self._registrator.register
 
     def get_commands(
