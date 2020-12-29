@@ -3,7 +3,6 @@ name: Build Wheels + Publish to PyPi
 on:
   release:
     types: [created]
-
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
