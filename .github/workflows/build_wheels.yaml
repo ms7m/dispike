@@ -1,8 +1,11 @@
 name: Build Wheels + Publish to PyPi
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: 
+      - "master"
+    tags:
+    - 'v*'
   workflow_dispatch:
 jobs:
   build-and-publish:
@@ -19,4 +22,4 @@ jobs:
       - name: Build wheels
         env:
           APIKEY: ${{ secrets.PYPI_TOKEN }}
-        run: poetry publish --build --username='__token__' --password='$APIKEY'
+        run: poetry publish --build --username='__token__' --password='$APIKEY' --no-interaction
