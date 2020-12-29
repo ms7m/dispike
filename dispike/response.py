@@ -1,12 +1,18 @@
 from pydantic import BaseModel
 from .helper.embed import Embed
 import typing
+from .errors.network import DiscordAPIError
+import httpx
 
 try:
     from typing import Literal
 except ImportError:
     # backport
     from typing_extensions import Literal
+
+if typing.TYPE_CHECKING:
+    from .main import Dispike
+    from .models import IncomingDiscordInteraction
 
 
 class DiscordResponse(object):
@@ -76,3 +82,49 @@ class DiscordResponse(object):
 
     def __call__(self):
         return self.response
+
+
+class NotReadyResponse(object):
+    def __init__(
+        self, bot: "Dispike", interaction_context: "IncomingDiscordInteraction"
+    ):
+        """This is just a representation for a response that is not ready.
+        You probably want to use this if you are not ready to immediately return
+        a response to an incoming interaction
+
+        Args:
+            bot (Dispike): Bot initalizated
+            interaction_context (IncomingDiscordInteraction): Incoming recieved interaction context
+        """
+        self._application_id = bot._application_id
+        self._interaction_id = interaction_context.id
+        self._interaction_token = interaction_context.token
+
+        if len(interaction_context.data.options) > 0:
+            self.args = {x.name: x.value for x in interaction_context.data.options}
+        else:
+            self.args = {}
+
+    def sync_send_callback(self, ready_response: DiscordResponse):
+        try:
+            send_callback = httpx.post(
+                f"https://discord.com/api/v8/interactions/{self._interaction_id}/{self._interaction_token}/callback",
+                json=ready_response.response,
+            )
+            if send_callback.status_code not in [200, 201]:
+                raise DiscordAPIError(send_callback.status_code, send_callback.text)
+            return True
+        except Exception:
+            raise
+
+    async def async_send_callback(self, ready_response: DiscordResponse):
+        try:
+            send_callback = await httpx.AsyncClient().post(
+                f"https://discord.com/api/v8/interactions/{self._interaction_id}/{self._interaction_token}/callback",
+                json=ready_response.response,
+            )
+            if send_callback.status_code not in [200, 201]:
+                raise DiscordAPIError(send_callback.status_code, send_callback.text)
+            return True
+        except Exception:
+            raise
