@@ -3,6 +3,7 @@ from loguru import logger
 from .middlewares.verification import DiscordVerificationMiddleware
 from .models.incoming import IncomingDiscordInteraction
 from .eventer import EventHandler
+from .response import DiscordResponse, NotReadyResponse
 import json
 import typing
 
@@ -33,4 +34,14 @@ async def handle_interactions(request: Request) -> Response:
 
     arguments["ctx"] = _parse_to_object
 
-    return await interaction.emit(_parse_to_object.data.name, **arguments)
+    interaction_data = await interaction.emit(_parse_to_object.data.name, **arguments)
+
+    if isinstance(interaction_data, DiscordResponse):
+        interaction_data: DiscordResponse
+        return interaction_data.response
+
+    if isinstance(interaction_data, dict):
+        return interaction_data
+
+    if isinstance(interaction_data, NotReadyResponse):
+        return None
