@@ -6,7 +6,6 @@ from .eventer import EventHandler
 from .response import DiscordResponse, NotReadyResponse
 import json
 import typing
-from .helper.backport.cache import cache
 
 router = APIRouter()
 interaction = EventHandler()
