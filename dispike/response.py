@@ -85,16 +85,31 @@ class DiscordResponse(object):
 
 
 class NotReadyResponse(object):
+    """This is just a representation for a response that is not ready.
+    You probably want to use this if you are not ready to immediately return
+    a response to an incoming interaction
+
+    You have access to the original arugmnents that arrived with the interaction by accessing
+    the attribute ``.args``, this returns a dict of kwargs.
+
+    Lower-level access is available by accessing ``._interaction_context``.
+
+    Attributes:
+        - sync_send_callback
+        - async_send_callback
+        - args
+
+
+    """
+
     def __init__(
         self, bot: "Dispike", interaction_context: "IncomingDiscordInteraction"
     ):
-        """This is just a representation for a response that is not ready.
-        You probably want to use this if you are not ready to immediately return
-        a response to an incoming interaction
+        """Incoming context to have a response later.
 
         Args:
-            bot (Dispike): Bot initalizated
-            interaction_context (IncomingDiscordInteraction): Incoming recieved interaction context
+            bot (Dispike): Incoming bot object
+            interaction_context (IncomingDiscordInteraction): incoming discord interaction
         """
         self._application_id = bot._application_id
         self._interaction_id = interaction_context.id
@@ -105,7 +120,20 @@ class NotReadyResponse(object):
         else:
             self.args = {}
 
+        self._interaction_context = interaction_context
+
     def sync_send_callback(self, ready_response: DiscordResponse):
+        """Send a callback synchronously
+
+        Args:
+            ready_response (DiscordResponse): The DiscordResponse that has been created.
+
+        Raises:
+            DiscordAPIError: Any issues that may arrive
+
+        Returns:
+            True: if everything works out
+        """
         try:
             send_callback = httpx.post(
                 f"https://discord.com/api/v8/interactions/{self._interaction_id}/{self._interaction_token}/callback",
@@ -118,6 +146,17 @@ class NotReadyResponse(object):
             raise
 
     async def async_send_callback(self, ready_response: DiscordResponse):
+        """Send a callback asynchronously
+
+        Args:
+            ready_response (DiscordResponse): The DiscordResponse that has been created.
+
+        Raises:
+            DiscordAPIError: Any issues that may arrive
+
+        Returns:
+            True: if everything works out
+        """
         try:
             send_callback = await httpx.AsyncClient().post(
                 f"https://discord.com/api/v8/interactions/{self._interaction_id}/{self._interaction_token}/callback",
