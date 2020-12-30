@@ -4,10 +4,6 @@ from dispike import Dispike
 import pytest
 
 
-def test_version():
-    assert __version__ == "0.1.0"
-
-
 def test_initalization():
     from nacl.encoding import HexEncoder
     from nacl.signing import SigningKey
