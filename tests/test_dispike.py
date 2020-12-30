@@ -59,7 +59,9 @@ def test_valid_registrator_object(dispike_object: Dispike):
 def test_valid_event_handler_object(dispike_object: Dispike):
     from dispike.eventer import EventHandler
 
-    assert isinstance(dispike_object.interaction, EventHandler) == True
+    assert isinstance(dispike_object.interaction, EventHandler) == True, type(
+        dispike_object.interaction
+    )
 
 
 def test_valid_shared_client(dispike_object: Dispike):
