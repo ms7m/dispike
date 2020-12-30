@@ -77,7 +77,7 @@ async def handle_send_wave(person: int, ctx: IncomingDiscordInteraction):
   _response = DiscordResponse()
   _response.content f"👋 Hi @<{person}>."
   
-  return _response.response
+  return _response
   
 # Run your bot.
 # Powered by uvicorn.
