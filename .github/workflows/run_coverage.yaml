@@ -35,7 +35,7 @@ jobs:
           poetry install
       - name: Pytest Code Cov
         run: |
-          poetry run pytest --cov=dispike tests/ --cov-report=xml
+          poetry run pytest --cov=dispike --cov-config=.coveragerc tests/
       - uses: codecov/codecov-action@v1.1.1
         with:
           fail_ci_if_error: true
