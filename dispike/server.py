@@ -15,7 +15,7 @@ interaction = EventHandler()
 _RAISE_FOR_TESTING = False
 
 
-@router.post("/ping")
+@router.get("/ping")
 async def ping():
     return PlainTextResponse(
         "If you see this, Your instance is working and accepting requests."

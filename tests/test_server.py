@@ -1,3 +1,4 @@
+from starlette.responses import PlainTextResponse
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse, NotReadyResponse
 from fastapi.testclient import TestClient
@@ -211,6 +212,15 @@ async def mocked_interactions_with_hints():
     mocked_events = EventHandler()
     await hinted_mock_functions(mocked_events)
     return mocked_events
+
+
+def test_ping_endpoint():
+    response = client.get("/ping")
+    assert response.status_code == 200
+    assert (
+        response.text
+        == "If you see this, Your instance is working and accepting requests."
+    )
 
 
 def test_valid_key_request_redirect():

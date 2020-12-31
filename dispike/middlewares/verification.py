@@ -66,6 +66,11 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
             call_next (typing.Callable[[Request], typing.Awaitable[Response]]): next API endpoint
         """
         logger.debug("intercepting request.")
+
+        if request.url.path == "/ping":
+            logger.info("ping, forwarding")
+            return await call_next(request)
+
         try:
             get_signature = request.headers["X-Signature-Ed25519"]
             get_timestamp = request.headers["X-Signature-Timestamp"]
