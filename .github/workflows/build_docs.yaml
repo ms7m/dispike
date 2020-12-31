@@ -26,6 +26,7 @@ jobs:
 
       - run: poetry run mkdocs build
 
+      - run: echo "dispike.ms7m.me" >> ./site/CNAME
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
