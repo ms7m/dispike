@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
-      - name: Build documentation
+
       - run: poetry run mkdocs build
 
       - name: Deploy
