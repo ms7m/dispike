@@ -1,0 +1,21 @@
+site_name: Dispike
+theme:
+  name: "material"
+nav:
+  - Home: "index.md"
+  - "Tutorial":
+      - "Getting Started": "tutorial/Getting Started.md"
+      - "Configuring Commands": "tutorial/Configuring commands.md"
+      - "Registering Commands": "tutorial/Registering Commands.md"
+      - "Writing The Handler": "tutorial/Writing the handler.md"
+      - "Running The Bot": "tutorial/Running the bot.md"
+plugins:
+- search
+- mkdocstrings
+markdown_extensions:
+    - pymdownx.details:
+    - admonition:
+    - pymdownx.highlight:
+    - pymdownx.superfences:
+    - pymdownx.snippets:
+

@@ -5,7 +5,7 @@ except Exception:
         from importlib.metadata import version
     except Exception:
 
-        def version():
+        def version(*args, **kwargs):
             return "unknown"
 
 

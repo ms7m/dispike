@@ -5,7 +5,21 @@ from ..errors.network import DiscordAPIError
 
 
 class RegisterCommands(object):
+
+    """This object contains methods to help registering a command to Discord.
+    While you shouldn't need to import this directly, it's still accessible if you 
+    prefer not to initalize a Dispike object.
+
+    Important to remember all methods are not async.
+    """
+
     def __init__(self, application_id: str, bot_token: str):
+        """Initalize object provided with application_id and a bot token
+        
+        Args:
+            application_id (str): Client ID
+            bot_token (str): Bot user Token
+        """
         self.__bot_token = bot_token
         self._application_id = application_id
         self._client = Client(
@@ -15,6 +29,13 @@ class RegisterCommands(object):
     def register(
         self, command: DiscordCommand, guild_only=False, guild_to_target: int = None
     ):
+        """Register a completed `DiscordCommand` model to Discord API.
+        
+        Args:
+            command (DiscordCommand): A properly configured DiscordCommand
+            guild_only (bool, optional): Default to set global mode (True). Set to False to let the function know to expect a guild_id
+            guild_to_target (int, optional): A guild Id if guild_only is set to True.
+        """
         if guild_only == True:
             if guild_to_target is None:
                 raise TypeError(
@@ -40,10 +61,20 @@ class RegisterCommands(object):
 
     @property
     def request_headers(self):
+        """Return a valid header for authorization
+        
+        Returns:
+            dict: a valid header for authorization
+        """
         return {"Authorization": f"Bot {self.__bot_token}"}
 
     @property
     def bot_token(self):
+        """You cannot view the bot_token directly, but you can still 'update' it.
+        
+        Raises:
+            PermissionError: If you attempt to view the bot token without a new value
+        """
         raise PermissionError("You cannot view the bot token directly.")
 
     @bot_token.setter

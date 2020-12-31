@@ -7,3 +7,4 @@ register.py
 test.py
 .coverage
 coverage.xml
+.DS_Store
