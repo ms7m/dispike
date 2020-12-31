@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request, Response
+from fastapi.responses import PlainTextResponse
 from loguru import logger
 from .middlewares.verification import DiscordVerificationMiddleware
 from .models.incoming import IncomingDiscordInteraction
@@ -12,6 +13,13 @@ interaction = EventHandler()
 
 
 _RAISE_FOR_TESTING = False
+
+
+@router.post("/ping")
+async def ping():
+    return PlainTextResponse(
+        "If you see this, Your instance is working and accepting requests."
+    )
 
 
 @router.post("/interactions")

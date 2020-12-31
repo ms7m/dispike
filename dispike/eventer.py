@@ -7,10 +7,27 @@ from functools import wraps
 
 
 class EventHandler(object):
+
+    """A relatively simple "event handler". Pass in async functions and provide a string, and it will call it
+
+    Attributes:
+        callbacks (dict): dict of names --> functions
+    """
+
     def __init__(self):
         self.callbacks = {}
 
     def on(self, event, func=None):
+        """A wrapper over an async function, registers it in .callbacks.
+
+        Args:
+            event (str): Event name
+            func (None, optional): function to wrap around
+
+        Returns:
+            <function>: returns the wrapped function
+        """
+
         def on(func):
             if not inspect.iscoroutinefunction(func):
                 raise TypeError("Function must be a async function.")
@@ -25,13 +42,42 @@ class EventHandler(object):
 
         return on(func) if func else on
 
-    def check_event_exists(self, event):
+    def check_event_exists(self, event: str) -> bool:
+        """Checks if the event in ``.callbacks``
+
+        Args:
+            event (str): event name
+
+        Returns:
+            bool: returns if the event is in callbacks.
+        """
         return event in self.callbacks
 
-    def view_event_function_return_type(self, event):
+    def view_event_function_return_type(self, event: str) -> dict:
+        """Get type hint for event functions
+
+        Args:
+            event (str): Event name
+
+        Returns:
+            dict: Returns .get_type_hints for event
+        """
         return typing.get_type_hints(self.callbacks[event])
 
-    async def emit(self, event, *args, **kwargs):
+    async def emit(self, event: str, *args, **kwargs):
+        """'Emits' an event. It will basically call the function from .callbacks and return the function result
+
+        Args:
+            event (str): Event name
+            *args: extra arguments to pass
+            **kwargs: extra kwargs to pass
+
+        Returns:
+            function result: returns the function result
+
+        Raises:
+            TypeError: raises if event is not registered.
+        """
         if event not in self.callbacks:
             raise TypeError(f"event {event} does not have a corresponding handler.")
         return await self.callbacks[event](**kwargs)

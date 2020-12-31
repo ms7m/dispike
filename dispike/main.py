@@ -13,11 +13,23 @@ import uvicorn
 
 if typing.TYPE_CHECKING:
     import httpx
-
+    from .eventer import EventHandler
 
 class Dispike(object):
-    def __init__(self, client_public_key: str, bot_token: str, application_id: str):
 
+    """Dispike - python library for interacting with discord slash commands via an independently hosted server. 
+
+    *Powered by FastAPI*
+    """
+    
+    def __init__(self, client_public_key: str, bot_token: str, application_id: str):
+        """Initialize Dispike Object
+        
+        Args:
+            client_public_key (str): Discord provided client public key.
+            bot_token (str): Discord provided bot token. You must create a bot user to view this!
+            application_id (str): Discord provided Client ID
+        """
         self._bot_token = bot_token
         self._application_id = application_id
         self._registrator = RegisterCommands(
@@ -30,6 +42,18 @@ class Dispike(object):
         self._internal_application.include_router(router=router)
 
     def reset_registration(self, new_bot_token=None, new_application_id=None):
+        """This method resets the built-in RgeisterCommands. 
+        You should not have to call this method directly.
+
+        Call it only if you change the client id or bot token.
+        
+        Args:
+            new_bot_token (None, optional): Description
+            new_application_id (None, optional): Description
+        
+        Returns:
+            TYPE: bool
+        """
         try:
             if new_bot_token == None:
                 _bot_token = self._bot_token
@@ -48,35 +72,58 @@ class Dispike(object):
             return False
 
     @property
-    def interaction(self):
+    def interaction(self) -> "EventHandler":
+        """Returns an already initialized ``EventHandler`` object. 
+        You will use this method to handle incoming commands.
+        
+        Returns:
+            EventHandler: shared EventHandler
+        """
         return router_interaction
 
     @property
-    def referenced_application(self):
+    def referenced_application(self) -> FastAPI:
+        """Returns the internal FastAPI object that was initialized.
+        You are welcome to edit this with the appropriate settings found in
+        the FastAPI docs.
+        
+        Returns:
+            FastAPI: a pre-configured FastAPI object with required middlewares.
+        """
         return self._internal_application
 
     @property
     def register(self) -> RegisterCommands.register:
+        """Returns a shortcut the RegisterCommands.register function
+        
+        Returns:
+            RegisterCommands.register: internal RegisterCommands Object
+        """
         return self._registrator.register
 
     @property
     def shared_client(self) -> "httpx.Client":
+        """Returns a pre-initialized ``httpx.Client`` that is used for requests internally.
+        
+        Returns:
+            httpx.Client: used for network requests to discord.
+        """
         return self._registrator._client
 
     def get_commands(
         self, guild_only=False, guild_id_passed=None
     ) -> typing.List[IncomingApplicationCommand]:
         """Returns a list of ``DiscordCommands`` either globally or for a specific guild.
-
+        
         Args:
             guild_only (bool, optional): whether to target a guild. Defaults to False.
             guild_id_passed ([type], optional): guild id if guild_only is set to True. Defaults to None.
-
-        Raises:
-            DiscordAPIError: any Discord returned errors.
-
+        
         Returns:
             typing.List[DiscordCommand]: Array of DiscordCommand
+        
+        Raises:
+            DiscordAPIError: any Discord returned errors.
         """
         if guild_only == True:
             if guild_id_passed == False:
@@ -110,19 +157,19 @@ class Dispike(object):
         guild_id_passed=None,
     ) -> DiscordCommand:
         """Edits a command provided with a command_id and a valid new command.
-
+        
         Args:
             command_id (int): Command ID
             new_command (DiscordCommand): A valid DiscordCommand object (or a dict with proper syntax, if a dict is passed no verification will be made and discord will return the syntax error)
             guild_only (bool, optional): whether to target a guild. Defaults to False.
             guild_id_passed ([type], optional): guild id if guild_only is set to True. Defaults to None.
-
+        
+        Returns:
+            DiscordCommand: Returns the DiscordCommand object created. (Will return a DiscordCommand irregardless of new_command)
+        
         Raises:
             TypeError: Invalid types passed.
             DiscordAPIError: any Discord returned errors.
-
-        Returns:
-            DiscordCommand: Returns the DiscordCommand object created. (Will return a DiscordCommand irregardless of new_command)
         """
         if not isinstance(new_command, (DiscordCommand, dict)):
             raise TypeError("New command must be a DiscordCommand or a valid dict.")
@@ -155,18 +202,18 @@ class Dispike(object):
         self, command_id: int, guild_only=False, guild_id_passed=None
     ) -> bool:
         """Deletes a command, provided with a command_id
-
+        
         Args:
             command_id (int): Command ID required
             guild_only (bool, optional): Whether to be a global action or target a guild. Defaults to False.
             guild_id_passed ([type], optional): Guild ID if guild_only is set to True. Defaults to None.
-
+        
+        Returns:
+            bool: True if status code is 201, otherwise will LOG exception and return False.
+        
         Raises:
             TypeError: Invalid types passed.
             DiscordAPIError: any Discord returned errors.
-
-        Returns:
-            bool: True if status code is 201, otherwise will LOG exception and return False.
         """
         if guild_only == True:
             if guild_id_passed == False:
@@ -192,4 +239,9 @@ class Dispike(object):
             return False
 
     def run(self, port: int = 5000):
+        """Runs the bot with the already-installed Uvicorn webserver.
+        
+        Args:
+            port (int, optional): Port to run the bot over. Defaults to 5000.
+        """
         uvicorn.run(app=self.referenced_application, port=port)
