@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -22,8 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
-
-      - run: mkdocs build
+      - name: Build documentation
+      - run: poetry run mkdocs build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
