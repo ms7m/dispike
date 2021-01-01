@@ -3,12 +3,24 @@ theme:
   name: "material"
 nav:
   - Home: "index.md"
+  - "API Reference":
+      - "Dispike": "APIRef/Dispike.md"
+      - "RegisterCommands": "APIRef/RegCommands.md"
+      - "EventHandler": "APIRef/EventHandler.md"
   - "Tutorial":
       - "Getting Started": "tutorial/Getting Started.md"
       - "Configuring Commands": "tutorial/Configuring commands.md"
       - "Registering Commands": "tutorial/Registering Commands.md"
       - "Writing The Handler": "tutorial/Writing the handler.md"
       - "Running The Bot": "tutorial/Running the bot.md"
+  - "Models":
+    - "Info": "Models/index.md"
+    - "Incoming": "Models/Incoming.md"
+    - "Outgoing": "Models/Outgoing.md"
+  - "Responses":
+     - "Info": "responses/index.md"
+     - "Ready Responses": "responses/readyresponse.md"
+     - "Not Ready Responses": "responses/notready.md"
 plugins:
 - search
 - mkdocstrings
