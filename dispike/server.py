@@ -55,7 +55,11 @@ async def handle_interactions(request: Request) -> Response:
             _get_res = await interaction.emit(_parse_to_object.data.name, **arguments)
             return _get_res.response
         elif _type_hinted_returned_value == NotReadyResponse:
-            return None
+            # TODO: Offer a setting to change the type for simply acknowledging a commmand
+            # per https://discord.com/developers/docs/interactions/slash-commands#interaction-response-interactionresponsetype
+            return {
+                "type": 2
+            }
         elif _type_hinted_returned_value == dict:
             return await interaction.emit(_parse_to_object.data.name, **arguments)
     except KeyError:
@@ -77,4 +81,12 @@ async def handle_interactions(request: Request) -> Response:
         return interaction_data
 
     if isinstance(interaction_data, NotReadyResponse):
-        return None
+        return {
+            "type": 2
+        }
+
+
+    # Backup response, simply acknowledge. (Type 5)
+    return {
+        "type": 5
+    }
