@@ -297,7 +297,11 @@ async def test_proper_response_hints_no_hint_return_not_ready_response(
     _result = await server.handle_interactions(
         create_mocked_request("no_hint_return_not_ready_response")
     )
-    assert _result == None
+    assert isinstance(_result, dict)
+    assert isinstance(_result['type'], int)
+    # AcknowledgeWithSource	  5	   ACK a command without sending a message, showing the user's input 
+    # Acknowledge	          2	   ACK a command without sending a message, eating the user's input
+    assert _result['type'] in [2, 5]
 
 
 @pytest.mark.asyncio
@@ -348,7 +352,11 @@ async def test_proper_response_hints_hint_return_not_ready_response(
     _result = await server.handle_interactions(
         create_mocked_request("hint_return_not_ready_response")
     )
-    assert _result == None
+    assert isinstance(_result, dict)
+    assert isinstance(_result['type'], int)
+    # AcknowledgeWithSource	  5	   ACK a command without sending a message, showing the user's input 
+    # Acknowledge	          2	   ACK a command without sending a message, eating the user's input
+    assert _result['type'] in [2, 5]
 
 
 @pytest.mark.asyncio
