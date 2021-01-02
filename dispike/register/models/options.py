@@ -13,6 +13,20 @@ except ImportError:
 
 
 class CommandTypes:
+
+    """Easy access to command types.
+    
+    Attributes:
+        BOOLEAN (int): Represents Type 5
+        CHANNEL (int): Represents Type 7
+        INTEGER (int): Represents Type 4
+        ROLE (int): Represents Type 8
+        STRING (int): Represents Type 3
+        SUB_COMMAND (int): Represents Type 1
+        SUB_COMMAND_GROUP (int): Represents Type 2
+        USER (int): Represents Type 6
+    """
+
     SUB_COMMAND = 1
     SUB_COMMAND_GROUP = 2
     STRING = 3
@@ -24,11 +38,19 @@ class CommandTypes:
 
 
 class CommandChoice(BaseModel):
+
+    """Represents a key-value command choice.
+    """
+
     name: str
     value: str
 
 
 class CommandOption(BaseModel):
+
+    """Represents a standard command option (not a subcommand).
+    """
+
     class Config:
         arbitrary_types_allowed = True
         extra = Extra.allow
@@ -51,6 +73,10 @@ class CommandOption(BaseModel):
 
 
 class SubcommandOption(BaseModel):
+
+    """Represents a subcommand, usually you would put this as an option in a DiscordCommand
+    """
+
     class Config:
         arbitrary_types_allowed = True
 
@@ -71,6 +97,10 @@ class SubcommandOption(BaseModel):
 
 
 class DiscordCommand(BaseModel):
+
+    """Represents a discord command.
+    """
+
     name: str
     description: str
     options: typing.List[typing.Union[SubcommandOption, CommandOption]]

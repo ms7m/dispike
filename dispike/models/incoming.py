@@ -12,11 +12,21 @@ except ImportError:
 
 
 class IncomingDiscordOption(BaseModel):
+
+    """An incoming discord option, this is not intended for you to edit, and will not
+    be accepted as an argument in any function nor will be accepted as a value in DiscordCommand
+    """
+
     name: str
     value: str
 
 
 class IncomingDiscordOptionList(BaseModel):
+
+    """An incoming discord option list, this is not intended for you to edit, and will not
+    be accepted as an argument in any function nor accepted in DiscordCommand
+    """
+
     class Config:
         arbitary_types_allowed = True
 
@@ -26,6 +36,11 @@ class IncomingDiscordOptionList(BaseModel):
 
 
 class IncomingDiscordInteraction(BaseModel):
+
+    """An incoming discord interaction, this is not intended for you to edit, and will not
+    be accepted as an argument in any function.
+    """
+
     class Config:
         arbitary_types_allowed = True
 
@@ -40,6 +55,11 @@ class IncomingDiscordInteraction(BaseModel):
 
 
 class IncomingApplicationCommand(BaseModel):
+
+    """an Incoming Application command, this is not intended for you to edit, and will not be accepted 
+    in any function
+    """
+
     class Config:
         arbitary_types_allowed = True
 

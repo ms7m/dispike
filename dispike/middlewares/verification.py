@@ -13,13 +13,36 @@ if typing.TYPE_CHECKING:
 
 
 class DiscordVerificationMiddleware(BaseHTTPMiddleware):
+
+    """Main middleware for verifying requests are signed by Discord.
+    Per documentation.
+
+    You should not need to import this directly.
+    """
+
     def __init__(self, app: "FastAPI", *, client_public_key: str):
+        """Initialize middleware
+
+        Args:
+            app (FastAPI): A valid, initialized FastAPI object
+            client_public_key (str): a valid client public key
+        """
         super().__init__(app)
         self._client_public_key = client_public_key
         logger.info(f"pub: {self._client_public_key}")
         self._verification_key = VerifyKey(bytes.fromhex(self._client_public_key))
 
     def verify_request(self, passed_signature: str, timestamp: str, body):
+        """Verifies keys.
+
+        Args:
+            passed_signature (str): signature provided by discord in headers
+            timestamp (str): timestamp provided by discord in headers
+            body (TYPE): body provided by discord in headers
+
+        Returns:
+            tuple: bool,  status_code
+        """
         try:
             message = timestamp.encode() + body
             self._verification_key.verify(message, bytes.fromhex(passed_signature))
@@ -36,7 +59,18 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
         request: Request,
         call_next: typing.Callable[[Request], typing.Awaitable[Response]],
     ) -> Response:
+        """Intercepts, verifies and dispatches request.
+
+        Args:
+            request (Request): Request object
+            call_next (typing.Callable[[Request], typing.Awaitable[Response]]): next API endpoint
+        """
         logger.debug("intercepting request.")
+
+        if request.url.path == "/ping":
+            logger.info("ping, forwarding")
+            return await call_next(request)
+
         try:
             get_signature = request.headers["X-Signature-Ed25519"]
             get_timestamp = request.headers["X-Signature-Timestamp"]

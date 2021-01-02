@@ -1,0 +1,1 @@
+:::dispike.register.RegisterCommands
