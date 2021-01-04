@@ -18,6 +18,22 @@ Powered by FastAPI.
 - Read documentation [here](https://dispike.ms7m.me)
 - See example bot [here](https://github.com/ms7m/dispike-example-bot)
 
+## Example Code
+
+```python
+
+from dispike import Dispike
+bot = Dispike(..)
+
+@bot.interaction.on("stock"):
+async def handle_timezone(stockticker: str, ctx: IncomingDiscordInteraction) -> DiscordResponse:
+  get_stock_ticker = ...
+  
+  embed=discord.Embed()
+  embed.add_field(name="Stock Price for {stockticker}.", value="Current price is {get_price}", inline=True)
+  embed.set_footer(text="Request received by {ctx.member.user.username}")
+  return DiscordResponse(embed=embed)
+```
 
 
 
