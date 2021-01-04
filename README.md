@@ -27,7 +27,7 @@ bot = Dispike(..)
 
 @bot.interaction.on("stock"):
 async def handle_timezone(stockticker: str, ctx: IncomingDiscordInteraction) -> DiscordResponse:
-  get_stock_ticker = ...
+  get_price = function(stockticker...)
   
   embed=discord.Embed()
   embed.add_field(name="Stock Price for {stockticker}.", value="Current price is {get_price}", inline=True)
