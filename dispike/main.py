@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import typing
 from loguru import logger
+import uvicorn
 from .server import router, DiscordVerificationMiddleware
 from .server import interaction as router_interaction
 from .register import RegisterCommands
@@ -9,7 +10,6 @@ from .models import IncomingApplicationCommand
 
 from .errors.network import DiscordAPIError
 
-import uvicorn
 
 if typing.TYPE_CHECKING:
     import httpx
@@ -67,6 +67,8 @@ class Dispike(object):
             self._registrator = RegisterCommands(
                 application_id=_application_id, bot_token=_bot_token
             )
+            self._bot_token = _bot_token
+            self._application_id = _application_id
             return True
         except Exception:
             return False
@@ -126,7 +128,7 @@ class Dispike(object):
             DiscordAPIError: any Discord returned errors.
         """
         if guild_only == True:
-            if guild_id_passed == False:
+            if guild_id_passed == False or not isinstance(guild_id_passed, str):
                 raise TypeError(
                     "You cannot have guild_only == True and NOT pass any guild id."
                 )
@@ -238,10 +240,29 @@ class Dispike(object):
             logger.exception("Unknown exception returned")
             return False
 
+    @staticmethod
+    def _return_uvicorn_run_function():
+        """Import uvicorn, only exists to make testing easier. You do not need to import this.
+
+        Raises:
+            SystemExit: If uvicorn is not installed
+
+        Returns:
+            uvicorn: If everything works out.
+        """
+        try:
+            import uvicorn
+            return uvicorn
+        except Exception:
+            raise SystemExit("Uvicorn is not installed. Please use a different webserver pointing to <..>.referenced_application")
+
     def run(self, port: int = 5000):
+
         """Runs the bot with the already-installed Uvicorn webserver.
         
         Args:
             port (int, optional): Port to run the bot over. Defaults to 5000.
         """
+
+        uvicorn = self._return_uvicorn_run_function()
         uvicorn.run(app=self.referenced_application, port=port)
