@@ -26,7 +26,7 @@ from dispike import Dispike
 bot = Dispike(..)
 
 @bot.interaction.on("stock"):
-async def handle_timezone(stockticker: str, ctx: IncomingDiscordInteraction) -> DiscordResponse:
+async def handle_stock_request(stockticker: str, ctx: IncomingDiscordInteraction) -> DiscordResponse:
   get_price = function(stockticker...)
   
   embed=discord.Embed()
