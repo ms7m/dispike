@@ -2,6 +2,17 @@ import typing
 
 # TODO: Automate stub generation until upstream issue fix.
 
+
+class CommandTypes:
+    SUB_COMMAND: int
+    SUB_COMMAND_GROUP: int
+    STRING: int
+    INTEGER: int
+    BOOLEAN: int
+    USER: int
+    CHANNEL: int
+    ROLE: int
+
 class CommandChoice:
     def __init__(self, name: str, value: str) -> None: ...
 
