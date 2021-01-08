@@ -21,6 +21,18 @@ class IncomingDiscordOption(BaseModel):
     value: str
 
 
+class SubcommandIncomingDiscordOptionList(BaseModel):
+    """An incoming discord option list, this is not intended for you to edit, and will not
+    be accepted as an argument in any function nor accepted in DiscordCommand
+    """
+
+    class Config:
+        arbitary_types_allowed = True
+
+    name: str
+    options: typing.List[IncomingDiscordOption]
+
+
 class IncomingDiscordOptionList(BaseModel):
 
     """An incoming discord option list, this is not intended for you to edit, and will not
@@ -32,7 +44,10 @@ class IncomingDiscordOptionList(BaseModel):
 
     id: str
     name: str
-    options: typing.List[IncomingDiscordOption]
+    options: typing.Union[
+        typing.List[IncomingDiscordOption],
+        typing.List[SubcommandIncomingDiscordOptionList],
+    ]
 
 
 class IncomingDiscordInteraction(BaseModel):
@@ -56,7 +71,7 @@ class IncomingDiscordInteraction(BaseModel):
 
 class IncomingApplicationCommand(BaseModel):
 
-    """an Incoming Application command, this is not intended for you to edit, and will not be accepted 
+    """an Incoming Application command, this is not intended for you to edit, and will not be accepted
     in any function
     """
 
