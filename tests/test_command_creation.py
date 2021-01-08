@@ -22,7 +22,6 @@ expectation = {
             "description": "Whether to show only baby animals",
             "type": 5,
             "required": False,
-            "choices": [],
         },
     ],
 }
@@ -54,4 +53,4 @@ def test_command_creation():
     )
 
     # return command_to_create
-    assert command_to_create.dict() == expectation
+    assert command_to_create.dict(exclude_none=True) == expectation
