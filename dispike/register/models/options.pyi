@@ -2,7 +2,6 @@ import typing
 
 # TODO: Automate stub generation until upstream issue fix.
 
-
 class CommandTypes:
     SUB_COMMAND: int
     SUB_COMMAND_GROUP: int
@@ -22,9 +21,7 @@ class CommandOption:
         name: str,
         description: str,
         type: int,
-        choices: typing.Union[
-            typing.Union[typing.List[dict], typing.List[CommandChoice]]
-        ],
+        choices: typing.List[CommandChoice],
         required: bool = False,
     ) -> None: ...
 
