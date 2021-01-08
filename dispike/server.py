@@ -29,10 +29,6 @@ async def ping():
     )
 
 
-async def proxy_to_event_func(interaction: EventHandler, event_name: str, arguments):
-    await interaction.emit(event_name, **arguments)
-
-
 @router.post("/interactions")
 async def handle_interactions(request: Request) -> Response:
     logger.info("interaction recieved.")
@@ -70,7 +66,7 @@ async def handle_interactions(request: Request) -> Response:
             "unable to find return value for type hint.. resorting to guessing.."
         )
         if _RAISE_FOR_TESTING == True:
-            raise AssertionError("No hinting!")
+            raise AssertionError("No hinting!")  # pragma: no cover
     except Exception:
         logger.exception("unhandled exception for returning hinted value")
         raise
