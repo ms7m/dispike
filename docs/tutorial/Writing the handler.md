@@ -6,7 +6,7 @@ Let’s write the handler so it can properly display to the user.
 It’s a standard function with a few requirements.
 
 - It must be async (``async def``)
-- It must finally return: ``DiscordResponse``, ``NotReadyResponse`` or a ``dict``.
+- It must finally return: ``DiscordResponse``, or a ``dict``.
 
 ???+ warning
 	If you return a ``dict``, it will not verified and Dispike will assume that’s valid and return the result to discord.
