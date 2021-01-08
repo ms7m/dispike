@@ -7,8 +7,8 @@ from ..response import DiscordResponse
 from ..errors.network import DiscordAPIError
 
 if typing.TYPE_CHECKING:
-    from ..main import Dispike
-    from ..models import IncomingDiscordInteraction
+    from ..main import Dispike  # pragma: no cover
+    from ..models import IncomingDiscordInteraction  # pragma: no cover
 
 
 class FollowUpMessages(object):
@@ -107,8 +107,7 @@ class FollowUpMessages(object):
         try:
             _request = self._sync_client.delete(f"/messages/{self._message_id}")
             if _request.status_code in [200, 201]:
-                _parse_request = _request.json()
-                self._message_id = _parse_request["id"]
+                self._message_id = None
                 return True
             else:
                 raise DiscordAPIError(_request.status_code, _request.text)
@@ -122,10 +121,9 @@ class FollowUpMessages(object):
         if self._message_id == None:
             raise TypeError("a followup message must be sent first.")
         try:
-            _request = await self._sync_client.delete(f"/messages/{self._message_id}")
+            _request = await self._async_client.delete(f"/messages/{self._message_id}")
             if _request.status_code in [200, 201]:
-                _parse_request = _request.json()
-                self._message_id = _parse_request["id"]
+                self._message_id = None
                 return True
             else:
                 raise DiscordAPIError(_request.status_code, _request.text)
