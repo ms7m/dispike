@@ -48,6 +48,31 @@ This library is **only tested** on python versions
 - 3.6
 
 
+***
 
+# API Parity List
+
+| API Endpoint   |      Implmentation   |
+|----------|:-------------:|
+| Get Global Application Commands |  **✅ Implemented** |
+| Create Global Application Command |    **✅ Implemented**   |
+| Edit Global Application Command |  **✅ Implemented** |
+| Delete Global Application Command | **✅ Implemented** |
+| Create Guild Application Command | **✅ Implemented** |
+| Edit Guild Application Command | **✅ Implemented** |
+| Delete Guild Application Command | **✅ Implemented** |
+| Create Interaction Response | **✅ Implemented** |
+| Edit Original Interaction Response | **⌛ In progress** |
+| Delete Original Interaction Response | **⌛ In progress** |
+| Create Followup Message |**⌛ In progress** |
+| Edit Followup Message | **⌛ In progress** |
+| Delete Followup Message | **⌛ In progress** |
+| Data Models and Types | **✅ Implemented** |
+| ApplicationCommand | **✅ Implemented** |
+| ApplicationCommandOption | **✅ Implemented** |
+| ApplicationCommandOptionType | **✅ Implemented** |
+| ApplicationCommandOptionChoice | **✅ Implemented** |
+| Interaction | **✅ Implemented** |
+| Interaction Response | **✅ Implemented** |
 
 
