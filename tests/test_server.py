@@ -319,3 +319,19 @@ async def test_proper_response_hints_hint_return_dict(
     )
     assert type(_result) == dict
     assert _result == {"sample": "sample"}
+
+
+@pytest.mark.asyncio
+async def test_return_type_5_if_no_event_exists(
+    mocked_interactions_with_hints, monkeypatch: "MonkeyPatch"
+):
+    from dispike import server
+
+    # monkeypatch.setattr("dispike.server", "EventHandler", mocked_interaction)
+    # monkeypatch.setattr("dispike.server", EventHandler, mocked_interaction)
+
+    monkeypatch.setattr(server, "interaction", mocked_interactions_with_hints)
+    monkeypatch.setattr(server, "_RAISE_FOR_TESTING", True)
+    _result = await server.handle_interactions(create_mocked_request("invalid"))
+    assert type(_result) == dict
+    assert _result == {"type": 5}
