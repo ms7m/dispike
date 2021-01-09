@@ -567,36 +567,30 @@
                 
                 
                 <p align="center">
-  <a href="https://dispike.ms7m.me"><img src="./images/logo-frame.png" alt="Dispike"></a>
+    <a href="https://dispike.ms7m.me"><img src="./images/logo-frame.png" alt="Dispike"></a>
 </p>
 <p align="center">
-    <em>Python library for building bots to interact with Discord Slash Commands</em>
+        <em>Python library for building bots to interact with Discord Slash Commands</em>
 </p>
 
 <p align="center">
 
 <a href="https://codecov.io/gh/ms7m/dispike" target="_blank">
-    <img src="https://codecov.io/gh/ms7m/dispike/branch/master/graph/badge.svg?token=E5AXLZDP9O" alt="Test">
+        <img src="https://codecov.io/gh/ms7m/dispike/branch/master/graph/badge.svg?token=E5AXLZDP9O" alt="Test">
 </a>
 
 <a href="https://github.com/ms7m/dispike/actions" target="_blank">
-    <img src="https://github.com/ms7m/dispike/workflows/Test%20Dispike/badge.svg?branch=master" alt="Coverage">
+        <img src="https://github.com/ms7m/dispike/workflows/Test%20Dispike/badge.svg?branch=master" alt="Coverage">
 </a>
 
 <a href="https://pypi.org/project/dispike" target="_blank">
-    <img src="https://img.shields.io/badge/dynamic/json?color=blue&label=PyPi%20Version&query=%24.info.version&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fdispike%2Fjson" alt="Package version">
+        <img src="https://img.shields.io/badge/dynamic/json?color=blue&label=PyPi%20Version&query=%24.info.version&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fdispike%2Fjson" alt="Package version">
 </a>
 
 </p>
 
 <h1 id="before-we-start">Before we start.</h1>
 <p>This library has not left alpha stage and will have bugs and issues. I ask of you to please remember this when opening issues or creating PRs.</p>
-<p>This library does not fully match the entire slash commands API spec. Namely</p>
-<ul>
-<li><a href="https://discord.com/developers/docs/interactions/slash-commands#create-followup-message">Create Followup Message</a></li>
-<li><a href="https://discord.com/developers/docs/interactions/slash-commands#edit-followup-message">Edit Followup Message</a></li>
-<li><a href="https://discord.com/developers/docs/interactions/slash-commands#delete-followup-message">Delete Followup Message</a></li>
-</ul>
 <p>This library assumes you will be building an <strong>independent server</strong> to recieve and send requests from/to Discord directly. This may cause higher bandwith usages and incur costs with your cloud provider. If you prefer to listen over the Discord gateway, you should follow the progress of Discord.py instead.</p>
 <p>This library enables a middleware to verify and accept connections <strong>only from Discord</strong> per documentation. <strong>Although Discord is trusted, you should operate this bot behind a <a href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">reverse proxy</a> such as Nginx or Caddy, because of this, the bot will only bind to localhost and accept local connections.</strong> </p>
 <p>If you want to do local testing before creating a server, you can use free tools such as <a href="https://ngrok.com/">ngrok</a>. </p>
@@ -608,8 +602,8 @@
 <li>3.6</li>
 </ul>
 <hr />
-<details class="info" open="open"><summary>Info</summary></details>
-<p>Just because it's been implemented does not mean it's in the best way. Help out by contributing to this library!</p>
+<details class="info" open="open"><summary>Info</summary><p>Just because it's been implemented does not mean it's in the best way. Help out by contributing to this library!</p>
+</details>
 <table>
 <thead>
 <tr>
