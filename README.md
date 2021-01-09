@@ -14,6 +14,13 @@ Powered by FastAPI.
 
 ***
 
+
+## Install
+
+```
+pip install dispike
+```
+
 ## Learn more
 - Read documentation [here](https://dispike.ms7m.me)
 - See example bot [here](https://github.com/ms7m/dispike-example-bot)
