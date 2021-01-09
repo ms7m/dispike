@@ -30,15 +30,23 @@ class FollowUpMessages(object):
         self._message_id = None
 
     def create_follow_up_message(self, message: DiscordResponse):
+        if isinstance(message, DiscordResponse) == False:
+            raise TypeError("Message must be a DiscordResponse")
+
+        message._switch_to_followup_message()
         if self._message_id != None:
             raise TypeError("Creating a followup message can only be done once.")
         try:
-            _request = self._sync_client.post("/", json=message.response)
+            _request = self._sync_client.post(url=self.base_url, json=message.response)
+            logger.info("sent request for creation of follow up to discord..")
             if _request.status_code in [200, 201]:
                 _parse_request = _request.json()
                 self._message_id = _parse_request["id"]
                 return True
             else:
+                logger.error(
+                    f"discord returned a bad status code: {_request.status_code} -> {_request.text} url: {_request.url}"
+                )
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
@@ -47,15 +55,25 @@ class FollowUpMessages(object):
             raise
 
     async def async_create_follow_up_message(self, message: DiscordResponse):
+        if isinstance(message, DiscordResponse) == False:
+            raise TypeError("Message must be a DiscordResponse")
+
+        message._switch_to_followup_message()
         if self._message_id != None:
             raise TypeError("Creating a followup message can only be done once.")
         try:
-            _request = await self._async_client.post("/", json=message.response)
+            _request = await self._async_client.post(
+                url=self.base_url, json=message.response
+            )
+            logger.info("sent request for creation of follow up to discord..")
             if _request.status_code in [200, 201]:
                 _parse_request = _request.json()
                 self._message_id = _parse_request["id"]
                 return True
             else:
+                logger.error(
+                    f"discord returned a bad status code: {_request.status_code} -> {_request.text} url: {_request.url}"
+                )
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
@@ -69,6 +87,9 @@ class FollowUpMessages(object):
         try:
             _request = self._sync_client.patch(
                 f"/messages/{self._message_id}", json=updated_message.response
+            )
+            logger.info(
+                f"sent request for edit of follow up to discord [{self._message_id}].."
             )
             if _request.status_code in [200, 201]:
                 _parse_request = _request.json()
@@ -89,6 +110,9 @@ class FollowUpMessages(object):
             _request = await self._async_client.patch(
                 f"/messages/{self._message_id}", json=updated_message.response
             )
+            logger.info(
+                f"sent request for edit of follow up to discord [{self._message_id}].."
+            )
             if _request.status_code in [200, 201]:
                 _parse_request = _request.json()
                 self._message_id = _parse_request["id"]
@@ -106,7 +130,10 @@ class FollowUpMessages(object):
             raise TypeError("a followup message must be sent first.")
         try:
             _request = self._sync_client.delete(f"/messages/{self._message_id}")
-            if _request.status_code in [200, 201]:
+            logger.info(
+                f"sent request for deletion of follow up to discord [{self._message_id}].."
+            )
+            if _request.status_code in [200, 201, 204]:
                 self._message_id = None
                 return True
             else:
@@ -122,7 +149,10 @@ class FollowUpMessages(object):
             raise TypeError("a followup message must be sent first.")
         try:
             _request = await self._async_client.delete(f"/messages/{self._message_id}")
-            if _request.status_code in [200, 201]:
+            logger.info(
+                f"sent request for deletion of follow up to discord [{self._message_id}].."
+            )
+            if _request.status_code in [200, 201, 204]:
                 self._message_id = None
                 return True
             else:
