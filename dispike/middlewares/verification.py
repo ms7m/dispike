@@ -9,7 +9,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 import typing
 
 if typing.TYPE_CHECKING:
-    from fastapi import FastAPI
+    from fastapi import FastAPI  # pragma: no cover
 
 
 class DiscordVerificationMiddleware(BaseHTTPMiddleware):

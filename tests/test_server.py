@@ -1,6 +1,6 @@
 from starlette.responses import PlainTextResponse
 from dispike.models.incoming import IncomingDiscordInteraction
-from dispike.response import DiscordResponse, NotReadyResponse
+from dispike.response import DiscordResponse
 from fastapi.testclient import TestClient
 from dispike.eventer import EventHandler
 from dispike import Dispike
@@ -132,11 +132,6 @@ async def hinted_mock_functions(mocked_events: EventHandler):
         logger.info("hint_return_discord_response")
         return DiscordResponse(content="sample")
 
-    @mocked_events.on("hint_return_not_ready_response")
-    async def return_not_ready_hint(*args, **kwargs) -> NotReadyResponse:
-        logger.info("hint_return_not_ready_response")
-        return NotReadyResponse(bot, IncomingDiscordInteraction(**data))
-
     @mocked_events.on("hint_return_dict")
     async def return_dict_hint(*args, **kwargs) -> dict:
         logger.info("hint_return_dict")
@@ -186,11 +181,6 @@ async def no_hinted_mocked_functions(mocked_events: EventHandler):
     async def return_event_no_hinting(*args, **kwargs):
         logger.info("called no_hint_return_discord_response")
         return DiscordResponse(content="sample")
-
-    @mocked_events.on("no_hint_return_not_ready_response")
-    async def return_event_no_hinting_not_ready_response(*args, **kwargs):
-        logger.info("no_hint_return_not_ready_response")
-        return NotReadyResponse(bot, IncomingDiscordInteraction(**data))
 
     @mocked_events.on("no_hint_return_dict")
     async def return_event_no_hinting_dict(*args, **kwargs):
@@ -281,30 +271,6 @@ async def test_proper_response_hints_no_hint_return_discord_response(
 
 
 @pytest.mark.asyncio
-async def test_proper_response_hints_no_hint_return_not_ready_response(
-    mocked_interaction, monkeypatch: "MonkeyPatch"
-):
-    # we honestly just need a specific attribute from the response..
-    from dispike import server
-
-    # monkeypatch.setattr("dispike.server", "EventHandler", mocked_interaction)
-    # monkeypatch.setattr("dispike.server", EventHandler, mocked_interaction)
-
-    def return_mocked():
-        return mocked_interaction
-
-    monkeypatch.setattr(server, "interaction", mocked_interaction)
-    _result = await server.handle_interactions(
-        create_mocked_request("no_hint_return_not_ready_response")
-    )
-    assert isinstance(_result, dict)
-    assert isinstance(_result['type'], int)
-    # AcknowledgeWithSource	  5	   ACK a command without sending a message, showing the user's input 
-    # Acknowledge	          2	   ACK a command without sending a message, eating the user's input
-    assert _result['type'] in [2, 5]
-
-
-@pytest.mark.asyncio
 async def test_proper_response_hints_no_hint_return_dict(
     mocked_interaction, monkeypatch: "MonkeyPatch"
 ):
@@ -337,29 +303,6 @@ async def test_proper_response_hint_discord_response(
 
 
 @pytest.mark.asyncio
-async def test_proper_response_hints_hint_return_not_ready_response(
-    mocked_interactions_with_hints, monkeypatch: "MonkeyPatch"
-):
-    # we honestly just need a specific attribute from the response..
-    from dispike import server
-
-    # monkeypatch.setattr("dispike.server", "EventHandler", mocked_interaction)
-    # monkeypatch.setattr("dispike.server", EventHandler, mocked_interaction)
-
-    monkeypatch.setattr(server, "interaction", mocked_interactions_with_hints)
-    monkeypatch.setattr(server, "_RAISE_FOR_TESTING", True)
-
-    _result = await server.handle_interactions(
-        create_mocked_request("hint_return_not_ready_response")
-    )
-    assert isinstance(_result, dict)
-    assert isinstance(_result['type'], int)
-    # AcknowledgeWithSource	  5	   ACK a command without sending a message, showing the user's input 
-    # Acknowledge	          2	   ACK a command without sending a message, eating the user's input
-    assert _result['type'] in [2, 5]
-
-
-@pytest.mark.asyncio
 async def test_proper_response_hints_hint_return_dict(
     mocked_interactions_with_hints, monkeypatch: "MonkeyPatch"
 ):
@@ -376,3 +319,19 @@ async def test_proper_response_hints_hint_return_dict(
     )
     assert type(_result) == dict
     assert _result == {"sample": "sample"}
+
+
+@pytest.mark.asyncio
+async def test_return_type_5_if_no_event_exists(
+    mocked_interactions_with_hints, monkeypatch: "MonkeyPatch"
+):
+    from dispike import server
+
+    # monkeypatch.setattr("dispike.server", "EventHandler", mocked_interaction)
+    # monkeypatch.setattr("dispike.server", EventHandler, mocked_interaction)
+
+    monkeypatch.setattr(server, "interaction", mocked_interactions_with_hints)
+    monkeypatch.setattr(server, "_RAISE_FOR_TESTING", True)
+    _result = await server.handle_interactions(create_mocked_request("invalid"))
+    assert type(_result) == dict
+    assert _result == {"type": 5}

@@ -2,7 +2,6 @@ import typing
 from fastapi import Response
 from loguru import logger
 import inspect
-
 from functools import wraps
 
 
@@ -17,7 +16,11 @@ class EventHandler(object):
     def __init__(self):
         self.callbacks = {}
 
-    def on(self, event, func=None):
+    def on(
+        self,
+        event: str,
+        func: typing.Callable = None,
+    ):
         """A wrapper over an async function, registers it in .callbacks.
 
         Args:
@@ -34,7 +37,10 @@ class EventHandler(object):
 
             if event not in self.callbacks:
                 logger.debug(f"Added {event} to corresponding function to {func}")
-                self.callbacks[event] = func
+                self.callbacks[event] = {
+                    "settings": {},
+                    "function": func,
+                }
             else:
                 raise TypeError("Events can only have one corresponding handler.")
 
@@ -53,6 +59,20 @@ class EventHandler(object):
         """
         return event in self.callbacks
 
+    def return_event_settings(self, event: str) -> dict:
+        if self.check_event_exists(event) == True:
+            return self.callbacks[event]["settings"]
+        raise TypeError(
+            f"Event {event} is not in callbacks. Did you register this event?"
+        )
+
+    def return_event_function(self, event: str) -> dict:
+        if self.check_event_exists(event) == True:
+            return self.callbacks[event]["function"]
+        raise TypeError(
+            f"Event {event} is not in callbacks. Did you register this event?"
+        )
+
     def view_event_function_return_type(self, event: str) -> dict:
         """Get type hint for event functions
 
@@ -62,7 +82,7 @@ class EventHandler(object):
         Returns:
             dict: Returns .get_type_hints for event
         """
-        return typing.get_type_hints(self.callbacks[event])
+        return typing.get_type_hints(self.callbacks[event]["function"])
 
     async def emit(self, event: str, *args, **kwargs):
         """'Emits' an event. It will basically call the function from .callbacks and return the function result
@@ -79,5 +99,9 @@ class EventHandler(object):
             TypeError: raises if event is not registered.
         """
         if event not in self.callbacks:
-            raise TypeError(f"event {event} does not have a corresponding handler.")
-        return await self.callbacks[event](**kwargs)
+            raise TypeError(
+                f"event {event} does not have a corresponding handler. Did you register this function/event?"
+            )
+
+        _look_up_function = self.return_event_function(event)
+        return await _look_up_function(**kwargs)

@@ -76,3 +76,28 @@ def test_non_async_event_handler():
         @event_handler.on("badEvent")
         def test_function(*args, **kwargs):
             return True
+
+
+@pytest.mark.asyncio
+async def test_event_not_existing():
+    with pytest.raises(TypeError):
+        await event_handler.emit("NotExisting")
+
+    with pytest.raises(TypeError):
+        await event_handler.return_event_settings("NotExisting")
+
+    with pytest.raises(TypeError):
+        await event_handler.return_event_function("Not Existing")
+
+
+@pytest.mark.asyncio
+async def test_attempt_to_register_multiple_handlers():
+    with pytest.raises(TypeError):
+
+        @event_handler.on("duplicateEvent")
+        async def dup_one(*args, **kwargs):
+            pass
+
+        @event_handler.on("duplicateEvent")
+        async def dup_two(*args, **kwargs):
+            pass

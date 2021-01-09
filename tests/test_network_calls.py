@@ -226,3 +226,7 @@ def test_get_commands_guild_only_call_invalid_incoming(dispike_object: Dispike):
         _get_commands = dispike_object.get_commands(
             guild_only=True, guild_id_passed="EXAMPLE_GUILD"
         )
+
+def test_get_commands_invalid_guild_id_passed(dispike_object: Dispike):
+    with pytest.raises(TypeError):
+        dispike_object.get_commands(guild_only=True)

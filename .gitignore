@@ -8,3 +8,4 @@ test.py
 .coverage
 coverage.xml
 .DS_Store
+htmlcov/

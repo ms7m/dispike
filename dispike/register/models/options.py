@@ -15,7 +15,7 @@ except ImportError:
 class CommandTypes:
 
     """Easy access to command types.
-    
+
     Attributes:
         BOOLEAN (int): Represents Type 5
         CHANNEL (int): Represents Type 7
@@ -39,8 +39,7 @@ class CommandTypes:
 
 class CommandChoice(BaseModel):
 
-    """Represents a key-value command choice.
-    """
+    """Represents a key-value command choice."""
 
     name: str
     value: str
@@ -48,12 +47,10 @@ class CommandChoice(BaseModel):
 
 class CommandOption(BaseModel):
 
-    """Represents a standard command option (not a subcommand).
-    """
+    """Represents a standard command option (not a subcommand)."""
 
     class Config:
         arbitrary_types_allowed = True
-        extra = Extra.allow
 
     name: str
     description: str
@@ -61,21 +58,22 @@ class CommandOption(BaseModel):
     required: bool = False
     choices: typing.Optional[
         typing.Union[typing.List[dict], typing.List[CommandChoice]]
-    ] = []
+    ] = None
 
-    # options: typing.Optional[typing.Union[typing.List[CommandChoice]]]
+    options: typing.Optional[
+        typing.Union[typing.List[CommandChoice], typing.List]
+    ] = None
 
     # @validator("options")
     # def options_allow_only_if_subcommand(cls, v):
-    #    if cls.type != 1:
-    #        raise ValidationError("Type must be 1 in order to have options.")
-    #    return v
+    #   if cls.type != 1:
+    #       raise ValidationError("Type must be 1 in order to have options.")
+    #   return v
 
 
 class SubcommandOption(BaseModel):
 
-    """Represents a subcommand, usually you would put this as an option in a DiscordCommand
-    """
+    """Represents a subcommand, usually you would put this as an option in a DiscordCommand"""
 
     class Config:
         arbitrary_types_allowed = True
@@ -90,16 +88,15 @@ class SubcommandOption(BaseModel):
         item: CommandOption
         for item_location, item in enumerate(v):
             if item.type != 1:
-                raise ValidationError(
-                    f"CommandOptions located in <{item_location}> must be have type of 1 due to parent being a subcommand."
+                raise ValueError(
+                    f"CommandOptions <{item.name}> located <{item_location}> must be have type of 1 due to parent being a subcommand."
                 )
         return v
 
 
 class DiscordCommand(BaseModel):
 
-    """Represents a discord command.
-    """
+    """Represents a discord command."""
 
     name: str
     description: str
