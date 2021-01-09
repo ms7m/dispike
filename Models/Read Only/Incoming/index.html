@@ -450,6 +450,35 @@
   </li>
 
         
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+    
+    <label class="md-nav__link" for="nav-6">
+      Creating Commands
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Creating Commands" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Creating Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
           
           
           
@@ -457,14 +486,40 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../responses/notready.md" class="md-nav__link">
-      Not Ready Responses
+    <a href="../../../CreatingCommands/subcommands/" class="md-nav__link">
+      Subcommands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../../CreatingCommands/standard/" class="md-nav__link">
+      Standard Commands
     </a>
   </li>
 
         
       </ul>
     </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../../../FollowUpMessages/" class="md-nav__link">
+      Follow Up Messages
+    </a>
   </li>
 
     
@@ -506,6 +561,18 @@
     <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
 
 
+<span class="k">class</span> <span class="nc">SubcommandIncomingDiscordOptionList</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An incoming discord option list, this is not intended for you to edit, and will not</span>
+<span class="sd">    be accepted as an argument in any function nor accepted in DiscordCommand</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">arbitary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">]</span>
+
+
 <span class="k">class</span> <span class="nc">IncomingDiscordOptionList</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;An incoming discord option list, this is not intended for you to edit, and will not</span>
@@ -517,7 +584,10 @@
 
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span>
+        <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">],</span>
+        <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">SubcommandIncomingDiscordOptionList</span><span class="p">],</span>
+    <span class="p">]</span>
 
 
 <span class="k">class</span> <span class="nc">IncomingDiscordInteraction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -541,7 +611,7 @@
 
 <span class="k">class</span> <span class="nc">IncomingApplicationCommand</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;an Incoming Application command, this is not intended for you to edit, and will not be accepted </span>
+    <span class="sd">&quot;&quot;&quot;an Incoming Application command, this is not intended for you to edit, and will not be accepted</span>
 <span class="sd">    in any function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

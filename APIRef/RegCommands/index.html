@@ -519,6 +519,35 @@
   </li>
 
         
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+    
+    <label class="md-nav__link" for="nav-6">
+      Creating Commands
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Creating Commands" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Creating Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
           
           
           
@@ -526,14 +555,40 @@
 
 
   <li class="md-nav__item">
-    <a href="../../responses/notready.md" class="md-nav__link">
-      Not Ready Responses
+    <a href="../../CreatingCommands/subcommands/" class="md-nav__link">
+      Subcommands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../CreatingCommands/standard/" class="md-nav__link">
+      Standard Commands
     </a>
   </li>
 
         
       </ul>
     </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../../FollowUpMessages/" class="md-nav__link">
+      Follow Up Messages
+    </a>
   </li>
 
     
@@ -614,7 +669,7 @@
         </h2>
 <div class="doc doc-contents first">
 <p>This object contains methods to help registering a command to Discord.
-While you shouldn't need to import this directly, it's still accessible if you 
+While you shouldn't need to import this directly, it's still accessible if you
 prefer not to initalize a Dispike object.</p>
 <p>Important to remember all methods are not async.</p>
 <div class="doc doc-children">
@@ -818,9 +873,9 @@ register<span class="p">(</span><span class="bp">self</span><span class="p">,</s
         <span class="n">_request_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"commands"</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">_command_to_json</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="n">_command_to_json</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">_send_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="n">_request_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request_headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">command</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+            <span class="n">_request_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request_headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">_command_to_json</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">]:</span>
             <span class="k">return</span> <span class="kc">True</span>

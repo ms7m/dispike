@@ -504,6 +504,35 @@
   </li>
 
         
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+    
+    <label class="md-nav__link" for="nav-6">
+      Creating Commands
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Creating Commands" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Creating Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
           
           
           
@@ -511,14 +540,40 @@
 
 
   <li class="md-nav__item">
-    <a href="../../responses/notready.md" class="md-nav__link">
-      Not Ready Responses
+    <a href="../../CreatingCommands/subcommands/" class="md-nav__link">
+      Subcommands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../CreatingCommands/standard/" class="md-nav__link">
+      Standard Commands
     </a>
   </li>
 
         
       </ul>
     </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../../FollowUpMessages/" class="md-nav__link">
+      Follow Up Messages
+    </a>
   </li>
 
     
@@ -660,8 +715,7 @@
 
 <span class="k">class</span> <span class="nc">CommandChoice</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a key-value command choice.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a key-value command choice.&quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
@@ -669,12 +723,10 @@
 
 <span class="k">class</span> <span class="nc">CommandOption</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a standard command option (not a subcommand).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a standard command option (not a subcommand).&quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">allow</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
@@ -682,21 +734,22 @@
     <span class="n">required</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">choices</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span>
         <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">CommandChoice</span><span class="p">]]</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="c1"># options: typing.Optional[typing.Union[typing.List[CommandChoice]]]</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span>
+        <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">CommandChoice</span><span class="p">],</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># @validator(&quot;options&quot;)</span>
     <span class="c1"># def options_allow_only_if_subcommand(cls, v):</span>
-    <span class="c1">#    if cls.type != 1:</span>
-    <span class="c1">#        raise ValidationError(&quot;Type must be 1 in order to have options.&quot;)</span>
-    <span class="c1">#    return v</span>
+    <span class="c1">#   if cls.type != 1:</span>
+    <span class="c1">#       raise ValidationError(&quot;Type must be 1 in order to have options.&quot;)</span>
+    <span class="c1">#   return v</span>
 
 
 <span class="k">class</span> <span class="nc">SubcommandOption</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a subcommand, usually you would put this as an option in a DiscordCommand</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a subcommand, usually you would put this as an option in a DiscordCommand&quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
@@ -711,16 +764,15 @@
         <span class="n">item</span><span class="p">:</span> <span class="n">CommandOption</span>
         <span class="k">for</span> <span class="n">item_location</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;CommandOptions located in &lt;</span><span class="si">{</span><span class="n">item_location</span><span class="si">}</span><span class="s2">&gt; must be have type of 1 due to parent being a subcommand.&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;CommandOptions &lt;</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt; located &lt;</span><span class="si">{</span><span class="n">item_location</span><span class="si">}</span><span class="s2">&gt; must be have type of 1 due to parent being a subcommand.&quot;</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">v</span>
 
 
 <span class="k">class</span> <span class="nc">DiscordCommand</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a discord command.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a discord command.&quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>

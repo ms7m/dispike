@@ -540,6 +540,35 @@
   </li>
 
         
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+    
+    <label class="md-nav__link" for="nav-6">
+      Creating Commands
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Creating Commands" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Creating Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
           
           
           
@@ -547,14 +576,40 @@
 
 
   <li class="md-nav__item">
-    <a href="../notready.md" class="md-nav__link">
-      Not Ready Responses
+    <a href="../../CreatingCommands/subcommands/" class="md-nav__link">
+      Subcommands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../CreatingCommands/standard/" class="md-nav__link">
+      Standard Commands
     </a>
   </li>
 
         
       </ul>
     </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../../FollowUpMessages/" class="md-nav__link">
+      Follow Up Messages
+    </a>
   </li>
 
     
@@ -834,7 +889,7 @@ tts: <span class="nb">bool</span>        </code>
 <h2 class="doc doc-heading" id="dispike.response.DiscordResponse.__init__">
 
         <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tts</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">embeds</span><span class="o">=</span><span class="p">[],</span> <span class="n">show_user_input</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tts</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">embeds</span><span class="o">=</span><span class="p">[],</span> <span class="n">show_user_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -842,7 +897,7 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 
       </h2>
 <div class="doc doc-contents ">
-<p>Initialize a DiscordResponse, you can either pass data into here, or 
+<p>Initialize a DiscordResponse, you can either pass data into here, or
 simply create a DiscordResponse() and edit via properties.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -898,8 +953,9 @@ simply create a DiscordResponse() and edit via properties.</p>
     <span class="n">tts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">embeds</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Embed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="n">show_user_input</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Initialize a DiscordResponse, you can either pass data into here, or </span>
+    <span class="sd">"""Initialize a DiscordResponse, you can either pass data into here, or</span>
 <span class="sd">    simply create a DiscordResponse() and edit via properties.</span>
 
 <span class="sd">    Args:</span>
@@ -927,6 +983,7 @@ simply create a DiscordResponse() and edit via properties.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_is_followup</span> <span class="o">=</span> <span class="n">follow_up_message</span>
 </code></pre>
 </div>
 </details>
@@ -1036,6 +1093,20 @@ add_new_embed<span class="p">(</span><span class="bp">self</span><span class="p"
             </div>
           </a>
         
+        
+          <a href="../../CreatingCommands/subcommands/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Subcommands
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
         
       </nav>
     </div>

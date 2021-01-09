@@ -561,6 +561,35 @@
   </li>
 
         
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+    
+    <label class="md-nav__link" for="nav-6">
+      Creating Commands
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Creating Commands" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Creating Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
           
           
           
@@ -568,14 +597,40 @@
 
 
   <li class="md-nav__item">
-    <a href="../../responses/notready.md" class="md-nav__link">
-      Not Ready Responses
+    <a href="../../CreatingCommands/subcommands/" class="md-nav__link">
+      Subcommands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../CreatingCommands/standard/" class="md-nav__link">
+      Standard Commands
     </a>
   </li>
 
         
       </ul>
     </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../../FollowUpMessages/" class="md-nav__link">
+      Follow Up Messages
+    </a>
   </li>
 
     
@@ -697,7 +752,7 @@
 <h2 class="hidden-toc" href="#dispike.main.Dispike" id="dispike.main.Dispike" style="visibility: hidden; position: absolute;">
         </h2>
 <div class="doc doc-contents first">
-<p>Dispike - python library for interacting with discord slash commands via an independently hosted server. </p>
+<p>Dispike - python library for interacting with discord slash commands via an independently hosted server.</p>
 <p><em>Powered by FastAPI</em></p>
 <div class="doc doc-children">
 <div class="doc doc-object doc-attribute">
@@ -713,7 +768,7 @@ interaction: <span class="n">EventHandler</span>        </code>
 
       </h2>
 <div class="doc doc-contents ">
-<p>Returns an already initialized <code>EventHandler</code> object. 
+<p>Returns an already initialized <code>EventHandler</code> object.
 You will use this method to handle incoming commands.</p>
 <p><strong>Returns:</strong></p>
 <table>
@@ -773,7 +828,7 @@ the FastAPI docs.</p>
 <h2 class="doc doc-heading" id="dispike.main.Dispike.register">
 
         <code class="highlight">
-register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7f61562ea3b0</span><span class="o">&gt;</span>        </code>
+register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7f9f83b20a70</span><span class="o">&gt;</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -793,7 +848,7 @@ register: <span class="o">&lt;</span><span class="n">function</span> <span class
 </thead>
 <tbody>
 <tr>
-<td><code>&lt;function RegisterCommands.register at 0x7f61562ea3b0&gt;</code></td>
+<td><code>&lt;function RegisterCommands.register at 0x7f9f83b20a70&gt;</code></td>
 <td>
 <p>RegisterCommands.register: internal RegisterCommands Object</p>
 </td>
@@ -1288,7 +1343,7 @@ get_commands<span class="p">(</span><span class="bp">self</span><span class="p">
 <span class="sd">        DiscordAPIError: any Discord returned errors.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">guild_only</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">guild_id_passed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">guild_id_passed</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">guild_id_passed</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"You cannot have guild_only == True and NOT pass any guild id."</span>
             <span class="p">)</span>
@@ -1324,7 +1379,7 @@ reset_registration<span class="p">(</span><span class="bp">self</span><span clas
 
       </h2>
 <div class="doc doc-contents ">
-<p>This method resets the built-in RgeisterCommands. 
+<p>This method resets the built-in RgeisterCommands.
 You should not have to call this method directly.</p>
 <p>Call it only if you change the client id or bot token.</p>
 <p><strong>Parameters:</strong></p>
@@ -1377,7 +1432,7 @@ You should not have to call this method directly.</p>
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">reset_registration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_bot_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_application_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">"""This method resets the built-in RgeisterCommands. </span>
+    <span class="sd">"""This method resets the built-in RgeisterCommands.</span>
 <span class="sd">    You should not have to call this method directly.</span>
 
 <span class="sd">    Call it only if you change the client id or bot token.</span>
@@ -1402,6 +1457,8 @@ You should not have to call this method directly.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_registrator</span> <span class="o">=</span> <span class="n">RegisterCommands</span><span class="p">(</span>
             <span class="n">application_id</span><span class="o">=</span><span class="n">_application_id</span><span class="p">,</span> <span class="n">bot_token</span><span class="o">=</span><span class="n">_bot_token</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span> <span class="o">=</span> <span class="n">_bot_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span> <span class="o">=</span> <span class="n">_application_id</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -1445,11 +1502,14 @@ run<span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">):</span>
+
     <span class="sd">"""Runs the bot with the already-installed Uvicorn webserver.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        port (int, optional): Port to run the bot over. Defaults to 5000.</span>
 <span class="sd">    """</span>
+
+    <span class="n">uvicorn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_return_uvicorn_run_function</span><span class="p">()</span>
     <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">referenced_application</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
 </code></pre>
 </div>

@@ -446,45 +446,9 @@
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Info
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-    
     <a href="./" class="md-nav__link md-nav__link--active">
       Info
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#immediate-responses" class="md-nav__link">
-    Immediate Responses
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#responses-for-later" class="md-nav__link">
-    Responses For Later
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -502,6 +466,35 @@
   </li>
 
         
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+    
+    <label class="md-nav__link" for="nav-6">
+      Creating Commands
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Creating Commands" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Creating Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
           
           
           
@@ -509,14 +502,40 @@
 
 
   <li class="md-nav__item">
-    <a href="notready.md" class="md-nav__link">
-      Not Ready Responses
+    <a href="../CreatingCommands/subcommands/" class="md-nav__link">
+      Subcommands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../CreatingCommands/standard/" class="md-nav__link">
+      Standard Commands
     </a>
   </li>
 
         
       </ul>
     </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../FollowUpMessages/" class="md-nav__link">
+      Follow Up Messages
+    </a>
   </li>
 
     
@@ -538,28 +557,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#immediate-responses" class="md-nav__link">
-    Immediate Responses
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#responses-for-later" class="md-nav__link">
-    Responses For Later
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -573,14 +570,7 @@
                 
                 <h1 id="responses">Responses</h1>
 <p>Responses are what are returned to Discord. Either immediately or later.</p>
-<h2 id="immediate-responses">Immediate Responses</h2>
-<p>These responses are immediately returned after a request is received. </p>
 <p>To create a proper response, you will need the DiscordResponse object. </p>
-<h2 id="responses-for-later">Responses For Later</h2>
-<p>If your request requires a request to be sent later (such as a long computational value.) You can simply return a NotReadyResponse. </p>
-<p>Provided with the bot instance, and a <code>IncomingDiscordInteraction</code> (which is the context in your handler.), it will provide methods for you to easily send your response when you are ready.</p>
-<details class="warning" open="open"><summary>Warning</summary><p>The token to send the response expires after 15 minutes.</p>
-</details>
 <p>​   </p>
                 
               
