@@ -33,6 +33,7 @@ class DiscordResponse(object):
         tts: bool = False,
         embeds: typing.List[Embed] = [],
         show_user_input: bool = False,
+        follow_up_message=False,
     ):
         """Initialize a DiscordResponse, you can either pass data into here, or
         simply create a DiscordResponse() and edit via properties.
@@ -62,6 +63,7 @@ class DiscordResponse(object):
             self._type_response = 3
         else:
             self._type_response = 4
+        self._is_followup = follow_up_message
 
     @property
     def embeds(self) -> typing.List[dict]:
@@ -123,10 +125,26 @@ class DiscordResponse(object):
         if self.content == "":
             self.content = None
 
+        if self._is_followup:
+            _req = {
+                "content": self.content,
+            }
+
+            if self.embeds != []:
+                _req["embeds"] = self.embeds
+
+            if self.tts == True:
+                _req["tts"] = True
+
+            return _req
+
         return {
             "type": self._type_response,
             "data": {"tts": self.tts, "content": self.content, "embeds": self.embeds},
         }
+
+    def _switch_to_followup_message(self):
+        self._is_followup = True
 
     def __call__(self) -> dict:
         return self.response
