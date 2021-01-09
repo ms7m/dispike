@@ -99,7 +99,7 @@ def test_initalization_of_object(
 def test_mock_create_followup_message_sync(
     followup_message_object: FollowUpMessages, create_example_response
 ):
-    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken/").mock(
+    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
         return_value=Response(200, json={"id": "exampleIncomingToken"})
     )
 
@@ -114,7 +114,7 @@ def test_mock_create_followup_message_sync(
             message=create_example_response
         )
 
-    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken/").mock(
+    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
         return_value=Response(404, json={"id": "exampleIncomingToken"})
     )
 
@@ -129,7 +129,7 @@ def test_mock_create_followup_message_sync(
 async def test_mock_create_followup_message_async(
     followup_message_object: FollowUpMessages, create_example_response
 ):
-    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken/").mock(
+    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
         return_value=Response(200, json={"id": "exampleIncomingToken"})
     )
 
@@ -151,7 +151,7 @@ def test_mock_create_followup_message_fail(
     followup_message_object: FollowUpMessages, create_example_response
 ):
 
-    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken/").mock(
+    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
         return_value=Response(404, json={"id": "exampleIncomingToken"})
     )
 
@@ -167,7 +167,7 @@ async def test_mock_create_followup_message_async_fail(
     followup_message_object: FollowUpMessages, create_example_response
 ):
 
-    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken/").mock(
+    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
         return_value=Response(404, json={"id": "exampleIncomingToken"})
     )
 
