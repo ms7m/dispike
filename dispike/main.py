@@ -7,6 +7,7 @@ from .server import interaction as router_interaction
 from .register import RegisterCommands
 from .register.models import DiscordCommand
 from .models import IncomingApplicationCommand
+import aiojobs
 
 from .errors.network import DiscordAPIError
 
@@ -73,6 +74,11 @@ class Dispike(object):
             return True
         except Exception:
             return False
+
+    @staticmethod
+    async def background(function: typing.Callable, *args, **kwargs):
+        _schedule = await aiojobs.create_scheduler()
+        await _schedule.spawn(function(*args, **kwargs))
 
     @property
     def interaction(self) -> "EventHandler":
