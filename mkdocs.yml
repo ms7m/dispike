@@ -20,7 +20,10 @@ nav:
   - "Responses":
      - "Info": "responses/index.md"
      - "Ready Responses": "responses/readyresponse.md"
-     - "Not Ready Responses": "responses/notready.md"
+  - "Creating Commands":
+     - "Subcommands": "CreatingCommands/subcommands.md"
+     - "Standard Commands": "CreatingCommands/standard.md"
+  - Follow Up Messages: "FollowUpMessages.md"
 plugins:
 - search
 - mkdocstrings
