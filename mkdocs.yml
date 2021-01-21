@@ -1,6 +1,11 @@
 site_name: Dispike
 theme:
   name: "material"
+  custom_dir: "docs/overrides"
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    primary: black
 nav:
   - Home: "index.md"
   - "API Reference":
@@ -14,23 +19,26 @@ nav:
       - "Writing The Handler": "tutorial/Writing the handler.md"
       - "Running The Bot": "tutorial/Running the bot.md"
   - "Models":
-    - "Info": "Models/index.md"
-    - "Incoming": "Models/Incoming.md"
-    - "Outgoing": "Models/Outgoing.md"
+      - "Info": "Models/index.md"
+      - "Incoming": "Models/Incoming.md"
+      - "Outgoing": "Models/Outgoing.md"
   - "Responses":
-     - "Info": "responses/index.md"
-     - "Ready Responses": "responses/readyresponse.md"
+      - "Info": "responses/index.md"
+      - "Ready Responses": "responses/readyresponse.md"
   - "Creating Commands":
-     - "Subcommands": "CreatingCommands/subcommands.md"
-     - "Standard Commands": "CreatingCommands/standard.md"
+      - "Subcommands": "CreatingCommands/subcommands.md"
+      - "Standard Commands": "CreatingCommands/standard.md"
   - Follow Up Messages: "FollowUpMessages.md"
 plugins:
-- search
-- mkdocstrings
+  - search
+  - mkdocstrings
 markdown_extensions:
-    - pymdownx.details:
-    - admonition:
-    - pymdownx.highlight:
-    - pymdownx.superfences:
-    - pymdownx.snippets:
+  - pymdownx.details:
+  - admonition:
+  - pymdownx.highlight:
+  - pymdownx.superfences:
+  - pymdownx.snippets:
 
+repo_url: https://github.com/ms7m/dispike
+repo_name: ms7m/dispike
+copyright: Copyright &copy; 2020 - 2021 Mustafa Mohamed

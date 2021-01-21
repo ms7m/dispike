@@ -14,10 +14,33 @@ Powered by FastAPI.
 
 ***
 
+
+## Install
+
+```
+pip install dispike
+```
+
 ## Learn more
 - Read documentation [here](https://dispike.ms7m.me)
 - See example bot [here](https://github.com/ms7m/dispike-example-bot)
 
+## Example Code
+
+```python
+
+from dispike import Dispike
+bot = Dispike(..)
+
+@bot.interaction.on("stock"):
+async def handle_stock_request(stockticker: str, ctx: IncomingDiscordInteraction) -> DiscordResponse:
+  get_price = function(stockticker...)
+  
+  embed=discord.Embed()
+  embed.add_field(name="Stock Price for {stockticker}.", value="Current price is {get_price}", inline=True)
+  embed.set_footer(text="Request received by {ctx.member.user.username}")
+  return DiscordResponse(embed=embed)
+```
 
 
 
@@ -28,11 +51,7 @@ Powered by FastAPI.
 - ~~Not on PyPi~~
 - Does not speak over the discord gateway. You'll need a server to handle requests and responses.
 - Python 3.6+
-- Does not support the following endpoints
-  - [Create Followup Message](https://discord.com/developers/docs/interactions/slash-commands#create-followup-message)
-  - [Edit Followup Message](https://discord.com/developers/docs/interactions/slash-commands#edit-followup-message)
-  - [Delete Followup Message](https://discord.com/developers/docs/interactions/slash-commands#delete-followup-message)
-- Handling followup messages.
+- ~~Handling followup messages.~~
 
 
 
