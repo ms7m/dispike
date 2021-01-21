@@ -160,8 +160,9 @@ class Dispike(object):
 
     def edit_command(
         self,
-        command_id: int,
-        new_command: DiscordCommand,
+        new_command: typing.Union[typing.List[DiscordCommand], DiscordCommand],
+        command_id: int = None,
+        bulk=False,
         guild_only=False,
         guild_id_passed=None,
     ) -> DiscordCommand:
@@ -180,7 +181,8 @@ class Dispike(object):
             TypeError: Invalid types passed.
             DiscordAPIError: any Discord returned errors.
         """
-        if not isinstance(new_command, (DiscordCommand, dict)):
+
+        if not isinstance(new_command, (DiscordCommand, dict, list)):
             raise TypeError("New command must be a DiscordCommand or a valid dict.")
 
         if guild_only == True:
@@ -188,18 +190,44 @@ class Dispike(object):
                 raise TypeError(
                     "You cannot have guild_only == True and NOT pass any guild id."
                 )
-            _url = f"/guilds/{guild_id_passed}/commands/{command_id}"
+            if bulk == True:
+                _url = f"/guilds/{guild_id_passed}/commands"
+            else:
+                _url = f"/guilds/{guild_id_passed}/commands/{command_id}"
         else:
-            _url = f"/commands/{command_id}"
+            if bulk == True and command_id is not None:
+                raise ValueError(f"Command ID must be located INSIDE {DiscordCommand}.")
+            elif bulk == False:
+                if command_id is None:
+                    raise TypeError("Command ID must be provided.")
+                else:
+                    _url = f"/commands/{command_id}"
+            else:
+                raise Exception(
+                    f"Unable to determine method to be used? (bulk == {bulk})"
+                )
 
-        _new_command = new_command.dict()
+        if bulk == True and isinstance(new_command, list):
+            _new_command = [command.dict() for command in new_command]
+            _selected_request_method = "PUT"
+        else:
+            _new_command = new_command.dict()
+            _selected_request_method = "PATCH"
         try:
-            _send_request = self._registrator._client.patch(
-                _url, headers=self._registrator.request_headers, json=_new_command
+            _send_request = self._registrator._client.request(
+                method=_selected_request_method,
+                url=_url,
+                headers=self._registrator.request_headers,
+                json=_new_command,
             )
             if _send_request.status_code != 200:
                 raise DiscordAPIError(_send_request.status_code, _send_request.text)
-            return DiscordCommand(**_send_request.json())
+
+            if bulk == True:
+                # Maybe switch to a dict with the key being the ID?
+                return [DiscordCommand(**x) for x in _send_request.json()]
+            else:
+                return DiscordCommand(**_send_request.json())
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
             return False
