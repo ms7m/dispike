@@ -188,25 +188,14 @@ class Dispike(object):
         if guild_only == True:
             if guild_id_passed == False:
                 raise TypeError(
-                    "You cannot have guild_only == True and NOT pass any guild id."
+                    "You cannot have guild_only set to True and NOT pass any guild id."
                 )
             if bulk == True:
                 _url = f"/guilds/{guild_id_passed}/commands"
             else:
                 _url = f"/guilds/{guild_id_passed}/commands/{command_id}"
         else:
-            if bulk == True and command_id is not None:
-                raise ValueError(f"Command ID must be located INSIDE {DiscordCommand}.")
-            elif bulk == False:
-                if command_id is None:
-                    raise TypeError("Command ID must be provided.")
-                else:
-                    _url = f"/commands/{command_id}"
-            else:
-                raise Exception(
-                    f"Unable to determine method to be used? (bulk == {bulk})"
-                )
-
+            _url = "/commands"
         if bulk == True and isinstance(new_command, list):
             _new_command = [command.dict() for command in new_command]
             _selected_request_method = "PUT"
@@ -224,7 +213,6 @@ class Dispike(object):
                 raise DiscordAPIError(_send_request.status_code, _send_request.text)
 
             if bulk == True:
-                # Maybe switch to a dict with the key being the ID?
                 return [DiscordCommand(**x) for x in _send_request.json()]
             else:
                 return DiscordCommand(**_send_request.json())
@@ -270,10 +258,10 @@ class Dispike(object):
             return True
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
-            return False
+            raise
         except Exception:
             logger.exception("Unknown exception returned")
-            return False
+            raise
 
     @staticmethod
     def _return_uvicorn_run_function():
