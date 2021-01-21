@@ -1,2 +1,2 @@
 [run]
-omit = dispike/helper/*, dispike/__init__.py
+omit = dispike/helper/*

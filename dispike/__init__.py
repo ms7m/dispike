@@ -1,17 +1,3 @@
-try:
-    from importlib_metadata import version
-except Exception:
-    try:
-        from importlib.metadata import version
-    except Exception:
-
-        def version(*args, **kwargs):
-            return "unknown"
-
-
-try:
-    __version__ = version(__package__)
-except Exception:
-    __version__ = "unknown"
+__version__ = "0.8.2-alpha.0"
 
 from .main import Dispike
