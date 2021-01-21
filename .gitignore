@@ -9,3 +9,8 @@ test.py
 coverage.xml
 .DS_Store
 htmlcov/
+data.json
+
+data2.json
+
+keys.json
