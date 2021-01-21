@@ -1,3 +1,9 @@
+from dispike.register.models.options import (
+    CommandChoice,
+    CommandOption,
+    CommandTypes,
+    DiscordCommand,
+)
 from httpx import Response
 from dispike.models.incoming import IncomingApplicationCommand
 from dispike import Dispike
@@ -226,6 +232,48 @@ def test_get_commands_guild_only_call_invalid_incoming(dispike_object: Dispike):
         _get_commands = dispike_object.get_commands(
             guild_only=True, guild_id_passed="EXAMPLE_GUILD"
         )
+
+
+@pytest.fixture
+def example_edit_command():
+    return DiscordCommand(
+        name="exampleCommand",
+        description="exampleCommandDescription",
+        options=[
+            CommandOption(
+                name="exampleOption",
+                type=CommandTypes.USER,
+                description="exampleOptionDescription",
+                required=True,
+                choices=[CommandChoice(name="test", value="value")],
+            )
+        ],
+    )
+
+
+@respx.mock
+def test_single_edit_command_guild_only(
+    dispike_object: Dispike, example_edit_command: DiscordCommand
+):
+    respx.patch(
+        "https://discord.com/api/v8/applications/APPID/guilds/EXAMPLE_GUILD/commands/1234"
+    ).mock(
+        return_value=Response(
+            200,
+            json=example_edit_command.dict(),
+        )
+    )
+    _edit_command = dispike_object.edit_command(
+        new_command=example_edit_command,
+        command_id=1234,
+        guild_only=True,
+        guild_id_passed="EXAMPLE_GUILD",
+    )
+    _edit_command: DiscordCommand
+    assert isinstance(_edit_command, DiscordCommand) == True
+    assert _edit_command.id == example_edit_command.id
+    assert _edit_command.name == example_edit_command.name
+
 
 def test_get_commands_invalid_guild_id_passed(dispike_object: Dispike):
     with pytest.raises(TypeError):
