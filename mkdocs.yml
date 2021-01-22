@@ -28,7 +28,11 @@ nav:
   - "Creating Commands":
       - "Subcommands": "CreatingCommands/subcommands.md"
       - "Standard Commands": "CreatingCommands/standard.md"
+  - Editing Commands: "EditingCommands/index.md"
+  - Deleting Commands: "DeletingCommands/index.md"
+  - Getting Commands: "GettingCommands/index.md"
   - Follow Up Messages: "FollowUpMessages.md"
+
 plugins:
   - search
   - mkdocstrings
@@ -38,6 +42,9 @@ markdown_extensions:
   - pymdownx.highlight:
   - pymdownx.superfences:
   - pymdownx.snippets:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 repo_url: https://github.com/ms7m/dispike
 repo_name: ms7m/dispike

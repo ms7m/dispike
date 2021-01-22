@@ -170,9 +170,10 @@ class Dispike(object):
 
         Args:
             command_id (int): Command ID
-            new_command (DiscordCommand): A valid DiscordCommand object (or a dict with proper syntax, if a dict is passed no verification will be made and discord will return the syntax error)
+            new_command ([DiscordCommand, List[DiscordCommand]]): A valid DiscordCommand object (or a dict with proper syntax, if a dict is passed no verification will be made and discord will return the syntax error)
             guild_only (bool, optional): whether to target a guild. Defaults to False.
-            guild_id_passed ([type], optional): guild id if guild_only is set to True. Defaults to None.
+            guild_id_passed (bool, optional): guild id if guild_only is set to True. Defaults to None.
+            bulk (bool, optional): Whether to specifiy if this action will be a bulk action.
 
         Returns:
             DiscordCommand: Returns the DiscordCommand object created. (Will return a DiscordCommand irregardless of new_command)
@@ -234,7 +235,7 @@ class Dispike(object):
             guild_id_passed ([type], optional): Guild ID if guild_only is set to True. Defaults to None.
 
         Returns:
-            bool: True if status code is 201, otherwise will LOG exception and return False.
+            bool: True if status code is 201, otherwise an error will be raised.
 
         Raises:
             TypeError: Invalid types passed.
