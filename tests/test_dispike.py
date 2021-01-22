@@ -4,6 +4,10 @@ from dispike import Dispike
 import pytest
 
 
+def test_import():
+    import dispike
+
+
 def test_initalization():
     from nacl.encoding import HexEncoder
     from nacl.signing import SigningKey
@@ -70,6 +74,7 @@ def test_valid_shared_client(dispike_object: Dispike):
         f"https://discord.com/api/v8/applications/{dispike_object._application_id}/"
     )
 
+
 def test_reset_registeration(dispike_object: Dispike):
     from nacl.encoding import HexEncoder
     from nacl.signing import SigningKey
@@ -81,11 +86,20 @@ def test_reset_registeration(dispike_object: Dispike):
         client_public_key=verification_key.decode(),
         bot_token="BOTTOKEN",
         application_id="APPID",
-    )    
+    )
 
-    assert _current_dispike_object.reset_registration(new_bot_token="NewBotToken", new_application_id="newApplicationId") == True
-    assert _current_dispike_object._registrator.request_headers != dispike_object._registrator.request_headers
+    assert (
+        _current_dispike_object.reset_registration(
+            new_bot_token="NewBotToken", new_application_id="newApplicationId"
+        )
+        == True
+    )
+    assert (
+        _current_dispike_object._registrator.request_headers
+        != dispike_object._registrator.request_headers
+    )
     assert _current_dispike_object._application_id != dispike_object._application_id
+
 
 def test_invalid_reset_registration(dispike_object: Dispike):
     from nacl.encoding import HexEncoder
@@ -98,9 +112,9 @@ def test_invalid_reset_registration(dispike_object: Dispike):
         client_public_key=verification_key.decode(),
         bot_token="BOTTOKEN",
         application_id="APPID",
-    )    
+    )
 
     with pytest.raises(Exception):
-        _current_dispike_object.reset_registration(new_bot_token=tuple(0, 0, 0), new_application_id={1: None})
-
-
+        _current_dispike_object.reset_registration(
+            new_bot_token=tuple(0, 0, 0), new_application_id={1: None}
+        )

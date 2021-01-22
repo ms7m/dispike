@@ -98,6 +98,7 @@ class DiscordCommand(BaseModel):
 
     """Represents a discord command."""
 
+    id: typing.Optional[int]
     name: str
     description: str
     options: typing.List[typing.Union[SubcommandOption, CommandOption]]

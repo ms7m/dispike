@@ -160,8 +160,9 @@ class Dispike(object):
 
     def edit_command(
         self,
-        command_id: int,
-        new_command: DiscordCommand,
+        new_command: typing.Union[typing.List[DiscordCommand], DiscordCommand],
+        command_id: int = None,
+        bulk=False,
         guild_only=False,
         guild_id_passed=None,
     ) -> DiscordCommand:
@@ -169,9 +170,10 @@ class Dispike(object):
 
         Args:
             command_id (int): Command ID
-            new_command (DiscordCommand): A valid DiscordCommand object (or a dict with proper syntax, if a dict is passed no verification will be made and discord will return the syntax error)
+            new_command ([DiscordCommand, List[DiscordCommand]]): A valid DiscordCommand object (or a dict with proper syntax, if a dict is passed no verification will be made and discord will return the syntax error)
             guild_only (bool, optional): whether to target a guild. Defaults to False.
-            guild_id_passed ([type], optional): guild id if guild_only is set to True. Defaults to None.
+            guild_id_passed (bool, optional): guild id if guild_only is set to True. Defaults to None.
+            bulk (bool, optional): Whether to specifiy if this action will be a bulk action.
 
         Returns:
             DiscordCommand: Returns the DiscordCommand object created. (Will return a DiscordCommand irregardless of new_command)
@@ -180,26 +182,41 @@ class Dispike(object):
             TypeError: Invalid types passed.
             DiscordAPIError: any Discord returned errors.
         """
-        if not isinstance(new_command, (DiscordCommand, dict)):
+
+        if not isinstance(new_command, (DiscordCommand, dict, list)):
             raise TypeError("New command must be a DiscordCommand or a valid dict.")
 
         if guild_only == True:
             if guild_id_passed == False:
                 raise TypeError(
-                    "You cannot have guild_only == True and NOT pass any guild id."
+                    "You cannot have guild_only set to True and NOT pass any guild id."
                 )
-            _url = f"/guilds/{guild_id_passed}/commands/{command_id}"
+            if bulk == True:
+                _url = f"/guilds/{guild_id_passed}/commands"
+            else:
+                _url = f"/guilds/{guild_id_passed}/commands/{command_id}"
         else:
-            _url = f"/commands/{command_id}"
-
-        _new_command = new_command.dict()
+            _url = "/commands"
+        if bulk == True and isinstance(new_command, list):
+            _new_command = [command.dict() for command in new_command]
+            _selected_request_method = "PUT"
+        else:
+            _new_command = new_command.dict()
+            _selected_request_method = "PATCH"
         try:
-            _send_request = self._registrator._client.patch(
-                _url, headers=self._registrator.request_headers, json=_new_command
+            _send_request = self._registrator._client.request(
+                method=_selected_request_method,
+                url=_url,
+                headers=self._registrator.request_headers,
+                json=_new_command,
             )
             if _send_request.status_code != 200:
                 raise DiscordAPIError(_send_request.status_code, _send_request.text)
-            return DiscordCommand(**_send_request.json())
+
+            if bulk == True:
+                return [DiscordCommand(**x) for x in _send_request.json()]
+            else:
+                return DiscordCommand(**_send_request.json())
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
             return False
@@ -218,7 +235,7 @@ class Dispike(object):
             guild_id_passed ([type], optional): Guild ID if guild_only is set to True. Defaults to None.
 
         Returns:
-            bool: True if status code is 201, otherwise will LOG exception and return False.
+            bool: True if status code is 201, otherwise an error will be raised.
 
         Raises:
             TypeError: Invalid types passed.
@@ -242,10 +259,10 @@ class Dispike(object):
             return True
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
-            return False
+            raise
         except Exception:
             logger.exception("Unknown exception returned")
-            return False
+            raise
 
     @staticmethod
     def _return_uvicorn_run_function():

@@ -2,7 +2,10 @@
 
 Follow up messages are a feature that allow for responses to sent after an initial response has been already been sent.
 
-???+ warning
+???+ info
 	This module offers methods both in async and sync.
+
+
+Methods regarding editing and sending will require a ``DiscordResponse``. 
 
 :::dispike.followup.main.FollowUpMessages
