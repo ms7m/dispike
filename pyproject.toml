@@ -1,11 +1,13 @@
 [tool.poetry]
 name = "dispike"
-version = "0.8.2-alpha.0"
+version = "0.8.3-alpha.0"
 description = "library for interacting with discord slash commands via an independently hosted server. Powered by FastAPI"
 authors = ["Mustafa Mohamed <ms7mohamed@gmail.com>"]
 repository = "https://github.com/ms7m/dispike"
-readme = "README.md"
+readme = "README.rst"
 license = "MIT"
+documentation = ""
+
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -16,8 +18,9 @@ typing-extensions = "^3.7.4"
 PyNaCl = "^1.4.0"
 httpx = "^0.16.1"
 uvicorn = "^0.13.2"
-aiojobs = "^0.3.0"
 async-timeout = "^3.0.1"
+
+
 
 [tool.poetry.dev-dependencies]
 pytest = "6.*"
