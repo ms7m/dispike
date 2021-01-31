@@ -24,7 +24,7 @@ pip install dispike
 
 ## Learn more
 - Read documentation [here](https://dispike.ms7m.me)
-- See an example bot [here](https://github.com/ms7m/dispike-example-bot)
+- See an example bot [here](https://github.com/ms7m/dispike-example)
 
 ## Example Code
 
