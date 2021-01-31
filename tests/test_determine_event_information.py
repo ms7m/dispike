@@ -43,46 +43,57 @@ def normal_discord_interaction():
 
 @pytest.fixture
 def normal_subcommand_discord_interaction():
-    _example_response = {
-        "channel_id": "12312312312312",
+    data = {
+        "channel_id": "234234234324",
         "data": {
-            "id": "12312312312123",
-            "name": "news",
+            "id": "12312344231",
+            "name": "forex",
             "options": [
-                {"name": "top", "options": [{"name": "country", "value": "fr"}]}
+                {
+                    "name": "latest",
+                    "options": [
+                        {
+                            "name": "convert",
+                            "options": [
+                                {"name": "symbol_1", "value": "USD"},
+                                {"name": "symbol_2", "value": "GBP"},
+                            ],
+                        }
+                    ],
+                }
             ],
         },
-        "guild_id": "123123123123",
-        "id": "12312312123",
+        "guild_id": "12312123",
+        "id": "1234123",
         "member": {
             "deaf": False,
             "is_pending": False,
-            "joined_at": "2021-01-07T15:54:14+0000",
+            "joined_at": "2019-05-12T18:36:16.878000+00:00",
             "mute": False,
             "nick": None,
             "pending": False,
             "permissions": "2147483647",
             "premium_since": None,
             "roles": [
-                "1111",
-                "222",
-                "333",
-                "444",
-                "555",
+                "123123123123123",
+                "12312123123123",
+                "123123123123123",
+                "123123123123123",
+                "123123123123123",
             ],
             "user": {
-                "avatar": "asdfasdfasdf",
+                "avatar": "123123asdfsadfwwqeqwe23123",
                 "discriminator": "3333",
-                "id": "12312323123123",
-                "public_flags": 768,
-                "username": "cooluser",
+                "id": "213123123123",
+                "public_flags": 121,
+                "username": "aaa",
             },
         },
-        "token": "exampleToken",
+        "token": "asdfasdf3324",
         "type": 2,
         "version": 1,
     }
-    return IncomingDiscordInteraction(**_example_response)
+    return IncomingDiscordInteraction(**data)
 
 
 def test_event_information_parse_normal_command(normal_discord_interaction):
@@ -95,8 +106,8 @@ def test_event_information_parse_subcommand(normal_subcommand_discord_interactio
     event_name, event_args = determine_event_information(
         normal_subcommand_discord_interaction
     )
-    event_name == "news.top",
-    event_args == {"country", "fr"}
+    assert event_name == "forex.latest.convert"
+    assert event_args == {"symbol_1": "USD", "symbol_2": "GBP"}
 
 
 def test_invalid_item_raise_error():
