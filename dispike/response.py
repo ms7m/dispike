@@ -1,9 +1,7 @@
-from pydantic import BaseModel
 from .helper.embed import Embed
 import typing
 from .errors.network import DiscordAPIError
-import httpx
-import pickle
+from loguru import logger
 
 try:
     from typing import Literal
@@ -34,6 +32,7 @@ class DiscordResponse(object):
         embeds: typing.List[Embed] = [],
         show_user_input: bool = False,
         follow_up_message=False,
+        empherical=False,
     ):
         """Initialize a DiscordResponse, you can either pass data into here, or
         simply create a DiscordResponse() and edit via properties.
@@ -43,6 +42,7 @@ class DiscordResponse(object):
             tts (bool, optional): bool returning if the message should be spoken via tts
             embeds (typing.List[Embed], optional): a List representing .to_dict of an Embed object
             show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.
+            empherical (bool, optional): Whether to send message as an empherical message.
         """
         if content != None:
             if isinstance(content, str) == False:
@@ -63,7 +63,9 @@ class DiscordResponse(object):
             self._type_response = 3
         else:
             self._type_response = 4
+
         self._is_followup = follow_up_message
+        self._is_empherical = empherical
 
     @property
     def embeds(self) -> typing.List[dict]:
@@ -122,8 +124,8 @@ class DiscordResponse(object):
         Returns:
             dict: a valid discord response.
         """
-        if self.content == "":
-            self.content = None
+
+        self.content = "" if self.content == None else self.content
 
         if self._is_followup:
             _req = {
@@ -136,12 +138,19 @@ class DiscordResponse(object):
             if self.tts == True:
                 _req["tts"] = True
 
+            if self._is_empherical == True:
+                logger.info("setting empherical")
+                _req["flags"] == 1 << 6
+
             return _req
 
-        return {
+        _req = {
             "type": self._type_response,
             "data": {"tts": self.tts, "content": self.content, "embeds": self.embeds},
         }
+        if self._is_empherical == True:
+            _req["data"]["flags"] = 1 << 6
+        return _req
 
     def _switch_to_followup_message(self):
         self._is_followup = True

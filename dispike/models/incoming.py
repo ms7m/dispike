@@ -21,6 +21,14 @@ class IncomingDiscordOption(BaseModel):
     value: str
 
 
+class SubcommandIncomingDiscordOptionListChild(BaseModel):
+    class Config:
+        arbitary_types_allowed = True
+
+    name: str
+    options: typing.List[IncomingDiscordOption]
+
+
 class SubcommandIncomingDiscordOptionList(BaseModel):
     """An incoming discord option list, this is not intended for you to edit, and will not
     be accepted as an argument in any function nor accepted in DiscordCommand
@@ -30,7 +38,10 @@ class SubcommandIncomingDiscordOptionList(BaseModel):
         arbitary_types_allowed = True
 
     name: str
-    options: typing.List[IncomingDiscordOption]
+    options: typing.Union[
+        typing.List[IncomingDiscordOption],
+        typing.List[SubcommandIncomingDiscordOptionListChild],
+    ]
 
 
 class IncomingDiscordOptionList(BaseModel):
@@ -44,10 +55,12 @@ class IncomingDiscordOptionList(BaseModel):
 
     id: str
     name: str
-    options: typing.Union[
-        typing.List[IncomingDiscordOption],
-        typing.List[SubcommandIncomingDiscordOptionList],
-    ]
+    options: typing.Optional[
+        typing.Union[
+            typing.List[IncomingDiscordOption],
+            typing.List[SubcommandIncomingDiscordOptionList],
+        ]
+    ] = None
 
 
 class IncomingDiscordInteraction(BaseModel):

@@ -38,6 +38,31 @@ def test_string_response():
     assert _created_content.response["data"]["tts"] == False
 
 
+def test_string_response_with_empherical():
+    _created_content = DiscordResponse(content="test", empherical=True)
+    assert _created_content.content == "test", _created_content.content
+    assert (
+        _created_content.response["data"]["content"] == "test"
+    ), _created_content.content
+
+    _created_content = DiscordResponse(content="test", tts=True)
+    assert _created_content.content == "test"
+    assert _created_content.tts == True
+
+    _created_content.content = "test2"
+    assert _created_content.content == "test2"
+    assert _created_content.response["data"]["content"] == "test2"
+
+    _created_content.tts = False
+    assert _created_content.tts == False
+    assert _created_content.response["data"]["tts"] == False
+
+    _created_content = DiscordResponse(content="test", empherical=True)
+    assert (
+        _created_content.response["data"]["flags"] == 1 << 6
+    ), _created_content.response
+
+
 def test_response_with_embed():
     _created_content = DiscordResponse(content="test")
     _created_embed = Embed(title="Test")

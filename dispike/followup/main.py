@@ -16,17 +16,15 @@ class FollowUpMessages(object):
         self,
         bot: "Dispike",
         interaction: "IncomingDiscordInteraction",
-        storage_adapter=None,
     ):
         """A module to handle Follow Up Messages.
-        
+
         Args:
             bot (Dispike): An already initalized dispike object.
             interaction (IncomingDiscordInteraction): An incoming Discord Interaction
         """
         self._application_id = bot._application_id
         self._interaction_token = interaction.token
-        self._storage_adapter = storage_adapter
 
         self.base_url = f"https://discord.com/api/v8/webhooks/{self._application_id}/{self._interaction_token}"
         self._async_client = httpx.AsyncClient(base_url=self.base_url)
@@ -36,13 +34,13 @@ class FollowUpMessages(object):
 
     def create_follow_up_message(self, message: DiscordResponse):
         """Create an initial follow up message. (Sync)
-        
+
         Args:
             message (DiscordResponse): An already created discord response
-        
+
         Returns:
             True: If request is successfully made. An exception will rise otherwise
-        
+
         Raises:
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
@@ -73,17 +71,17 @@ class FollowUpMessages(object):
 
     async def async_create_follow_up_message(self, message: DiscordResponse):
         """Create an initial follow up message. (Async)
-        
+
         Args:
             message (DiscordResponse): An already created discord response
-        
+
         Returns:
             True: If request is successfully made. An exception will rise otherwise
-        
+
         Raises:
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
-        """        
+        """
         if isinstance(message, DiscordResponse) == False:
             raise TypeError("Message must be a DiscordResponse")
 
@@ -112,13 +110,13 @@ class FollowUpMessages(object):
 
     def edit_follow_up_message(self, updated_message: DiscordResponse):
         """Edit an already sent initial follow-up message. (Sync)
-        
+
         Args:
             updated_message (DiscordResponse): An already created discord response
-        
+
         Returns:
             True: If request is successfully made. An exception will rise otherwise
-        
+
         Raises:
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
@@ -146,13 +144,13 @@ class FollowUpMessages(object):
 
     async def async_edit_follow_up_message(self, updated_message: DiscordResponse):
         """Edit an already sent initial follow-up message. (Async)
-        
+
         Args:
             updated_message (DiscordResponse): An already created discord response
-        
+
         Returns:
             True: If request is successfully made. An exception will rise otherwise
-        
+
         Raises:
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
@@ -180,10 +178,10 @@ class FollowUpMessages(object):
 
     def delete_follow_up_message(self):
         """Deletes an already sent initial follow-up message. (sync)
-        
+
         Returns:
             True: If request is successfully made. An exception will rise otherwise
-        
+
         Raises:
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
@@ -208,10 +206,10 @@ class FollowUpMessages(object):
 
     async def async_delete_follow_up_message(self):
         """Deletes an already sent initial follow-up message. (Async)
-        
+
         Returns:
             True: If request is successfully made. An exception will rise otherwise
-        
+
         Raises:
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.

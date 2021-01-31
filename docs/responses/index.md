@@ -1,6 +1,6 @@
 # Responses
 
-Responses are what are returned to Discord. Either immediately or later.
+Responses are what are returned to Discord. 
 
 To create a proper response, you will need the DiscordResponse object. 
 

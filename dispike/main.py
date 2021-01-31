@@ -1,13 +1,11 @@
 from fastapi import FastAPI
 import typing
 from loguru import logger
-import uvicorn
 from .server import router, DiscordVerificationMiddleware
 from .server import interaction as router_interaction
 from .register import RegisterCommands
 from .register.models import DiscordCommand
 from .models import IncomingApplicationCommand
-import aiojobs
 
 from .errors.network import DiscordAPIError
 
@@ -77,8 +75,8 @@ class Dispike(object):
 
     @staticmethod
     async def background(function: typing.Callable, *args, **kwargs):
-        _schedule = await aiojobs.create_scheduler()
-        await _schedule.spawn(function(*args, **kwargs))
+        logger.debug(f"register background to function {function}")
+        return await function(*args, **kwargs)
 
     @property
     def interaction(self) -> "EventHandler":
