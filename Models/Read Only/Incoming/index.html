@@ -651,6 +651,14 @@ assisting in helping write documentation!
     <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
 
 
+<span class="k">class</span> <span class="nc">SubcommandIncomingDiscordOptionListChild</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">arbitary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">]</span>
+
+
 <span class="k">class</span> <span class="nc">SubcommandIncomingDiscordOptionList</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An incoming discord option list, this is not intended for you to edit, and will not</span>
 <span class="sd">    be accepted as an argument in any function nor accepted in DiscordCommand</span>
@@ -660,7 +668,10 @@ assisting in helping write documentation!
         <span class="n">arbitary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span>
+        <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">],</span>
+        <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">SubcommandIncomingDiscordOptionListChild</span><span class="p">],</span>
+    <span class="p">]</span>
 
 
 <span class="k">class</span> <span class="nc">IncomingDiscordOptionList</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -674,10 +685,12 @@ assisting in helping write documentation!
 
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span>
-        <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">],</span>
-        <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">SubcommandIncomingDiscordOptionList</span><span class="p">],</span>
-    <span class="p">]</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span>
+        <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span>
+            <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingDiscordOption</span><span class="p">],</span>
+            <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">SubcommandIncomingDiscordOptionList</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <span class="k">class</span> <span class="nc">IncomingDiscordInteraction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>

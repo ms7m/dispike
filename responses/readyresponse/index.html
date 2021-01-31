@@ -529,6 +529,19 @@ assisting in helping write documentation!
     Ready Response
   </a>
   
+    <nav class="md-nav" aria-label="Ready Response">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#empherical-messages" class="md-nav__link">
+    Empherical Messages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -726,6 +739,19 @@ assisting in helping write documentation!
     Ready Response
   </a>
   
+    <nav class="md-nav" aria-label="Ready Response">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#empherical-messages" class="md-nav__link">
+    Empherical Messages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -797,7 +823,8 @@ assisting in helping write documentation!
                   <h1>Ready Responses</h1>
                 
                 <h2 id="ready-response">Ready Response</h2>
-<p>An order to properly return a valid response, you will need to use the <code>DiscordResponse</code> object. </p>
+<p>The <code>DiscordResponse</code> is available as a convienence object to assist you in generating a proper payload to return to discord. </p>
+<p>Some methods and functions may require you to <em>only</em> use a valid <code>DiscordResponse</code>. </p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike.responses</span> <span class="kn">import</span> <span class="n">DiscordResponse</span>
 </code></pre></div>
 <p><code>content</code>, <code>embeds</code>, and <code>tts</code> is not required immediately, and can be configured later..</p>
@@ -817,6 +844,15 @@ assisting in helping write documentation!
         <span class="n">embeds</span><span class="o">=</span><span class="p">[</span><span class="n">Embed</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">Embed</span><span class="p">(</span><span class="o">...</span><span class="p">)],</span>
         <span class="n">show_user_input</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
+</code></pre></div>
+<h3 id="empherical-messages">Empherical Messages</h3>
+<p>Empherical messages (messages/responses that are only visible to the person who sent them ) are available by setting the optional <code>empherical</code> parameter to <code>True</code>. </p>
+<details class="info" open="open"><summary>Info</summary><p>Setting a response to be empherical <em>after</em> initalization can be done by setting the <code>._is_empherical</code> attribute. (Note this will be changed in newer versions of Dispike.)</p>
+</details>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike.responses</span> <span class="kn">import</span> <span class="n">DiscordResponse</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">DiscordResponse</span><span class="p">(</span><span class="n">empherical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Content Text Here&quot;</span>
 </code></pre></div>
 <details class="info" open="open"><summary>Info</summary><p>DiscordResponse is simply a helper to help you generate valid response to discord. If you are able to generate a valid response yourself, you can simply type-hint your function to hint at a dict and return a <em>proper</em> response. This is only recommended for <strong>Advanced</strong> users.</p>
 </details>
@@ -1002,7 +1038,7 @@ tts: <span class="nb">bool</span>        </code>
 <h2 class="doc doc-heading" id="dispike.response.DiscordResponse.__init__">
 
         <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tts</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">embeds</span><span class="o">=</span><span class="p">[],</span> <span class="n">show_user_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tts</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">embeds</span><span class="o">=</span><span class="p">[],</span> <span class="n">show_user_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">empherical</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1055,6 +1091,14 @@ simply create a DiscordResponse() and edit via properties.</p>
 </td>
 <td><code>False</code></td>
 </tr>
+<tr>
+<td><code>empherical</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to send message as an empherical message.</p>
+</td>
+<td><code>False</code></td>
+</tr>
 </tbody>
 </table>
 <details class="quote">
@@ -1067,6 +1111,7 @@ simply create a DiscordResponse() and edit via properties.</p>
     <span class="n">embeds</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Embed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="n">show_user_input</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">empherical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""Initialize a DiscordResponse, you can either pass data into here, or</span>
 <span class="sd">    simply create a DiscordResponse() and edit via properties.</span>
@@ -1076,6 +1121,7 @@ simply create a DiscordResponse() and edit via properties.</p>
 <span class="sd">        tts (bool, optional): bool returning if the message should be spoken via tts</span>
 <span class="sd">        embeds (typing.List[Embed], optional): a List representing .to_dict of an Embed object</span>
 <span class="sd">        show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.</span>
+<span class="sd">        empherical (bool, optional): Whether to send message as an empherical message.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">content</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
@@ -1096,7 +1142,9 @@ simply create a DiscordResponse() and edit via properties.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">4</span>
+
     <span class="bp">self</span><span class="o">.</span><span class="n">_is_followup</span> <span class="o">=</span> <span class="n">follow_up_message</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_is_empherical</span> <span class="o">=</span> <span class="n">empherical</span>
 </code></pre>
 </div>
 </details>

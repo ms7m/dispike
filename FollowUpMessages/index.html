@@ -812,7 +812,7 @@ assisting in helping write documentation!
 <h2 class="doc doc-heading" id="dispike.followup.main.FollowUpMessages.__init__">
 
         <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">,</span> <span class="n">interaction</span><span class="p">,</span> <span class="n">storage_adapter</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">,</span> <span class="n">interaction</span><span class="p">)</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -857,7 +857,6 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">bot</span><span class="p">:</span> <span class="s2">"Dispike"</span><span class="p">,</span>
     <span class="n">interaction</span><span class="p">:</span> <span class="s2">"IncomingDiscordInteraction"</span><span class="p">,</span>
-    <span class="n">storage_adapter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""A module to handle Follow Up Messages.</span>
 
@@ -867,7 +866,6 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 <span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">_application_id</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_token</span> <span class="o">=</span> <span class="n">interaction</span><span class="o">.</span><span class="n">token</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_storage_adapter</span> <span class="o">=</span> <span class="n">storage_adapter</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://discord.com/api/v8/webhooks/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_interaction_token</span><span class="si">}</span><span class="s2">"</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_async_client</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
@@ -968,8 +966,8 @@ async_create_follow_up_message<span class="p">(</span><span class="bp">self</spa
 <span class="sd">    Raises:</span>
 <span class="sd">        DiscordAPIError: Discord returning a non-OK status status_code</span>
 <span class="sd">        TypeError: Invalid type passed.</span>
-<span class="sd">    """</span>      <br />
-<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">DiscordResponse</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">DiscordResponse</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Message must be a DiscordResponse"</span><span class="p">)</span>
 
     <span class="n">message</span><span class="o">.</span><span class="n">_switch_to_followup_message</span><span class="p">()</span>
