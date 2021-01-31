@@ -9,12 +9,14 @@ on:
       - dev
     paths-ignore:
       - "*.md"
+      - "mkdocs.yaml"
   pull_request:
     branches:
       - master
       - dev
     paths-ignore:
       - "*.md"
+      - "mkdocs.yaml"
 
 jobs:
   build:
