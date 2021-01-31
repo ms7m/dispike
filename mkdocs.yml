@@ -25,6 +25,7 @@ nav:
   - "Responses":
       - "Info": "responses/index.md"
       - "Ready Responses": "responses/readyresponse.md"
+      - "Writing your Handler": "responses/writinghandler.md"
   - "Creating Commands":
       - "Subcommands": "CreatingCommands/subcommands.md"
       - "Standard Commands": "CreatingCommands/standard.md"
