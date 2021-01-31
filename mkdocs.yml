@@ -6,6 +6,8 @@ theme:
     repo: fontawesome/brands/github
   palette:
     primary: black
+  features:
+    - navigation.expand
 nav:
   - Home: "index.md"
   - "API Reference":
@@ -46,6 +48,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - toc:
+      permalink: true
 
 repo_url: https://github.com/ms7m/dispike
 repo_name: ms7m/dispike
