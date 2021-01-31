@@ -203,7 +203,7 @@ assisting in helping write documentation!
 </nav>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
+<input checked="" class="md-nav__toggle md-toggle" data-md-state="indeterminate" data-md-toggle="nav-3" id="nav-3" type="checkbox"/>
 <label class="md-nav__link" for="nav-3">
       Tutorial
       <span class="md-nav__icon md-icon"></span>
@@ -243,7 +243,7 @@ assisting in helping write documentation!
 </nav>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" id="nav-4" type="checkbox"/>
+<input checked="" class="md-nav__toggle md-toggle" data-md-state="indeterminate" data-md-toggle="nav-4" id="nav-4" type="checkbox"/>
 <label class="md-nav__link" for="nav-4">
       Models
       <span class="md-nav__icon md-icon"></span>
@@ -273,7 +273,7 @@ assisting in helping write documentation!
 </nav>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" id="nav-5" type="checkbox"/>
+<input checked="" class="md-nav__toggle md-toggle" data-md-state="indeterminate" data-md-toggle="nav-5" id="nav-5" type="checkbox"/>
 <label class="md-nav__link" for="nav-5">
       Responses
       <span class="md-nav__icon md-icon"></span>
@@ -303,7 +303,7 @@ assisting in helping write documentation!
 </nav>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" id="nav-6" type="checkbox"/>
+<input checked="" class="md-nav__toggle md-toggle" data-md-state="indeterminate" data-md-toggle="nav-6" id="nav-6" type="checkbox"/>
 <label class="md-nav__link" for="nav-6">
       Creating Commands
       <span class="md-nav__icon md-icon"></span>
@@ -399,7 +399,7 @@ assisting in helping write documentation!
 <h1>EventHandler</h1>
 <div class="doc doc-object doc-class">
 <h2 class="hidden-toc" href="#dispike.eventer.EventHandler" id="dispike.eventer.EventHandler" style="visibility: hidden; position: absolute;">
-</h2>
+<a class="headerlink" href="#dispike.eventer.EventHandler" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents first">
 <p>A relatively simple "event handler". Pass in async functions and provide a string, and it will call it</p>
 <p><strong>Attributes:</strong></p>
@@ -426,7 +426,7 @@ assisting in helping write documentation!
 <h2 class="doc doc-heading" id="dispike.eventer.EventHandler.check_event_exists">
 <code class="highlight language-python">
 check_event_exists<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span> </code>
-</h2>
+<a class="headerlink" href="#dispike.eventer.EventHandler.check_event_exists" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
 <p>Checks if the event in <code>.callbacks</code></p>
 <p><strong>Parameters:</strong></p>
@@ -492,7 +492,7 @@ emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span>
 <span class="doc doc-properties">
 <small class="doc doc-property doc-property-async"><code>async</code></small>
 </span>
-</h2>
+<a class="headerlink" href="#dispike.eventer.EventHandler.emit" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
 <p>'Emits' an event. It will basically call the function from .callbacks and return the function result</p>
 <p><strong>Parameters:</strong></p>
@@ -599,7 +599,7 @@ emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span>
 <h2 class="doc doc-heading" id="dispike.eventer.EventHandler.on">
 <code class="highlight language-python">
 on<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
-</h2>
+<a class="headerlink" href="#dispike.eventer.EventHandler.on" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
 <p>A wrapper over an async function, registers it in .callbacks.</p>
 <p><strong>Parameters:</strong></p>
@@ -691,7 +691,7 @@ on<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <
 <h2 class="doc doc-heading" id="dispike.eventer.EventHandler.view_event_function_return_type">
 <code class="highlight language-python">
 view_event_function_return_type<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span> </code>
-</h2>
+<a class="headerlink" href="#dispike.eventer.EventHandler.view_event_function_return_type" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
 <p>Get type hint for event functions</p>
 <p><strong>Parameters:</strong></p>
@@ -809,7 +809,7 @@ view_event_function_return_type<span class="p">(</span><span class="bp">self</sp
 <script>
         app = initialize({
           base: "../..",
-          features: [],
+          features: ['navigation.expand'],
           search: Object.assign({
             worker: "../../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)

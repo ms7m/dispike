@@ -232,7 +232,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" data-md-state="indeterminate" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       API Reference
@@ -300,7 +300,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" data-md-state="indeterminate" type="checkbox" id="nav-3" checked>
     
     <label class="md-nav__link" for="nav-3">
       Tutorial
@@ -537,7 +537,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" data-md-state="indeterminate" type="checkbox" id="nav-5" checked>
     
     <label class="md-nav__link" for="nav-5">
       Responses
@@ -605,7 +605,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" data-md-state="indeterminate" type="checkbox" id="nav-6" checked>
     
     <label class="md-nav__link" for="nav-6">
       Creating Commands
@@ -785,7 +785,7 @@ assisting in helping write documentation!
                   </a>
                 
                 
-                <h1 id="outgoing-models">Outgoing Models</h1>
+                <h1 id="outgoing-models">Outgoing Models<a class="headerlink" href="#outgoing-models" title="Permanent link">&para;</a></h1>
 <p>To import these models</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike.register.models.options</span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span>
 </code></pre></div>
@@ -793,7 +793,7 @@ assisting in helping write documentation!
 </details>
 <div class="doc doc-object doc-module">
 <h2 class="hidden-toc" href="#dispike.register.models.options" id="dispike.register.models.options" style="visibility: hidden; position: absolute;">
-        </h2>
+        <a class="headerlink" href="#dispike.register.models.options" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents first">
 <div class="doc doc-children">
 <div class="doc doc-object doc-class">
@@ -805,7 +805,7 @@ assisting in helping write documentation!
       <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
   </span>
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.models.options.CommandChoice" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a key-value command choice.</p>
 <div class="doc doc-children">
@@ -832,7 +832,7 @@ assisting in helping write documentation!
       <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
   </span>
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.models.options.CommandOption" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a standard command option (not a subcommand).</p>
 <div class="doc doc-children">
@@ -856,7 +856,7 @@ assisting in helping write documentation!
         <code>CommandTypes</code>
 
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.models.options.CommandTypes" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Easy access to command types.</p>
 <p><strong>Attributes:</strong></p>
@@ -951,7 +951,7 @@ assisting in helping write documentation!
       <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
   </span>
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.models.options.DiscordCommand" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a discord command.</p>
 <div class="doc doc-children">
@@ -978,7 +978,7 @@ assisting in helping write documentation!
       <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
   </span>
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.models.options.SubcommandOption" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a subcommand, usually you would put this as an option in a DiscordCommand</p>
 <div class="doc doc-children">
@@ -1075,7 +1075,7 @@ assisting in helping write documentation!
       <script>
         app = initialize({
           base: "../..",
-          features: [],
+          features: ['navigation.expand'],
           search: Object.assign({
             worker: "../../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)

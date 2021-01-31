@@ -364,7 +364,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" data-md-state="indeterminate" type="checkbox" id="nav-3" checked>
     
     <label class="md-nav__link" for="nav-3">
       Tutorial
@@ -458,7 +458,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" data-md-state="indeterminate" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       Models
@@ -526,7 +526,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" data-md-state="indeterminate" type="checkbox" id="nav-5" checked>
     
     <label class="md-nav__link" for="nav-5">
       Responses
@@ -594,7 +594,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" data-md-state="indeterminate" type="checkbox" id="nav-6" checked>
     
     <label class="md-nav__link" for="nav-6">
       Creating Commands
@@ -769,7 +769,7 @@ assisting in helping write documentation!
                 
                 <div class="doc doc-object doc-class">
 <h2 class="hidden-toc" href="#dispike.register.registrator.RegisterCommands" id="dispike.register.registrator.RegisterCommands" style="visibility: hidden; position: absolute;">
-        </h2>
+        <a class="headerlink" href="#dispike.register.registrator.RegisterCommands" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents first">
 <p>This object contains methods to help registering a command to Discord.
 While you shouldn't need to import this directly, it's still accessible if you
@@ -787,7 +787,7 @@ bot_token        </code>
       <small class="doc doc-property doc-property-writable"><code>writable</code></small>
   </span>
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.registrator.RegisterCommands.bot_token" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>You cannot view the bot_token directly, but you can still 'update' it.</p>
 <p><strong>Exceptions:</strong></p>
@@ -820,7 +820,7 @@ request_headers        </code>
       <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
   </span>
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.registrator.RegisterCommands.request_headers" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Return a valid header for authorization</p>
 <p><strong>Returns:</strong></p>
@@ -852,7 +852,7 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
       <small class="doc doc-property doc-property-special"><code>special</code></small>
   </span>
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.registrator.RegisterCommands.__init__" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Initalize object provided with application_id and a bot token</p>
 <p><strong>Parameters:</strong></p>
@@ -911,7 +911,7 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 register<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">guild_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guild_to_target</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
 
 
-      </h2>
+      <a class="headerlink" href="#dispike.register.registrator.RegisterCommands.register" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Register a completed <code>DiscordCommand</code> model to Discord API.</p>
 <p><strong>Parameters:</strong></p>
@@ -1070,7 +1070,7 @@ register<span class="p">(</span><span class="bp">self</span><span class="p">,</s
       <script>
         app = initialize({
           base: "../..",
-          features: [],
+          features: ['navigation.expand'],
           search: Object.assign({
             worker: "../../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)

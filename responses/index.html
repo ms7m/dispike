@@ -232,7 +232,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" data-md-state="indeterminate" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       API Reference
@@ -300,7 +300,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" data-md-state="indeterminate" type="checkbox" id="nav-3" checked>
     
     <label class="md-nav__link" for="nav-3">
       Tutorial
@@ -394,7 +394,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" data-md-state="indeterminate" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       Models
@@ -541,7 +541,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" data-md-state="indeterminate" type="checkbox" id="nav-6" checked>
     
     <label class="md-nav__link" for="nav-6">
       Creating Commands
@@ -671,7 +671,7 @@ assisting in helping write documentation!
                   </a>
                 
                 
-                <h1 id="responses">Responses</h1>
+                <h1 id="responses">Responses<a class="headerlink" href="#responses" title="Permanent link">&para;</a></h1>
 <p>Responses are what are returned to Discord. </p>
 <p>To create a proper response, you will need the DiscordResponse object. </p>
 <p>​   </p>
@@ -751,7 +751,7 @@ assisting in helping write documentation!
       <script>
         app = initialize({
           base: "..",
-          features: [],
+          features: ['navigation.expand'],
           search: Object.assign({
             worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)

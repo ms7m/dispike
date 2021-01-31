@@ -232,7 +232,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" data-md-state="indeterminate" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       API Reference
@@ -300,7 +300,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" data-md-state="indeterminate" type="checkbox" id="nav-3" checked>
     
     <label class="md-nav__link" for="nav-3">
       Tutorial
@@ -394,7 +394,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" data-md-state="indeterminate" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       Models
@@ -462,7 +462,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" data-md-state="indeterminate" type="checkbox" id="nav-5" checked>
     
     <label class="md-nav__link" for="nav-5">
       Responses
@@ -530,7 +530,7 @@ assisting in helping write documentation!
   <li class="md-nav__item md-nav__item--nested">
     
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" data-md-state="indeterminate" type="checkbox" id="nav-6" checked>
     
     <label class="md-nav__link" for="nav-6">
       Creating Commands
@@ -669,7 +669,7 @@ assisting in helping write documentation!
                   </a>
                 
                 
-                <h1 id="editing-commands">Editing Commands</h1>
+                <h1 id="editing-commands">Editing Commands<a class="headerlink" href="#editing-commands" title="Permanent link">&para;</a></h1>
 <p>Editing commands requires an already initalized <code>Dispike</code> instance and is available as a method provided by <code>Dispike</code>.</p>
 <p>Bulk editing is available by setting the <code>bulk</code> parameter to <code>True</code> and passing a list of <code>DiscordCommand</code> to the <code>new_command</code> parameter.  </p>
 <p>Editing a single command can be done by passing a <code>DiscordCommand</code> to <code>new_command</code> and specifiying the the target command ID.</p>
@@ -707,10 +707,10 @@ assisting in helping write documentation!
     <span class="n">bulk</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 </code></pre></div>
-<h1 id="api-reference">API Reference</h1>
+<h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
 <div class="doc doc-object doc-method">
 <h2 class="hidden-toc" href="#dispike.main.Dispike.edit_command" id="dispike.main.Dispike.edit_command" style="visibility: hidden; position: absolute;">
-        </h2>
+        <a class="headerlink" href="#dispike.main.Dispike.edit_command" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents first">
 <p>Edits a command provided with a command_id and a valid new command.</p>
 <p><strong>Parameters:</strong></p>
@@ -955,7 +955,7 @@ assisting in helping write documentation!
       <script>
         app = initialize({
           base: "..",
-          features: [],
+          features: ['navigation.expand'],
           search: Object.assign({
             worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)
