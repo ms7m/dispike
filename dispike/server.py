@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Response, BackgroundTasks
+from fastapi import APIRouter, Request, Response
 from fastapi.responses import PlainTextResponse
 from loguru import logger
 from .middlewares.verification import DiscordVerificationMiddleware
@@ -46,9 +46,9 @@ async def handle_interactions(request: Request) -> Response:
         logger.debug("discarding event not existing.")
         return {"type": 5}
 
-    _event_settings = interaction.return_event_settings(_event_name)
+    # _event_settings = interaction.return_event_settings(_event_name)
 
-    arguments["ctx"] = _parse_to_object
+    arguments[router._user_defined_setting_ctx_value] = _parse_to_object
 
     # Check the type hint for the return type, fallback for checking the type if no hints are provided
     try:

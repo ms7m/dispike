@@ -22,13 +22,16 @@ class Dispike(object):
     *Powered by FastAPI*
     """
 
-    def __init__(self, client_public_key: str, bot_token: str, application_id: str):
+    def __init__(
+        self, client_public_key: str, bot_token: str, application_id: str, **kwargs
+    ):
         """Initialize Dispike Object
 
         Args:
             client_public_key (str): Discord provided client public key.
             bot_token (str): Discord provided bot token. You must create a bot user to view this!
             application_id (str): Discord provided Client ID
+            custom_context_argument_name (str, optional): Change the name of the context arugment when passing to a function. Set to "ctx".
         """
         self._bot_token = bot_token
         self._application_id = application_id
@@ -40,6 +43,14 @@ class Dispike(object):
             DiscordVerificationMiddleware, client_public_key=client_public_key
         )
         self._internal_application.include_router(router=router)
+        if not kwargs.get("custom_context_argument_name"):
+            router._user_defined_setting_ctx_value = "ctx"
+        else:
+            router._user_defined_setting_ctx_value = kwargs.get(
+                "custom_context_argument_name"
+            )
+
+        self._cache_router = router
 
     def reset_registration(self, new_bot_token=None, new_application_id=None):
         """This method resets the built-in RgeisterCommands.
