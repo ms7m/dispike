@@ -56,3 +56,7 @@ Above example will create
 
 ???+ warning
 	Remember to properly write your handler to account for optional arguments.
+	
+	
+	
+[TODO: Add example code for subcommands]
