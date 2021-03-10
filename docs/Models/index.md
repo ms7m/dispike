@@ -1,6 +1,6 @@
 # Models
 
-Models are responses or requests to and from discord that has been verified. Data can be accessed in a pythonic way of attrbiutes rather then dictionaries.
+Models are responses or requests to and from Discord that have been verified. Data can be accessed in a pythonic way of attributes rather than dictionaries.
 
 ???+ info
 
@@ -15,11 +15,11 @@ Models have been split into sections.
 
 
 
-Outgoing models are usually created by the user and and meant to be sent to discord, and have the strictest validation. They are easily editable by property.
+Outgoing models are usually created by the user and meant to be sent to Discord, and have the strictest validation. They are easily editable by property.
 
 
 
-Incoming models are usually models that have been translated from Discord themselves, and have been validated. While it's possible to edit the attributes, **no function** provided by Dispike will accept them. Treat them as read-only.
+Incoming models are usually models that have been translated from Discord themselves and have been validated. While it's possible to edit the attributes, **no function** provided by Dispike will accept them. Treat them as read-only.
 
 
 
