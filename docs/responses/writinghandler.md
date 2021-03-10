@@ -2,7 +2,7 @@
 
 
 
-Writing a handler function is required to properly route interactions from the user to your bot. After request verification, the request (interaction) is passed to a ``IncomingDiscordInteraction`` object. You will write your handler as a function to directly accept an additional argument called ``ctx`` containing this interaction.
+Writing a handler function is required to properly route interactions from the user to your bot. After request verification, the request (interaction) is passed to an ``IncomingDiscordInteraction`` object. You will write your handler as a function to directly accept an additional argument called ``ctx`` containing this interaction.
 
 It's normal not to use this interaction, it only exists to give you context about the interaction.
 
@@ -101,7 +101,7 @@ command_configuration = DiscordCommand(
 )
 ```
 
-When user uses this command in discord. They'd use it as
+When a user uses this command in discord. They'd use it as
 
 ```
 /forex latest convert <SYMBOL 1> <SYMBOL 2>
@@ -124,7 +124,7 @@ The command identifier would be represented as
 **You must define the same number of arguments in your python function as the discord command**. 
 
 ???+ warning
-	If you have an optional argument, you can pass the ``**kwargs`` argument to your function. Learn more about the ``*kwargs`` argument [here](https://book.pythontips.com/en/latest/args_and_kwargs.html). If the user adds an optional argument, this will be passed to the function. Otherwise it will not be present. Write your code to check if it exists before doing anything!
+	If you have an optional argument, you can pass the ``**kwargs`` argument to your function. Learn more about the ``*kwargs`` argument [here](https://book.pythontips.com/en/latest/args_and_kwargs.html). If the user adds an optional argument, this will be passed to the function. Otherwise, it will not be present. Write your code to check if it exists before doing anything!
 
 
 
