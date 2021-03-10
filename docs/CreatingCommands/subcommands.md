@@ -1,6 +1,6 @@
 # Subcommands
 
-Subcommands are more advanced form of creating bots, and it's recommended that you read the discord documentation before coming here.
+Subcommands are a more advanced form of creating bots, and it's recommended that you read the discord documentation before coming here.
 Subcommands follow a similar structure as standard commands.
 
 ```python
