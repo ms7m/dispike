@@ -39,7 +39,7 @@ later_response_command = DiscordCommand(
 
 ```
 ???+ info
-	Notice the structure, it's more "nested". The discord documentation has a diagram explaining the correct structure. 
+	Notice the structure, it's more "nested". The Discord documentation has a diagram explaining the correct structure. 
 
 
 
