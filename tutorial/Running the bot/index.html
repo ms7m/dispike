@@ -770,7 +770,7 @@ assisting in helping write documentation!
 <p>We need to run the bot. </p>
 <details class="info" open="open"><summary>Info</summary><p>It’s important to remember, when you are ready to deploy    your bot, you will need to deploy your bot over a reverse   proxy (which is beyond the scope of the docs.).</p>
 </details>
-<p>Now, since we don’t have a server set up yet, how are we going to test our bot? It’s a pain in the ass to have a server just for testing. Luckilly there is a tool that can help us.</p>
+<p>Now, since we don’t have a server set up yet, how are we going to test our bot? It’s a pain in the ass to have a server just for testing. Luckily there is a tool that can help us.</p>
 <p>We’re going to use a tool called <a href="https://ngrok.com/">ngrok</a>. It creates a tunnel that is accessible over the internet to a local port running on your computer.</p>
 <p>Sign-up and install ngrok.</p>
 <h3 id="start-ngrok">Start ngrok.<a class="headerlink" href="#start-ngrok" title="Permanent link">&para;</a></h3>
@@ -781,7 +781,7 @@ assisting in helping write documentation!
 <details class="info" open="open"><summary>Info</summary><p>If you try to give discord the link, it will fail. The bot is not running and nothing is there to run the first verification.</p>
 </details>
 <h3 id="start-the-bot">Start the bot.<a class="headerlink" href="#start-the-bot" title="Permanent link">&para;</a></h3>
-<p>There is multiple ways to run the bot. We’re going to the most simplest one.</p>
+<p>There are multiple ways to run the bot. We’re going to use the simplest one.</p>
 <p>Add the following lines to the end of the file containing the bot object and handler</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="err">“</span><span class="n">__main__</span><span class="err">”</span><span class="p">:</span>
     <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>

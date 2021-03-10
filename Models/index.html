@@ -672,15 +672,15 @@ assisting in helping write documentation!
                 
                 
                 <h1 id="models">Models<a class="headerlink" href="#models" title="Permanent link">&para;</a></h1>
-<p>Models are responses or requests to and from discord that has been verified. Data can be accessed in a pythonic way of attrbiutes rather then dictionaries.</p>
+<p>Models are responses or requests to and from Discord that have been verified. Data can be accessed in a pythonic way of attributes rather than dictionaries.</p>
 <details class="info" open="open"><summary>Info</summary><p>If you want a more low-level or want to transport models (pickling) you can access attributes <code>.to_dict</code> or <code>.to_json</code>.</p>
 </details>
 <p>Models have been split into sections.</p>
 <div class="highlight"><pre><span></span><code>- Incoming
 - Outgoing
 </code></pre></div>
-<p>Outgoing models are usually created by the user and and meant to be sent to discord, and have the strictest validation. They are easily editable by property.</p>
-<p>Incoming models are usually models that have been translated from Discord themselves, and have been validated. While it's possible to edit the attributes, <strong>no function</strong> provided by Dispike will accept them. Treat them as read-only.</p>
+<p>Outgoing models are usually created by the user and meant to be sent to Discord, and have the strictest validation. They are easily editable by property.</p>
+<p>Incoming models are usually models that have been translated from Discord themselves and have been validated. While it's possible to edit the attributes, <strong>no function</strong> provided by Dispike will accept them. Treat them as read-only.</p>
 <details class="info" open="open"><summary>Info</summary><p>in certain circumstances, you can convert Incoming models to Outgoing, simply pass <code>.to_dict</code> of the incoming object to the appropriate outgoing object by doing <code>OutgoingObject(**IncomingObject)</code>.</p>
 </details>
                 

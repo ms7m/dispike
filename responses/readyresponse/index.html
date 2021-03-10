@@ -836,12 +836,12 @@ assisting in helping write documentation!
                   <h1>Ready Responses</h1>
                 
                 <h2 id="ready-response">Ready Response<a class="headerlink" href="#ready-response" title="Permanent link">&para;</a></h2>
-<p>The <code>DiscordResponse</code> is available as a convienence object to assist you in generating a proper payload to return to discord. </p>
+<p>The <code>DiscordResponse</code> is available as a convenience object to assist you in generating a proper payload to return to discord. </p>
 <p>Some methods and functions may require you to <em>only</em> use a valid <code>DiscordResponse</code>. </p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike.responses</span> <span class="kn">import</span> <span class="n">DiscordResponse</span>
 </code></pre></div>
-<p><code>content</code>, <code>embeds</code>, and <code>tts</code> is not required immediately, and can be configured later..</p>
-<p>However, settings such as <code>show_user_input</code> and <code>folow_up_message</code> are set at first initalization and cannot be changed.  </p>
+<p><code>content</code>, <code>embeds</code>, and <code>tts</code> is not required immediately, and can be configured later.</p>
+<p>However, settings such as <code>show_user_input</code> and <code>folow_up_message</code> are set at first initialization and cannot be changed.  </p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike.responses</span> <span class="kn">import</span> <span class="n">DiscordResponse</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">DiscordResponse</span><span class="p">()</span>
@@ -860,14 +860,14 @@ assisting in helping write documentation!
 </code></pre></div>
 <h3 id="empherical-messages">Empherical Messages<a class="headerlink" href="#empherical-messages" title="Permanent link">&para;</a></h3>
 <p>Empherical messages (messages/responses that are only visible to the person who sent them ) are available by setting the optional <code>empherical</code> parameter to <code>True</code>. </p>
-<details class="info" open="open"><summary>Info</summary><p>Setting a response to be empherical <em>after</em> initalization can be done by setting the <code>._is_empherical</code> attribute. (Note this will be changed in newer versions of Dispike.)</p>
+<details class="info" open="open"><summary>Info</summary><p>Setting a response to be empherical <em>after</em> initialization can be done by setting the <code>._is_empherical</code> attribute. (Note this will be changed in newer versions of Dispike.)</p>
 </details>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike.responses</span> <span class="kn">import</span> <span class="n">DiscordResponse</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">DiscordResponse</span><span class="p">(</span><span class="n">empherical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Content Text Here&quot;</span>
 </code></pre></div>
-<details class="info" open="open"><summary>Info</summary><p>DiscordResponse is simply a helper to help you generate valid response to discord. If you are able to generate a valid response yourself, you can simply type-hint your function to hint at a dict and return a <em>proper</em> response. This is only recommended for <strong>Advanced</strong> users.</p>
+<details class="info" open="open"><summary>Info</summary><p>DiscordResponse is simply a helper to help you generate a valid response to discord. If you can generate a valid response yourself, you can simply type-hint your function to hint at a dict and return a <em>proper</em> response. This is only recommended for <strong>Advanced</strong> users.</p>
 </details>
 <div class="doc doc-object doc-class">
 <h2 class="hidden-toc" href="#dispike.response.DiscordResponse" id="dispike.response.DiscordResponse" style="visibility: hidden; position: absolute;">

@@ -747,15 +747,15 @@ Let’s write the handler so it can properly display to the user.</p>
 <li>It must be async (<code>async def</code>)</li>
 <li>It must finally return: <code>DiscordResponse</code>, or a <code>dict</code>.</li>
 </ul>
-<details class="warning" open="open"><summary>Warning</summary><p>If you return a <code>dict</code>, it will not verified and Dispike will assume that’s valid and return the result to discord.</p>
+<details class="warning" open="open"><summary>Warning</summary><p>If you return a <code>dict</code>, it will not be verified and Dispike will assume that’s valid and return the result to Discord.</p>
 </details>
-<p>Your function must accept the same number of arugments you registered with discord + an incoming context parameter.</p>
+<p>Your function must accept the same number of arguments you registered with Discord + an incoming context parameter.</p>
 <p>Dispike will pass the same arguments (with the same names) to your function + incoming context about the request.</p>
-<p>So if you registered a command with an arugment named <code>person</code>, the function arugment must be the same.</p>
+<p>So if you registered a command with an argument named <code>person</code>, the function argument must be the same.</p>
 <details class="warning" open="open"><summary>Warning</summary><p>Rule of thumb, do not name arguments you are unable to name in standard python</p>
 </details>
 <h2 id="incoming-context">Incoming Context<a class="headerlink" href="#incoming-context" title="Permanent link">&para;</a></h2>
-<p>Eariler you learned that you must account for an extra arugment due to Dispike also passing a context about the command to your arugment.</p>
+<p>Earlier you learned that you must account for an extra argument due to Dispike also passing a context about the command to your argument.</p>
 <p>Incoming context is type hinted, and your IDE should be able to auto-complete attributes.</p>
 <h2 id="writing-your-function">Writing your function<a class="headerlink" href="#writing-your-function" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">discord.models.incoming</span> <span class="n">IncomingDiscordInteraction</span>
@@ -775,7 +775,7 @@ Let’s write the handler so it can properly display to the user.</p>
   <span class="k">return</span> <span class="n">response</span>
 </code></pre></div>
 <p>Take a look at <code>@bot.interaction.on(‘wave’)</code>, you can see that the <code>.on</code> takes in the command name we registered earlier.</p>
-<p>The function also accepts two arguments. Our registered argument named “person”, as well as the context that we will be reciveing.</p>
+<p>The function also accepts two arguments. Our registered argument is named “person”, as well as the context that we will be receiving.</p>
 <p>Also take a look at <code>-&gt; DiscordResponse</code>, this is a type-hint,  this is optional, but it will make your requests faster, as Dispike would not have to guess what your response type is.</p>
                 
               

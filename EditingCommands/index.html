@@ -670,15 +670,15 @@ assisting in helping write documentation!
                 
                 
                 <h1 id="editing-commands">Editing Commands<a class="headerlink" href="#editing-commands" title="Permanent link">&para;</a></h1>
-<p>Editing commands requires an already initalized <code>Dispike</code> instance and is available as a method provided by <code>Dispike</code>.</p>
+<p>Editing commands require an already initialized <code>Dispike</code> instance and are available as a method provided by <code>Dispike</code>.</p>
 <p>Bulk editing is available by setting the <code>bulk</code> parameter to <code>True</code> and passing a list of <code>DiscordCommand</code> to the <code>new_command</code> parameter.  </p>
-<p>Editing a single command can be done by passing a <code>DiscordCommand</code> to <code>new_command</code> and specifiying the the target command ID.</p>
+<p>Editing a single command can be done by passing a <code>DiscordCommand</code> to <code>new_command</code> and specifying the target command ID.</p>
 <p>Guild-level editing command is available by configuring parameters</p>
 <ul>
 <li><code>guild_only</code> -&gt; <code>True</code></li>
 <li><code>guild_id_passed</code> -&gt; GUILD ID</li>
 </ul>
-<details class="info"><summary>Info</summary><p>Follow <a href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-">this discord guide to find your server/guild ID</a></p>
+<details class="info"><summary>Info</summary><p>Follow <a href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-">this Discord guide to find your server/guild ID</a></p>
 </details>
 <hr />
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike</span> <span class="kn">import</span> <span class="n">Dispike</span>

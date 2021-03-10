@@ -770,7 +770,7 @@ assisting in helping write documentation!
                 
                 
                 <h1 id="preface">Preface<a class="headerlink" href="#preface" title="Permanent link">&para;</a></h1>
-<p>Writing a handler function is required to properly route interactions from the user to your bot. After request verification, the request (interaction) is passed to a <code>IncomingDiscordInteraction</code> object. You will write your handler as a function to directly accept an additional argument called <code>ctx</code> containing this interaction.</p>
+<p>Writing a handler function is required to properly route interactions from the user to your bot. After request verification, the request (interaction) is passed to an <code>IncomingDiscordInteraction</code> object. You will write your handler as a function to directly accept an additional argument called <code>ctx</code> containing this interaction.</p>
 <p>It's normal not to use this interaction, it only exists to give you context about the interaction.</p>
 <h3 id="writing-the-handler">Writing the handler.<a class="headerlink" href="#writing-the-handler" title="Permanent link">&para;</a></h3>
 <p>Your handler must be </p>
@@ -847,7 +847,7 @@ assisting in helping write documentation!
     <span class="p">],</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>When user uses this command in discord. They'd use it as</p>
+<p>When a user uses this command in discord. They'd use it as</p>
 <div class="highlight"><pre><span></span><code>/forex latest convert &lt;SYMBOL 1&gt; &lt;SYMBOL 2&gt;
 </code></pre></div>
 <p>The command identifier would be represented as</p>
@@ -855,7 +855,7 @@ assisting in helping write documentation!
 <hr />
 <h1 id="defining-the-arguments">Defining the arguments<a class="headerlink" href="#defining-the-arguments" title="Permanent link">&para;</a></h1>
 <p><strong>You must define the same number of arguments in your python function as the discord command</strong>. </p>
-<details class="warning" open="open"><summary>Warning</summary><p>If you have an optional argument, you can pass the <code>**kwargs</code> argument to your function. Learn more about the <code>*kwargs</code> argument <a href="https://book.pythontips.com/en/latest/args_and_kwargs.html">here</a>. If the user adds an optional argument, this will be passed to the function. Otherwise it will not be present. Write your code to check if it exists before doing anything!</p>
+<details class="warning" open="open"><summary>Warning</summary><p>If you have an optional argument, you can pass the <code>**kwargs</code> argument to your function. Learn more about the <code>*kwargs</code> argument <a href="https://book.pythontips.com/en/latest/args_and_kwargs.html">here</a>. If the user adds an optional argument, this will be passed to the function. Otherwise, it will not be present. Write your code to check if it exists before doing anything!</p>
 </details>
 <p>The command argument names must match to the one set as the <code>value</code> when registering your command.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@bot</span><span class="o">.</span><span class="n">interaction</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;forex.latest.convert&quot;</span><span class="p">)</span>
