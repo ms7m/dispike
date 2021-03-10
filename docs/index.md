@@ -48,7 +48,7 @@ This library is **only tested** on python versions
 ???+ info
 	Just because it's been implemented does not mean it's in the best way. Help out by contributing to this library!
 
-| API Endpoint   |      Implmentation   |
+| API Endpoint   |      Implementation   |
 |----------|:-------------:|
 | Get Global Application Commands |  **✅ Implemented** |
 | Create Global Application Command |    **✅ Implemented**   |
