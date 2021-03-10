@@ -3,7 +3,7 @@
 We've created the command, we'll need to register the command with Discord.
 
 ???+ info
-	All methods for editing, deleting, registering and getting commands share the same method for globally and guild only.
+	All methods for editing, deleting, registering, and getting commands share the same method for globally and guild only.
 
 You will need an initialized ``Dispike`` object.
 

@@ -24,13 +24,13 @@
 
 
 # Before we start.
-This library has not left alpha stage and will have bugs and issues. I ask of you to please remember this when opening issues or creating PRs.
+This library has not left the alpha stage and will have bugs and issues. I ask you to please remember this when opening issues or creating PRs.
 
-This library assumes you will be building an **independent server** to recieve and send requests from/to Discord directly. This may cause higher bandwith usages and incur costs with your cloud provider. If you prefer to listen over the Discord gateway, you should follow the progress of Discord.py instead.
+This library assumes you will be building an **independent server** to receive and send requests from/to Discord directly. This may cause higher bandwidth usages and incur costs with your cloud provider. If you prefer to listen over the Discord gateway, you should follow the progress of Discord.py instead.
 
-This library enables a middleware to verify and accept connections **only from Discord** per documentation. **Although Discord is trusted, you should operate this bot behind a [reverse proxy](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/) such as Nginx or Caddy, because of this, the bot will only bind to localhost and accept local connections.** 
+This library enables middleware to verify and accept connections **only from Discord** per documentation. **Although Discord is trusted, you should operate this bot behind a [reverse proxy](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/) such as Nginx or Caddy, because of this, the bot will only bind to localhost and accept local connections.** 
 
-If you want to do local testing before creating a server, you can use free tools such as [ngrok](https://ngrok.com/). 
+If you want to do local testing before creating a server, you can use free tools such as [Ngrok](https://ngrok.com/). 
 
 
 

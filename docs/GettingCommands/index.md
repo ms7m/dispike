@@ -1,7 +1,7 @@
 
 # Getting Commands
 
-Getting commands is similar to [Editing Commands](../EditingCommands/index.md) except ``new_command``, ``command_id``, parameters is not available. 
+Getting commands is similar to [Editing Commands](../EditingCommands/index.md) except for ``new_command``, ``command_id``, parameters are not available. 
 
 ```python
 from dispike import Dispike

@@ -1,7 +1,7 @@
 # Standard Commands
 
-Creating standard commands are easy to create, and follow a similar structure to building it in JSON. 
-Dispike assists you in creating a valid JSON, and will provide auto-compeletion and type hints.
+Creating standard commands is easy to create, and follows a similar structure to building it in JSON. 
+Dispike assists you in creating a valid JSON, and will provide auto-completion and type hints.
 
 ```python
 

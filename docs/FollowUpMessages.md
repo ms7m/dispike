@@ -1,6 +1,6 @@
 # Follow Up Messages
 
-Follow up messages are a feature that allow for responses to sent after an initial response has been already been sent.
+Follow-up messages are a feature that allows for responses to sent after an initial response has been already been sent.
 
 ???+ info
 	This module offers methods both in async and sync.
