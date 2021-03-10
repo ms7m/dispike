@@ -1,15 +1,15 @@
 ## Configuring commands
 
-Creating a command is very similar to creating it in JSON, however this library will assist you in making sure the outcome is valid schema for Discord. You should still learn how to build commands by reading the documentation on Discord.
+Creating a command is very similar to creating it in JSON, however, this library will assist you in making sure the outcome is a valid schema for Discord. You should still learn how to build commands by reading the documentation on Discord.
 
 
 
-Internally this is powered by [pydantic](https://pydantic-docs.helpmanual.io/). There are third-party plugins to intergrate with your favorite IDEs to enable auto-completion when typing. 
+Internally this is powered by [pydantic](https://pydantic-docs.helpmanual.io/). There are third-party plugins to integrate with your favorite IDEs to enable auto-completion when typing. 
 
 
 
 ???+ caution
-	Autocompletion for creating new models under DiscordCommand, CommandChoice, CommandOption, SubcommandOption, CommandTypes **on VSCode is broken.** (follow discussion here [samuelcolvin/pydantic#650](https://github.com/samuelcolvin/pydantic/issues/650), [microsoft/python-language-server#1898](https://github.com/microsoft/python-language-server/issues/1898)). PyCharm appears to work using an external plugin.
+	Autocompletion for creating new models under DiscordCommand, CommandChoice, CommandOption, SubcommandOption, CommandTypes **on VSCode is broken.** (follow the discussion here [samuelcolvin/pydantic#650](https://github.com/samuelcolvin/pydantic/issues/650), [microsoft/python-language-server#1898](https://github.com/microsoft/python-language-server/issues/1898)). PyCharm appears to work using an external plugin.
 	
 
 Let's get started
@@ -30,7 +30,7 @@ from dispike.register.models import (
 These are the *models* that you will need to get started. Think of models as blueprints.
 
 ???+ info
-	You can go more advanced by also importing [SubcommandOption], but that's more advanced and is not convered in this tutorial.
+	You can go more advanced by also importing [SubcommandOption], but that's more advanced and is not covered in this tutorial.
 
 
 
