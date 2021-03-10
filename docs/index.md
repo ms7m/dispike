@@ -71,4 +71,6 @@ This library is **only tested** on python versions
 | Interaction | **✅ Implemented** |
 | Interaction Response | **✅ Implemented** |
 
+### Special Thanks
+- [Squidtoon99](https://github.com/Squidtoon99)
 
