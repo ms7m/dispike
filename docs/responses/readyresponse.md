@@ -1,6 +1,6 @@
 ## Ready Response
 
-The ``DiscordResponse`` is available as a convienence object to assist you in generating a proper payload to return to discord. 
+The ``DiscordResponse`` is available as a convenience object to assist you in generating a proper payload to return to discord. 
 
 Some methods and functions may require you to *only* use a valid ``DiscordResponse``. 
 
@@ -8,9 +8,9 @@ Some methods and functions may require you to *only* use a valid ``DiscordRespon
 from dispike.responses import DiscordResponse
 ```
 
-``content``, ``embeds``, and ``tts`` is not required immediately, and can be configured later..
+``content``, ``embeds``, and ``tts`` is not required immediately, and can be configured later.
 
-However, settings such as ``show_user_input`` and ``folow_up_message`` are set at first initalization and cannot be changed.  
+However, settings such as ``show_user_input`` and ``folow_up_message`` are set at first initialization and cannot be changed.  
 
 
 ```python
@@ -38,7 +38,7 @@ async def sample_function(...) -> DiscordResponse:
 Empherical messages (messages/responses that are only visible to the person who sent them ) are available by setting the optional ``empherical`` parameter to ``True``. 
 
 ???+ info
-    Setting a response to be empherical *after* initalization can be done by setting the ``._is_empherical`` attribute. (Note this will be changed in newer versions of Dispike.)
+    Setting a response to be empherical *after* initialization can be done by setting the ``._is_empherical`` attribute. (Note this will be changed in newer versions of Dispike.)
 
 ```python
 from dispike.responses import DiscordResponse
@@ -48,6 +48,6 @@ response.content = "Content Text Here"
 ```
 
 ???+ info
-    DiscordResponse is simply a helper to help you generate valid response to discord. If you are able to generate a valid response yourself, you can simply type-hint your function to hint at a dict and return a *proper* response. This is only recommended for **Advanced** users.
+    DiscordResponse is simply a helper to help you generate a valid response to discord. If you can generate a valid response yourself, you can simply type-hint your function to hint at a dict and return a *proper* response. This is only recommended for **Advanced** users.
 
 :::dispike.response.DiscordResponse
