@@ -335,3 +335,28 @@ async def test_return_type_5_if_no_event_exists(
     _result = await server.handle_interactions(create_mocked_request("invalid"))
     assert type(_result) == dict
     assert _result == {"type": 5}
+
+
+@pytest.mark.asyncio
+async def test_custom_ctx_argument_name():
+    from dispike import Dispike
+
+    d = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="NotNeeded",
+        application_id="NotNeeded",
+        custom_context_argument_name="context",
+    )
+    assert d._cache_router._user_defined_setting_ctx_value == "context"
+
+
+@pytest.mark.asyncio
+async def test_default_ctx_argument_name():
+    from dispike import Dispike
+
+    d = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="NotNeeded",
+        application_id="NotNeeded",
+    )
+    assert d._cache_router._user_defined_setting_ctx_value == "ctx"

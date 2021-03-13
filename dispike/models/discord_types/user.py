@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+import typing
 
 try:
     from typing import Literal
@@ -18,6 +19,6 @@ class User(BaseModel):
 
     id: int
     username: str
-    avatar: str
+    avatar: typing.Union[None, str]
     discriminator: str
     public_flags: int
