@@ -809,7 +809,7 @@ the FastAPI docs.</p>
 <h2 class="doc doc-heading" id="dispike.main.Dispike.register">
 
         <code class="highlight">
-register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7f0a26b2c7a0</span><span class="o">&gt;</span>        </code>
+register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7f56d6f66710</span><span class="o">&gt;</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -829,7 +829,7 @@ register: <span class="o">&lt;</span><span class="n">function</span> <span class
 </thead>
 <tbody>
 <tr>
-<td><code>&lt;function RegisterCommands.register at 0x7f0a26b2c7a0&gt;</code></td>
+<td><code>&lt;function RegisterCommands.register at 0x7f56d6f66710&gt;</code></td>
 <td>
 <p>RegisterCommands.register: internal RegisterCommands Object</p>
 </td>
@@ -875,7 +875,7 @@ shared_client: <span class="n">httpx</span><span class="o">.</span><span class="
 <h2 class="doc doc-heading" id="dispike.main.Dispike.__init__">
 
         <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_public_key</span><span class="p">,</span> <span class="n">bot_token</span><span class="p">,</span> <span class="n">application_id</span><span class="p">)</span>        </code>
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_public_key</span><span class="p">,</span> <span class="n">bot_token</span><span class="p">,</span> <span class="n">application_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -919,18 +919,29 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 </td>
 <td><em>required</em></td>
 </tr>
+<tr>
+<td><code>custom_context_argument_name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Change the name of the context arugment when passing to a function. Set to "ctx".</p>
+</td>
+<td><em>required</em></td>
+</tr>
 </tbody>
 </table>
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_public_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bot_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">application_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">client_public_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bot_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">application_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
     <span class="sd">"""Initialize Dispike Object</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        client_public_key (str): Discord provided client public key.</span>
 <span class="sd">        bot_token (str): Discord provided bot token. You must create a bot user to view this!</span>
 <span class="sd">        application_id (str): Discord provided Client ID</span>
+<span class="sd">        custom_context_argument_name (str, optional): Change the name of the context arugment when passing to a function. Set to "ctx".</span>
 <span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span> <span class="o">=</span> <span class="n">bot_token</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span> <span class="o">=</span> <span class="n">application_id</span>
@@ -942,6 +953,14 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
         <span class="n">DiscordVerificationMiddleware</span><span class="p">,</span> <span class="n">client_public_key</span><span class="o">=</span><span class="n">client_public_key</span>
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_internal_application</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">router</span><span class="o">=</span><span class="n">router</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"custom_context_argument_name"</span><span class="p">):</span>
+        <span class="n">router</span><span class="o">.</span><span class="n">_user_defined_setting_ctx_value</span> <span class="o">=</span> <span class="s2">"ctx"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">router</span><span class="o">.</span><span class="n">_user_defined_setting_ctx_value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"custom_context_argument_name"</span>
+        <span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_cache_router</span> <span class="o">=</span> <span class="n">router</span>
 </code></pre>
 </div>
 </details>
