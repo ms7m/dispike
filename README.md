@@ -24,7 +24,7 @@ pip install dispike
 
 ## Learn more
 - Read documentation [here](https://dispike.ms7m.me)
-- See an example bot [here](https://github.com/ms7m/dispike-example-bot)
+- See an example bot [here](https://github.com/ms7m/dispike-example)
 
 ## Example Code
 
@@ -74,3 +74,6 @@ if __name__ == "__main__":
 Help is wanted in mantaining this library. Please try to direct PRs to the ``dev`` branch, and use black formatting (if possible).
 
 ![Test Dispike](https://github.com/ms7m/dispike/workflows/Test%20Dispike/badge.svg?branch=dev)
+
+# Special Thanks
+- [Squidtoon99](https://github.com/Squidtoon99)

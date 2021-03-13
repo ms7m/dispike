@@ -8,7 +8,7 @@ We need to run the bot.
 	It’s important to remember, when you are ready to deploy 	your bot, you will need to deploy your bot over a reverse 	proxy (which is beyond the scope of the docs.).
 	
 
-Now, since we don’t have a server set up yet, how are we going to test our bot? It’s a pain in the ass to have a server just for testing. Luckilly there is a tool that can help us.
+Now, since we don’t have a server set up yet, how are we going to test our bot? It’s a pain in the ass to have a server just for testing. Luckily there is a tool that can help us.
 
 We’re going to use a tool called [ngrok](https://ngrok.com/). It creates a tunnel that is accessible over the internet to a local port running on your computer.
 
@@ -28,7 +28,7 @@ Take a note at the HTTPS link, this is the link you will provide to discord.
 
 ### Start the bot.
 
-There is multiple ways to run the bot. We’re going to the most simplest one.
+There are multiple ways to run the bot. We’re going to use the simplest one.
 
 Add the following lines to the end of the file containing the bot object and handler
 

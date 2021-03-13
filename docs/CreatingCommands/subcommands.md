@@ -1,6 +1,6 @@
 # Subcommands
 
-Subcommands are more advanced form of creating bots, and it's recommended that you read the discord documentation before coming here.
+Subcommands are a more advanced form of creating bots, and it's recommended that you read the discord documentation before coming here.
 Subcommands follow a similar structure as standard commands.
 
 ```python
@@ -39,7 +39,7 @@ later_response_command = DiscordCommand(
 
 ```
 ???+ info
-	Notice the structure, it's more "nested". The discord documentation has a diagram explaining the correct structure. 
+	Notice the structure, it's more "nested". The Discord documentation has a diagram explaining the correct structure. 
 
 
 
@@ -56,3 +56,7 @@ Above example will create
 
 ???+ warning
 	Remember to properly write your handler to account for optional arguments.
+	
+	
+	
+[TODO: Add example code for subcommands]
