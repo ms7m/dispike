@@ -8,7 +8,7 @@ from .register.models import DiscordCommand
 from .models import IncomingApplicationCommand
 
 from .errors.network import DiscordAPIError
-
+import asyncio
 
 if typing.TYPE_CHECKING:
     import httpx  # pragma: no cover
@@ -87,7 +87,7 @@ class Dispike(object):
     @staticmethod
     async def background(function: typing.Callable, *args, **kwargs):
         logger.debug(f"register background to function {function}")
-        return await function(*args, **kwargs)
+        return asyncio.create_task(function(*args, **kwargs))
 
     @property
     def interaction(self) -> "EventHandler":
