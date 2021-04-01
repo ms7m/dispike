@@ -16,14 +16,13 @@ if typing.TYPE_CHECKING:
 
 
 class Dispike(object):
-
     """Dispike - python library for interacting with discord slash commands via an independently hosted server.
 
     *Powered by FastAPI*
     """
 
     def __init__(
-        self, client_public_key: str, bot_token: str, application_id: str, **kwargs
+            self, client_public_key: str, bot_token: str, application_id: str, **kwargs
     ):
         """Initialize Dispike Object
 
@@ -129,7 +128,7 @@ class Dispike(object):
         return self._registrator._client
 
     def get_commands(
-        self, guild_only=False, guild_id_passed=None
+            self, guild_only=False, guild_id_passed=None
     ) -> typing.List[IncomingApplicationCommand]:
         """Returns a list of ``DiscordCommands`` either globally or for a specific guild.
 
@@ -168,12 +167,12 @@ class Dispike(object):
             raise
 
     def edit_command(
-        self,
-        new_command: typing.Union[typing.List[DiscordCommand], DiscordCommand],
-        command_id: int = None,
-        bulk=False,
-        guild_only=False,
-        guild_id_passed=None,
+            self,
+            new_command: typing.Union[typing.List[DiscordCommand], DiscordCommand],
+            command_id: int = None,
+            bulk=False,
+            guild_only=False,
+            guild_id_passed=None,
     ) -> DiscordCommand:
         """Edits a command provided with a command_id and a valid new command.
 
@@ -234,7 +233,7 @@ class Dispike(object):
             return False
 
     def delete_command(
-        self, command_id: int, guild_only=False, guild_id_passed=None
+            self, command_id: int, guild_only=False, guild_id_passed=None
     ) -> bool:
         """Deletes a command, provided with a command_id
 
@@ -292,13 +291,14 @@ class Dispike(object):
                 "Uvicorn is not installed. Please use a different webserver pointing to <..>.referenced_application"
             )
 
-    def run(self, port: int = 5000):
+    def run(self, port: int = 5000, host: str = "127.0.0.1"):
 
         """Runs the bot with the already-installed Uvicorn webserver.
 
         Args:
             port (int, optional): Port to run the bot over. Defaults to 5000.
+            host (str, optional): Host to run the bot over. Default to 127.0.0.1.
         """
 
         uvicorn = self._return_uvicorn_run_function()
-        uvicorn.run(app=self.referenced_application, port=port)
+        uvicorn.run(app=self.referenced_application, port=port, host=host)
