@@ -85,4 +85,7 @@ async def handle_interactions(request: Request) -> Response:
         return interaction_data
 
     # Backup response, simply acknowledge. (Type 5)
-    return {"type": 5}
+    return DiscordResponse(
+        content="**Warning**: This command has not been configured. (sent by dispike)",
+        empherical=True,
+    )
