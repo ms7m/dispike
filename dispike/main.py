@@ -19,8 +19,8 @@ from .register.models.permissions import (
 
 if typing.TYPE_CHECKING:
     from .eventer import EventHandler  # pragma: no cover
-    from .models.incoming import IncomingDiscordInteraction
-    from .response import DiscordResponse
+    from .models.incoming import IncomingDiscordInteraction  # pragma: no cover
+    from .response import DiscordResponse  # pragma: no cover
 
 
 class Dispike(object):
@@ -289,13 +289,17 @@ class Dispike(object):
 
                 _set_command_permissions = client.put(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
-                    data=new_permissions.dict(),
+                    json=new_permissions.dict(),
+                    headers={"Authorization": f"Bot {self._bot_token}"},
                 )
                 _set_command_permissions.raise_for_status()
                 return True
             except httpx.HTTPError:
                 logger.exception(
                     f"Unable to set permission for command {command_id} for guild {guild_id}"
+                )
+                logger.debug(
+                    f"request: {_set_command_permissions.status_code}: {_set_command_permissions.text}"
                 )
                 return False
 
@@ -308,6 +312,7 @@ class Dispike(object):
                 _set_command_permissions = await client.put(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
                     data=new_permissions.dict(),
+                    headers={"Authorization": f"Bot {self._bot_token}"},
                 )
                 _set_command_permissions.raise_for_status()
                 return True
@@ -322,6 +327,12 @@ class Dispike(object):
         original_context: "IncomingDiscordInteraction",
         new_message: "DiscordResponse",
     ):
+        """Send a deferred message.
+
+        Args:
+            original_context (IncomingDiscordInteraction): The orginal context of the message.
+            new_message (DiscordResponse): Message to send.
+        """
         async with httpx.AsyncClient(
             base_url=f"https://discord.com/api/v8/webhooks/{self._application_id}/{original_context.token}/messages/",
             headers={"Authorization": f"Bot {self._bot_token}"},
@@ -339,6 +350,16 @@ class Dispike(object):
     async def async_get_command_permission_in_guild(
         self, command_id, guild_id
     ) -> GuildApplicationCommandPermissions:
+        """Return permissions for a single command in a guild. If no permissions are available, it will return None.
+
+        Args:
+            command_id (typing.Union[str, int]): Command ID
+            guild_id (typing.Union[str, int]): Guild ID
+
+        Returns:
+            GuildApplicationCommandPermissions: Return if permissions exist.
+            None: Return if no permissions exist.
+        """
         async with httpx.AsyncClient() as client:
             try:
                 _request_command_permission = await client.get(
@@ -359,6 +380,14 @@ class Dispike(object):
     async def async_get_all_command_permissions_in_guild(
         self, guild_id
     ) -> typing.List[GuildApplicationCommandPermissions]:
+        """Return permissions for all commands in a guild.
+
+        Args:
+            guild_id (typing.Union[str, int]): ID of guild.
+
+        Returns:
+            typing.List[GuildApplicationCommandPermissions]: Permissions for all commands (if any permissions exist.)
+        """
         async with httpx.AsyncClient() as client:
             try:
                 _request_command_permission = await client.get(
@@ -375,8 +404,16 @@ class Dispike(object):
                 )
 
     def get_all_command_permissions_in_guild(
-        self, guild_id
+        self, guild_id: typing.Union[str, int]
     ) -> typing.List[GuildApplicationCommandPermissions]:
+        """Return permissions for all commands in a guild.
+
+        Args:
+            guild_id (typing.Union[str, int]): ID of guild.
+
+        Returns:
+            typing.List[GuildApplicationCommandPermissions]: Permissions for all commands (if any permissions exist.)
+        """
         with httpx.Client() as client:
             try:
                 _request_command_permission = client.get(
@@ -394,8 +431,18 @@ class Dispike(object):
                 )
 
     def get_command_permission_in_guild(
-        self, command_id, guild_id
+        self, command_id: typing.Union[str, int], guild_id: typing.Union[str, int]
     ) -> GuildApplicationCommandPermissions:
+        """Return permissions for a single command in a guild. If no permissions are available, it will return None.
+
+        Args:
+            command_id (typing.Union[str, int]): Command ID
+            guild_id (typing.Union[str, int]): Guild ID
+
+        Returns:
+            GuildApplicationCommandPermissions: Return if permissions exist.
+            None: Return if no permissions exist.
+        """
         with httpx.Client() as client:
             try:
                 _request_command_permission = client.get(
