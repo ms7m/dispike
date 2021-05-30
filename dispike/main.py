@@ -344,7 +344,10 @@ class Dispike(object):
                 _request_command_permission = await client.get(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions"
                 )
-                _request_command_permission.raise_for_status()
+                if _request_command_permission.status_code == 404:
+                    return None
+                else:
+                    _request_command_permission.raise_for_status()
                 return GuildApplicationCommandPermissions(
                     **_request_command_permission.json()
                 )
