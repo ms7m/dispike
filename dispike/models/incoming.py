@@ -95,7 +95,9 @@ class IncomingApplicationCommand(BaseModel):
     application_id: int
     name: str
     description: str
-    options: typing.Optional[typing.Union[CommandOption, SubcommandOption]]
+    options: typing.Optional[
+        typing.Union[typing.List[CommandOption], typing.List[SubcommandOption]]
+    ]
     default_permission: typing.Optional[bool]
 
     # ? not listed in docs but appears in request
