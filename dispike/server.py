@@ -10,10 +10,10 @@ from .models.incoming import (
 )
 from .eventer import EventHandler
 from .eventer_helpers.determine_event_information import determine_event_information
-from .response import DiscordResponse
+from .response import DiscordResponse, DeferredResponse
 import json
 import typing
-
+import asyncio
 
 router = APIRouter()
 interaction = EventHandler()
@@ -59,6 +59,11 @@ async def handle_interactions(request: Request) -> Response:
 
             logger.debug(_get_res.response)
             return _get_res.response
+        elif _type_hinted_returned_value == DeferredResponse:
+            logger.debug("This is a deferred response...")
+            asyncio.create_task(interaction.emit(_event_name, **arguments))
+            return DeferredResponse.response
+
         elif _type_hinted_returned_value == dict:
             return await interaction.emit(_event_name, **arguments)
     except KeyError:
