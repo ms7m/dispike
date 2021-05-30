@@ -18,3 +18,7 @@ class GuildApplicationCommandPermissions(BaseModel):
     id: int
     application_id: int
     permissions: typing.List[ApplicationCommandPermissionType]
+
+
+class NewApplicationPermission(BaseModel):
+    permissions: typing.List[ApplicationCommandPermissions]
