@@ -15,6 +15,10 @@ if typing.TYPE_CHECKING:
     from .eventer import EventHandler  # pragma: no cover
     from .models.incoming import IncomingDiscordInteraction
     from .response import DiscordResponse
+    from .register.models.permissions import (
+        ApplicationCommandPermissions,
+        NewApplicationPermission,
+    )
 
 
 class Dispike(object):
@@ -274,6 +278,42 @@ class Dispike(object):
         except Exception:
             logger.exception("Unknown exception returned")
             raise
+
+    def set_command_permission(
+        self, command_id, guild_id, new_permissions: "NewApplicationPermission"
+    ):
+        with httpx.Client() as client:
+            try:
+
+                _set_command_permissions = client.put(
+                    f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+                    data=new_permissions.dict(),
+                )
+                _set_command_permissions.raise_for_status()
+                return True
+            except httpx.HTTPError:
+                logger.exception(
+                    f"Unable to set permission for command {command_id} for guild {guild_id}"
+                )
+                return False
+
+    async def async_set_command_permission(
+        self, command_id, guild_id, new_permissions: "NewApplicationPermission"
+    ):
+        async with httpx.AsyncClient() as client:
+            try:
+
+                _set_command_permissions = await client.put(
+                    f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+                    data=new_permissions.dict(),
+                )
+                _set_command_permissions.raise_for_status()
+                return True
+            except httpx.HTTPError:
+                logger.exception(
+                    f"Unable to set permission for command {command_id} for guild {guild_id}"
+                )
+                return False
 
     async def send_deferred_message(
         self,
