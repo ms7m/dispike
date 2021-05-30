@@ -10,15 +10,17 @@ from .models import IncomingApplicationCommand
 from .errors.network import DiscordAPIError
 import asyncio
 import httpx
+from .register.models.permissions import (
+    ApplicationCommandPermissions,
+    NewApplicationPermission,
+    GuildApplicationCommandPermissions,
+)
+
 
 if typing.TYPE_CHECKING:
     from .eventer import EventHandler  # pragma: no cover
     from .models.incoming import IncomingDiscordInteraction
     from .response import DiscordResponse
-    from .register.models.permissions import (
-        ApplicationCommandPermissions,
-        NewApplicationPermission,
-    )
 
 
 class Dispike(object):
@@ -332,6 +334,41 @@ class Dispike(object):
             except httpx.HTTPError:
                 logger.exception(
                     f"Unable to send deferred message with error: {response.text}"
+                )
+
+    async def get_command_permission_in_guild(
+        self, command_id, guild_id
+    ) -> GuildApplicationCommandPermissions:
+        async with httpx.AsyncClient() as client:
+            try:
+                _request_command_permission = await client.get(
+                    f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions"
+                )
+                _request_command_permission.raise_for_status()
+                return GuildApplicationCommandPermissions(
+                    **_request_command_permission.json()
+                )
+            except httpx.HTTPError:
+                logger.exception(
+                    f"Unable to get command permission! {_request_command_permission.status_code}"
+                )
+
+    async def get_all_command_permissions_in_guild(
+        self, guild_id
+    ) -> typing.List[GuildApplicationCommandPermissions]:
+        async with httpx.AsyncClient() as client:
+            try:
+                _request_command_permission = await client.get(
+                    f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/permissions"
+                )
+                _request_command_permission.raise_for_status()
+                return [
+                    GuildApplicationCommandPermissions(**x)
+                    for x in _request_command_permission.json()
+                ]
+            except httpx.HTTPError:
+                logger.exception(
+                    f"Unable to get command permission! {_request_command_permission.status_code}"
                 )
 
     @staticmethod
