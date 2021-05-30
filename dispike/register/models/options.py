@@ -1,9 +1,9 @@
-from pydantic import BaseModel, validator, Extra
+import dataclasses
 import typing
+
+from pydantic import BaseModel, Extra, validator
 from pydantic.error_wrappers import ValidationError
-
 from pydantic.errors import ArbitraryTypeError
-
 
 try:
     from typing import Literal
@@ -11,7 +11,15 @@ except ImportError:
     # backport
     from typing_extensions import Literal
 
+if typing.TYPE_CHECKING:  # pragma: no cover
+    static_check_init_args = dataclasses.dataclass
+else:
 
+    def static_check_init_args(cls):
+        return cls
+
+
+@static_check_init_args
 class CommandTypes:
 
     """Easy access to command types.
@@ -37,6 +45,7 @@ class CommandTypes:
     ROLE = 8
 
 
+@static_check_init_args
 class CommandChoice(BaseModel):
 
     """Represents a key-value command choice."""
@@ -45,6 +54,7 @@ class CommandChoice(BaseModel):
     value: str
 
 
+@static_check_init_args
 class CommandOption(BaseModel):
 
     """Represents a standard command option (not a subcommand)."""
@@ -71,6 +81,7 @@ class CommandOption(BaseModel):
     #   return v
 
 
+@static_check_init_args
 class SubcommandOption(BaseModel):
 
     """Represents a subcommand, usually you would put this as an option in a DiscordCommand"""
@@ -80,8 +91,8 @@ class SubcommandOption(BaseModel):
 
     name: str
     description: str
-    type: Literal[2] = 2
     options: typing.List[CommandOption]
+    type: Literal[2] = 2
 
     @validator("options")
     def options_must_contain_type_1(cls, v):  # pylint: disable=no-self-argument
@@ -94,6 +105,7 @@ class SubcommandOption(BaseModel):
         return v
 
 
+@static_check_init_args
 class DiscordCommand(BaseModel):
 
     """Represents a discord command."""
