@@ -158,3 +158,7 @@ class DiscordResponse(object):
 
     def __call__(self) -> dict:
         return self.response
+
+
+class DeferredResponse:
+    response = {"type": 5}
