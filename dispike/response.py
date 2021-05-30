@@ -60,7 +60,8 @@ class DiscordResponse(object):
         self._tts = tts
         self._embeds = [x.to_dict() for x in embeds]
         if show_user_input == False:
-            self._type_response = 3
+            logger.warning("show_user_input is longer supported by discord.")
+            self._type_response = 4
         else:
             self._type_response = 4
 
