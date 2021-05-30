@@ -15,3 +15,5 @@ data2.json
 
 keys.json
 dist/*
+test_bot.py
+test_cov.py
