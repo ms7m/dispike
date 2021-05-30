@@ -336,7 +336,7 @@ class Dispike(object):
                     f"Unable to send deferred message with error: {response.text}"
                 )
 
-    async def get_command_permission_in_guild(
+    async def async_get_command_permission_in_guild(
         self, command_id, guild_id
     ) -> GuildApplicationCommandPermissions:
         async with httpx.AsyncClient() as client:
@@ -353,7 +353,7 @@ class Dispike(object):
                     f"Unable to get command permission! {_request_command_permission.status_code}"
                 )
 
-    async def get_all_command_permissions_in_guild(
+    async def async_get_all_command_permissions_in_guild(
         self, guild_id
     ) -> typing.List[GuildApplicationCommandPermissions]:
         async with httpx.AsyncClient() as client:
@@ -369,6 +369,46 @@ class Dispike(object):
             except httpx.HTTPError:
                 logger.exception(
                     f"Unable to get command permission! {_request_command_permission.status_code}"
+                )
+
+    def get_all_command_permissions_in_guild(
+        self, guild_id
+    ) -> typing.List[GuildApplicationCommandPermissions]:
+        with httpx.Client() as client:
+            try:
+                _request_command_permission = client.get(
+                    f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/permissions",
+                    headers={"Authorization": f"Bot {self._bot_token}"},
+                )
+                _request_command_permission.raise_for_status()
+                return [
+                    GuildApplicationCommandPermissions(**x)
+                    for x in _request_command_permission.json()
+                ]
+            except httpx.HTTPError:
+                logger.exception(
+                    f"Unable to get command permission! {_request_command_permission.status_code}"
+                )
+
+    def get_command_permission_in_guild(
+        self, command_id, guild_id
+    ) -> GuildApplicationCommandPermissions:
+        with httpx.Client() as client:
+            try:
+                _request_command_permission = client.get(
+                    f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+                    headers={"Authorization": f"Bot {self._bot_token}"},
+                )
+                if _request_command_permission.status_code == 404:
+                    return None
+                else:
+                    _request_command_permission.raise_for_status()
+                return GuildApplicationCommandPermissions(
+                    **_request_command_permission.json()
+                )
+            except httpx.HTTPError:
+                logger.exception(
+                    f"Unable to get command permission! {_request_command_permission.status_code} {_request_command_permission.text}"
                 )
 
     @staticmethod
