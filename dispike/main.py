@@ -9,10 +9,12 @@ from .models import IncomingApplicationCommand
 
 from .errors.network import DiscordAPIError
 import asyncio
+import httpx
 
 if typing.TYPE_CHECKING:
-    import httpx  # pragma: no cover
     from .eventer import EventHandler  # pragma: no cover
+    from .models.incoming import IncomingDiscordInteraction
+    from .response import DiscordResponse
 
 
 class Dispike(object):
@@ -272,6 +274,25 @@ class Dispike(object):
         except Exception:
             logger.exception("Unknown exception returned")
             raise
+
+    async def send_deferred_message(
+        self,
+        original_context: "IncomingDiscordInteraction",
+        new_message: "DiscordResponse",
+    ):
+        async with httpx.AsyncClient(
+            base_url=f"https://discord.com/api/v8/webhooks/{self._application_id}/{original_context.token}/messages/",
+            headers={"Authorization": f"Bot {self._bot_token}"},
+        ) as client:
+            try:
+                # TODO: Probably change later to inside the DeferredResponse?
+                new_message._switch_to_followup_message()
+                response = await client.patch("/@original", data=new_message.response)
+                response.raise_for_status()
+            except httpx.HTTPError:
+                logger.exception(
+                    f"Unable to send deferred message with error: {response.text}"
+                )
 
     @staticmethod
     def _return_uvicorn_run_function():
