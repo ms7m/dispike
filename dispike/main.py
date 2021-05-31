@@ -283,7 +283,17 @@ class Dispike(object):
 
     def set_command_permission(
         self, command_id, guild_id, new_permissions: "NewApplicationPermission"
-    ):
+    ) -> bool:
+        """Set a permissions for a command in a specific guild. This function is sync!
+
+        Args:
+            command_id (int): Command ID
+            guild_id (int): Guild ID
+            new_permissions (NewApplicationPermission): Permissions for this command.
+
+        Returns:
+            [bool]: True, if the command has been successfully edited.
+        """
         with httpx.Client() as client:
             try:
 
@@ -305,7 +315,17 @@ class Dispike(object):
 
     async def async_set_command_permission(
         self, command_id, guild_id, new_permissions: "NewApplicationPermission"
-    ):
+    ) -> bool:
+        """Set a permissions for a command in a specific guild. This function is async!
+
+        Args:
+            command_id (int): Command ID
+            guild_id (int): Guild ID
+            new_permissions (NewApplicationPermission): Permissions for this command.
+
+        Returns:
+            [bool]: True, if the command has been successfully edited.
+        """
         async with httpx.AsyncClient() as client:
             try:
 

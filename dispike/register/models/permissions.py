@@ -13,12 +13,16 @@ else:
 
 @static_check_init_args
 class ApplicationCommandPermissionType(int, Enum):
+    """The permission type of the Application Command."""
+
     ROLE = 1
     USER = 2
 
 
 @static_check_init_args
 class ApplicationCommandPermissions(BaseModel):
+    """An individual permission for a command. """
+
     id: int
     type: ApplicationCommandPermissionType
     permission: bool
@@ -26,6 +30,8 @@ class ApplicationCommandPermissions(BaseModel):
 
 @static_check_init_args
 class GuildApplicationCommandPermissions(BaseModel):
+    """ Returned when fetching the permissions for a command in a guild. """
+
     id: int
     application_id: int
     permissions: typing.List[ApplicationCommandPermissions]
