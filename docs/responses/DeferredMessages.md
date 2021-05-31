@@ -1,9 +1,7 @@
 # Deferred Messages
 
 Deferred Messages are messages that will appear later to the user. 
-<p align="center">
-	<img src="./images/loadingDeferred.gif" alt="Dispike"></a>
-</p>
+![GifOfDeferredMessage](images/loadingDeferred.gif)
 
 ***
 
@@ -20,15 +18,16 @@ Deferred Responses are useful for commands that require background processing th
 ### Requirements
 Your handler **must** hint a return of ``DeferredResponse``. Any other hinted return (or no hinted return) may result in a delay in your bot responding. 
 
-When you are ready to send your respond, use the provided function ```.send_deferred_message``` in your bot instance.
+When you are ready to send your respond, use the provided function ``.send_deferred_message`` in your bot instance.
 
 ???+ warning
 	Your handler must still be an async function!
 
- ```python
+***
+```python
 @bot.interaction.on("new.code")
 async def generate_secret_code(ctx: IncomingDiscordInteraction) -> DeferredResponse:
-
+    data = _heavy_function()
     # Compute-heavy task here.
     #
     # Remember that you have 15 minutes to respond before the token
@@ -38,5 +37,5 @@ async def generate_secret_code(ctx: IncomingDiscordInteraction) -> DeferredRespo
         original_context=ctx,
         new_message=DiscordResponse(content="back with a new response."),
     )
- ```
+```
 
