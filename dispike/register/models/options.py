@@ -4,6 +4,7 @@ import typing
 from pydantic import BaseModel, Extra, validator
 from pydantic.error_wrappers import ValidationError
 from pydantic.errors import ArbitraryTypeError
+from enum import Enum
 
 try:
     from typing import Literal
@@ -19,8 +20,7 @@ else:
         return cls
 
 
-@static_check_init_args
-class CommandTypes:
+class CommandTypes(int, Enum):
 
     """Easy access to command types.
 
@@ -33,6 +33,7 @@ class CommandTypes:
         SUB_COMMAND (int): Represents Type 1
         SUB_COMMAND_GROUP (int): Represents Type 2
         USER (int): Represents Type 6
+        MENTIONABLE (int): Represents Type 9
     """
 
     SUB_COMMAND = 1
@@ -43,6 +44,7 @@ class CommandTypes:
     USER = 6
     CHANNEL = 7
     ROLE = 8
+    MENTIONABLE = 9
 
 
 @static_check_init_args
@@ -64,7 +66,7 @@ class CommandOption(BaseModel):
 
     name: str
     description: str
-    type: int
+    type: CommandTypes
     required: bool = False
     choices: typing.Optional[
         typing.Union[typing.List[dict], typing.List[CommandChoice]]
