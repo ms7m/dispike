@@ -39,3 +39,6 @@ jobs:
       - name: Test with pytest
         run: |
           poetry run pytest
+      - name: Test building wheel
+        run: |
+          poetry build
