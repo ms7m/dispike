@@ -22,6 +22,12 @@ async def test_event_handler():
 
 
 @pytest.mark.asyncio
+async def test_event_handler_fail_no_event():
+    with pytest.raises(TypeError):
+        await event_handler.return_event_settings("fail")
+
+
+@pytest.mark.asyncio
 async def test_dynamic_arguments_event_handler():
     data = {
         "channel_id": "123123",

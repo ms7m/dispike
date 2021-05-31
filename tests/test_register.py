@@ -175,3 +175,16 @@ def test_updating_bot_token():
     target_item.bot_token = "NEW_BOT_TOKEN"
 
     assert target_item.request_headers == {"Authorization": "Bot NEW_BOT_TOKEN"}
+
+
+def test_fail_updating_bot_token_same():
+    with pytest.raises(TypeError):
+        from dispike.register.registrator import RegisterCommands
+
+        target_item = RegisterCommands(
+            application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
+        )
+
+        target_item.bot_token = "EXAMPLE_BOT_TOKEN"
+
+        assert target_item.request_headers == {"Authorization": "Bot NEW_BOT_TOKEN"}
