@@ -45,6 +45,7 @@ class DiscordResponse(object):
             embeds (typing.List[Embed], optional): a List representing .to_dict of an Embed object
             show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.
             empherical (bool, optional): Whether to send message as an empherical message.
+            allowed_mentions (typing.List[AllowedMentions], optional): Let discord filter mentions per configuration.
         """
         if content != None:
             if isinstance(content, str) == False:
