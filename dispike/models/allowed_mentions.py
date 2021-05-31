@@ -3,6 +3,7 @@ from pydantic import BaseModel, conlist
 import typing
 import dataclasses
 
+
 if typing.TYPE_CHECKING:  # pragma: no cover
     static_check_init_args = dataclasses.dataclass
 else:
@@ -20,6 +21,6 @@ class AllowedMentionTypes(str, Enum):
 @static_check_init_args
 class AllowedMentions(BaseModel):
     parse: typing.List[AllowedMentionTypes]
-    roles: conlist(AllowedMentionTypes, max_items=100)
-    users: conlist(AllowedMentionTypes, max_items=100)
+    roles: conlist(str, max_items=100) = []
+    users: conlist(str, max_items=100) = []
     replied_user: bool = False
