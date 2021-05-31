@@ -7,10 +7,10 @@ from pydantic.errors import ArbitraryTypeError
 from enum import Enum
 
 try:
-    from typing import Literal
-except ImportError:
+    from typing import Literal  # pragma: no cover
+except ImportError:  # pragma: no cover
     # backport
-    from typing_extensions import Literal
+    from typing_extensions import Literal  # pragma: no cover
 
 if typing.TYPE_CHECKING:  # pragma: no cover
     static_check_init_args = dataclasses.dataclass
@@ -86,7 +86,7 @@ class CommandOption(BaseModel):
 @static_check_init_args
 class SubcommandOption(BaseModel):
 
-    """Represents a subcommand, usually you would put this as an option in a DiscordCommand"""
+    """Represents a subcommand group usually you would put this as an option in a DiscordCommand"""
 
     class Config:
         arbitrary_types_allowed = True
@@ -96,15 +96,22 @@ class SubcommandOption(BaseModel):
     options: typing.List[CommandOption]
     type: Literal[2] = 2
 
-    @validator("options")
-    def options_must_contain_type_1(cls, v):  # pylint: disable=no-self-argument
-        item: CommandOption
-        for item_location, item in enumerate(v):
-            if item.type != 1:
-                raise ValueError(
-                    f"CommandOptions <{item.name}> located <{item_location}> must be have type of 1 due to parent being a subcommand."
-                )
-        return v
+    # @validator("options", pre=True, always=True)
+    # def options_must_contain_type_1(cls, v):  # pylint: disable=no-self-argument
+    #    item: CommandOption
+    #    for item_location, item in enumerate(v):
+    #        if isinstance(item, CommandOption):
+    #            _type = item.type
+    #            _error_name = item.name
+    #        elif isinstance(item, dict):
+    #            _type = item["type"]
+    #            _error_name = item["name"]
+    #
+    #        if _type != 1:
+    #            raise ValueError(
+    #                f"CommandOptions <{_error_name}> located <{item_location}> must be have type of 1 due to parent being a subcommand."
+    #            )
+    #    return v
 
 
 @static_check_init_args
