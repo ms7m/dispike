@@ -4,10 +4,10 @@ from .errors.network import DiscordAPIError
 from loguru import logger
 
 try:
-    from typing import Literal
-except ImportError:
+    from typing import Literal  # pragma: no cover
+except ImportError:  # pragma: no cover
     # backport
-    from typing_extensions import Literal
+    from typing_extensions import Literal  # pragma: no cover
 
 if typing.TYPE_CHECKING:
     from .main import Dispike

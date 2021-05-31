@@ -5,10 +5,10 @@ from .discord_types.member import Member
 from ..register.models import CommandOption, SubcommandOption
 
 try:
-    from typing import Literal
-except ImportError:
+    from typing import Literal  # pragma: no cover
+except ImportError:  # pragma: no cover
     # backport
-    from typing_extensions import Literal
+    from typing_extensions import Literal  # pragma: no cover
 
 
 class IncomingDiscordOption(BaseModel):
