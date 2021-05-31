@@ -12,6 +12,7 @@ except ImportError:
 if typing.TYPE_CHECKING:
     from .main import Dispike
     from .models import IncomingDiscordInteraction
+    from .models.allowed_mentions import AllowedMentions
 
 
 class DiscordResponse(object):
@@ -33,6 +34,7 @@ class DiscordResponse(object):
         show_user_input: bool = False,
         follow_up_message=False,
         empherical=False,
+        allowed_mentions: "AllowedMentions" = None,
     ):
         """Initialize a DiscordResponse, you can either pass data into here, or
         simply create a DiscordResponse() and edit via properties.
@@ -67,6 +69,7 @@ class DiscordResponse(object):
 
         self._is_followup = follow_up_message
         self._is_empherical = empherical
+        self._allowed_mentions = allowed_mentions
 
     @property
     def embeds(self) -> typing.List[dict]:
@@ -151,6 +154,10 @@ class DiscordResponse(object):
         }
         if self._is_empherical == True:
             _req["data"]["flags"] = 1 << 6
+
+        if self._allowed_mentions:
+            _req["allowed_mentions"] = self._allowed_mentions.dict()
+
         return _req
 
     def _switch_to_followup_message(self):
