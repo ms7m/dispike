@@ -19,6 +19,7 @@ async def dummy_dynamic_function(dynamicargument, payload):
 async def test_event_handler():
     assert await event_handler.emit("sampleEvent", payload=True) == True
     assert "sampleEvent" in event_handler.callbacks
+    assert event_handler.return_event_settings("sampleEvent") == {}
 
 
 @pytest.mark.asyncio
