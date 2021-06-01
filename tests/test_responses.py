@@ -1,3 +1,4 @@
+import json
 from dispike.errors.network import DiscordAPIError
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
@@ -8,6 +9,7 @@ import pytest
 import typing
 import respx
 from httpx import Response
+from dispike.models.allowed_mentions import AllowedMentions, AllowedMentionTypes
 
 if typing.TYPE_CHECKING:
     from dispike import Dispike
@@ -71,6 +73,22 @@ def test_response_with_embed():
 
     assert isinstance(_created_content.embeds[0], dict) == True
     assert _created_content.embeds[0] != {}
+
+
+def test_response_with_allowed_mentions():
+    _created_response = DiscordResponse(
+        content="test",
+        allowed_mentions=AllowedMentions(
+            parse=[AllowedMentionTypes.ROLE_MENTIONS], roles=[11111], replied_user=True
+        ),
+    )
+    assert json.loads(json.dumps(_created_response.response))["allowed_mentions"] == {
+        "parse": ["roles"],
+        "roles": ["11111"],
+        "users": [],
+        "replied_user": True,
+    }
+    assert _created_response.response["data"]["content"] == "test"
 
 
 def test_invalid_embed_object():

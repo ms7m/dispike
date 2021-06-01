@@ -54,3 +54,76 @@ def test_command_creation():
 
     # return command_to_create
     assert command_to_create.dict(exclude_none=True) == expectation
+
+
+def test_mulitple_subcommands():
+    command_to_create = DiscordCommand(
+        **{
+            "name": "testsubcommand",
+            "description": "sample description for testing subcommands",
+            "options": [
+                {
+                    "type": 1,
+                    "name": "testsub1",
+                    "description": "test inner subcommand",
+                    "options": [],
+                },
+                {
+                    "type": 1,
+                    "name": "testsub2",
+                    "description": "test inner subcommand 2",
+                    "options": [],
+                },
+            ],
+        }
+    )
+    assert command_to_create.name == "testsubcommand", "Unexpected command name"
+    assert (
+        command_to_create.description == "sample description for testing subcommands"
+    ), "Unexpected command description"
+
+    assert (
+        command_to_create.options[0].name == "testsub1"
+    ), "Unexpected subcommand 1 name"
+    assert (
+        command_to_create.options[1].name == "testsub2"
+    ), "Unexpected subcommand 2 name"
+
+    assert (
+        command_to_create.options[0].description == "test inner subcommand"
+    ), "Unexpected subcommand inner subcommand description"
+    assert (
+        command_to_create.options[1].description == "test inner subcommand 2"
+    ), "Unexpected subcommand inner subcommand 2 description"
+
+
+def test_subcommand_group():
+    command_to_create = DiscordCommand(
+        **{
+            "name": "testsubcommand",
+            "description": "sample description for testing subcommands",
+            "options": [
+                {
+                    "type": 2,
+                    "name": "subcommandgroup",
+                    "description": "testing subcommandgroup",
+                    "options": [
+                        {
+                            "type": 1,
+                            "name": "innertest",
+                            "description": "inner test 1",
+                            "options": [],
+                        }
+                    ],
+                }
+            ],
+        }
+    )
+    assert command_to_create.name == "testsubcommand"
+    assert command_to_create.description == "sample description for testing subcommands"
+
+    assert command_to_create.options[0].type == 2
+    assert command_to_create.options[0].name == "subcommandgroup"
+    assert command_to_create.options[0].description == "testing subcommandgroup"
+    assert command_to_create.options[0].options[0].name == "innertest"
+    assert command_to_create.options[0].options[0].type == 1

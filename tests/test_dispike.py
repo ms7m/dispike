@@ -118,3 +118,39 @@ def test_invalid_reset_registration(dispike_object: Dispike):
         _current_dispike_object.reset_registration(
             new_bot_token=tuple(0, 0, 0), new_application_id={1: None}
         )
+
+
+def test_bad_new_command_argument_for_edit_command():
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    _current_dispike_object = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="BOTTOKEN",
+        application_id="APPID",
+    )
+
+    with pytest.raises(TypeError):
+        _current_dispike_object.edit_command(False)
+
+
+def test_no_guild_id_passed_but_guild_only_argument_for_edit_command():
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    _current_dispike_object = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="BOTTOKEN",
+        application_id="APPID",
+    )
+
+    with pytest.raises(TypeError):
+        _current_dispike_object.edit_command(
+            new_command=[], guild_only=True, command_id=1122122
+        )

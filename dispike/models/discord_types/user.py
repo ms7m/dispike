@@ -2,10 +2,10 @@ from pydantic import BaseModel
 import typing
 
 try:
-    from typing import Literal
-except ImportError:
+    from typing import Literal  # pragma: no cover
+except ImportError:  # pragma: no cover
     # backport
-    from typing_extensions import Literal
+    from typing_extensions import Literal  # pragma: no cover
 
 
 class User(BaseModel):

@@ -5,7 +5,17 @@ theme:
   icon:
     repo: fontawesome/brands/github
   palette:
-    primary: black
+    - scheme: default
+      primary: black
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+    - scheme: slate
+      primary: gray
+      accent: amber
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
   features:
     - navigation.expand
 nav:
@@ -28,9 +38,24 @@ nav:
       - "Info": "responses/index.md"
       - "Ready Responses": "responses/readyresponse.md"
       - "Writing your Handler": "responses/writinghandler.md"
+      - Deferred Responses: "responses/DeferredMessages.md"
   - "Creating Commands":
       - "Subcommands": "CreatingCommands/subcommands.md"
       - "Standard Commands": "CreatingCommands/standard.md"
+  #- Deploying Your Bot:
+  #    - Index: "DeployingToProduction/index.md"
+  #    - Deploying without a Server: "DeployingToProduction/DeployingWithoutServer.md"
+  #    - Setting Up Workers: "DeployingToProduction/SettingUpWorkers.md"
+  #    - Configuring Gunicorn: "DeployingToProduction/SettingUpGunicorn.md"
+  #    - Reverse Proxy Specific:
+  #        - Information: "DeployingToProduction/ReverseProxySpecific/index.md"
+  #        - Nginx: "DeployingToProduction/ReverseProxySpecific/nginx.md"
+  #        - Caddy: "DeployingToProduction/ReverseProxySpecific/caddy.md"
+  #        - Apache: "DeployingToProduction/ReverseProxySpecific/apache.md"
+  #        - Traefik: "DeployingToProduction/ReverseProxySpecific/traefik.md"
+  #    - "Optional: Configuring Firewall & DNS": "DeployingToProduction/firewallConfiguration.md"
+  #    - Finale: "DeployingToProduction/finale.md"
+
   - Editing Commands: "EditingCommands/index.md"
   - Deleting Commands: "DeletingCommands/index.md"
   - Getting Commands: "GettingCommands/index.md"
@@ -50,7 +75,11 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - toc:
       permalink: true
-
+extra_javascript:
+  - js/termynal.js
+  - js/custom.js
+extra_css:
+  - css/termynal.css
 repo_url: https://github.com/ms7m/dispike
 repo_name: ms7m/dispike
 copyright: Copyright &copy; 2020 - 2021 Mustafa Mohamed

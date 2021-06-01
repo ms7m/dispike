@@ -5,10 +5,10 @@ from .discord_types.member import Member
 from ..register.models import CommandOption, SubcommandOption
 
 try:
-    from typing import Literal
-except ImportError:
+    from typing import Literal  # pragma: no cover
+except ImportError:  # pragma: no cover
     # backport
-    from typing_extensions import Literal
+    from typing_extensions import Literal  # pragma: no cover
 
 
 class IncomingDiscordOption(BaseModel):
@@ -95,4 +95,10 @@ class IncomingApplicationCommand(BaseModel):
     application_id: int
     name: str
     description: str
-    options: typing.List[typing.Union[CommandOption, SubcommandOption]]
+    options: typing.Optional[
+        typing.Union[typing.List[CommandOption], typing.List[SubcommandOption]]
+    ]
+    default_permission: typing.Optional[bool]
+
+    # ? not listed in docs but appears in request
+    version: typing.Optional[str]

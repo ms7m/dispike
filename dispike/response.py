@@ -4,14 +4,15 @@ from .errors.network import DiscordAPIError
 from loguru import logger
 
 try:
-    from typing import Literal
-except ImportError:
+    from typing import Literal  # pragma: no cover
+except ImportError:  # pragma: no cover
     # backport
-    from typing_extensions import Literal
+    from typing_extensions import Literal  # pragma: no cover
 
 if typing.TYPE_CHECKING:
     from .main import Dispike
     from .models import IncomingDiscordInteraction
+    from .models.allowed_mentions import AllowedMentions
 
 
 class DiscordResponse(object):
@@ -33,6 +34,7 @@ class DiscordResponse(object):
         show_user_input: bool = False,
         follow_up_message=False,
         empherical=False,
+        allowed_mentions: "AllowedMentions" = None,
     ):
         """Initialize a DiscordResponse, you can either pass data into here, or
         simply create a DiscordResponse() and edit via properties.
@@ -43,6 +45,7 @@ class DiscordResponse(object):
             embeds (typing.List[Embed], optional): a List representing .to_dict of an Embed object
             show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.
             empherical (bool, optional): Whether to send message as an empherical message.
+            allowed_mentions (typing.List[AllowedMentions], optional): Let discord filter mentions per configuration.
         """
         if content != None:
             if isinstance(content, str) == False:
@@ -60,12 +63,14 @@ class DiscordResponse(object):
         self._tts = tts
         self._embeds = [x.to_dict() for x in embeds]
         if show_user_input == False:
-            self._type_response = 3
+            logger.warning("show_user_input is longer supported by discord.")
+            self._type_response = 4
         else:
             self._type_response = 4
 
         self._is_followup = follow_up_message
         self._is_empherical = empherical
+        self._allowed_mentions = allowed_mentions
 
     @property
     def embeds(self) -> typing.List[dict]:
@@ -150,6 +155,10 @@ class DiscordResponse(object):
         }
         if self._is_empherical == True:
             _req["data"]["flags"] = 1 << 6
+
+        if self._allowed_mentions:
+            _req["allowed_mentions"] = self._allowed_mentions.dict()
+
         return _req
 
     def _switch_to_followup_message(self):
@@ -157,3 +166,7 @@ class DiscordResponse(object):
 
     def __call__(self) -> dict:
         return self.response
+
+
+class DeferredResponse:
+    response = {"type": 5}
