@@ -181,7 +181,7 @@ class Dispike(object):
         command_id: int = None,
         bulk=False,
         guild_only=False,
-        guild_id_passed=None,
+        guild_id_passed=False,
     ) -> DiscordCommand:
         """Edits a command provided with a command_id and a valid new command.
 
