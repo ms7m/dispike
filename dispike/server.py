@@ -1,8 +1,10 @@
+from dispike.errors.internal import UnknownInteractionType
 from fastapi import APIRouter, Request, Response
 from fastapi.responses import PlainTextResponse
 from loguru import logger
 from .middlewares.verification import DiscordVerificationMiddleware
 from .models.incoming import (
+    IncomingButtonInteraction,
     IncomingDiscordInteraction,
     IncomingDiscordOptionList,
     SubcommandIncomingDiscordOptionList,
@@ -35,15 +37,24 @@ async def handle_interactions(request: Request) -> Response:
 
     _get_request_body = json.loads(request.state._cached_body.decode())
     logger.info(_get_request_body)
+
     if _get_request_body["type"] == 1:
         logger.info("handling ACK Ping.")
         return {"type": 1}
 
-    _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
+    if _get_request_body["type"] == 2:
+        # Application Command
+        _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
+    elif _get_request_body["type"] == 1:
+        # MessageComponent
+        _parse_to_object = IncomingButtonInteraction(**_get_request_body)
+    else:
+        raise UnknownInteractionType(_get_request_body["type"])
     _event_name, arguments = determine_event_information(_parse_to_object)
     logger.info(f"event name: {_event_name}")
+
     if interaction.check_event_exists(_event_name) == False:
-        logger.debug("discarding event not existing.")
+        logger.debug(f"Event {_event_name} is not handled.. Discarding..")
         return {"type": 5}
 
     # _event_settings = interaction.return_event_settings(_event_name)
