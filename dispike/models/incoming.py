@@ -1,6 +1,8 @@
-from pydantic import BaseModel, ValidationError, validator
+from enum import Enum
+from pydantic import BaseModel, Json, ValidationError, validator
 import typing
 from .discord_types.member import Member
+from .discord_types.component import ComponentType
 
 from ..register.models import CommandOption, SubcommandOption
 
@@ -9,6 +11,11 @@ try:
 except ImportError:  # pragma: no cover
     # backport
     from typing_extensions import Literal  # pragma: no cover
+
+
+class InteractionType(int, Enum):
+    APPLICATION_COMMAND = 2
+    MESSAGE_COMPONENT = 3
 
 
 class IncomingDiscordOption(BaseModel):
@@ -72,7 +79,7 @@ class IncomingDiscordInteraction(BaseModel):
     class Config:
         arbitary_types_allowed = True
 
-    type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
+    type: InteractionType  # 1 is removed, this lib will handle PING
     id: int
     data: IncomingDiscordOptionList
     guild_id: int
@@ -80,6 +87,7 @@ class IncomingDiscordInteraction(BaseModel):
     member: Member
     token: str
     version: typing.Optional[Literal[1]] = None
+    channel_id: int
 
 
 class IncomingApplicationCommand(BaseModel):
@@ -102,3 +110,27 @@ class IncomingApplicationCommand(BaseModel):
 
     # ? not listed in docs but appears in request
     version: typing.Optional[str]
+
+
+class SelectedButtonInteractionData(BaseModel):
+    custom_id: typing.Union[int, str]
+    component_type: Literal[ComponentType.BUTTON]
+
+
+class IncomingButtonInteraction(BaseModel):
+    class Config:
+        arbitary_types_allowed = True
+
+    type: Literal[
+        InteractionType.MESSAGE_COMPONENT
+    ]  # 1 is removed, this lib will handle PING
+    id: int
+    guild_id: int
+    channel_id: int
+    member: Member
+    token: str
+    version: typing.Optional[Literal[1]] = None
+    channel_id: int
+
+    message: typing.Union[dict, Json]  # TODO: Create BaseModel for Discord Messages
+    data: SelectedButtonInteractionData
