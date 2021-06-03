@@ -1,4 +1,5 @@
 from ..models.incoming import (
+    IncomingButtonInteraction,
     IncomingDiscordInteraction,
     IncomingDiscordOptionList,
     SubcommandIncomingDiscordOptionList,
@@ -10,7 +11,7 @@ from loguru import logger
 
 
 def determine_event_information(
-    interaction: IncomingDiscordInteraction,
+    interaction: typing.Union[IncomingDiscordInteraction, IncomingButtonInteraction],
 ) -> typing.Tuple[str, dict]:
 
     if isinstance(interaction, IncomingDiscordInteraction) == True:
@@ -53,5 +54,7 @@ def determine_event_information(
                 _command_arguments[argument.name] = argument.value
 
             return interaction.data.name, _command_arguments
-
+    elif isinstance(interaction, IncomingButtonInteraction) == True:
+        interaction: IncomingButtonInteraction
+        return f"button.{interaction.data.custom_id}"
     raise TypeError("unable to determine eventname.")
