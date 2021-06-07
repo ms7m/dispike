@@ -355,12 +355,15 @@ class Dispike(object):
         """
         async with httpx.AsyncClient(
             base_url=f"https://discord.com/api/v8/webhooks/{self._application_id}/{original_context.token}/messages/",
-            headers={"Authorization": f"Bot {self._bot_token}"},
+            headers={
+                "Authorization": f"Bot {self._bot_token}",
+                "Content-Type": "application/json",
+            },
         ) as client:
             try:
                 # TODO: Probably change later to inside the DeferredResponse?
                 new_message._switch_to_followup_message()
-                response = await client.patch("/@original", data=new_message.response)
+                response = await client.patch("/@original", json=new_message.response)
                 response.raise_for_status()
             except httpx.HTTPError:
                 logger.exception(
