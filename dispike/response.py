@@ -62,11 +62,12 @@ class DiscordResponse(object):
         self._content = content
         self._tts = tts
         self._embeds = [x.to_dict() for x in embeds]
-        if show_user_input == False:
-            logger.warning("show_user_input is longer supported by discord.")
-            self._type_response = 4
-        else:
-            self._type_response = 4
+        if show_user_input == True:
+            logger.warning(
+                "show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may remove this parameter."
+            )
+
+        self._type_response = 4
 
         self._is_followup = follow_up_message
         self._is_empherical = empherical
