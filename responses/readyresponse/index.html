@@ -1198,11 +1198,12 @@ simply create a DiscordResponse() and edit via properties.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_tts</span> <span class="o">=</span> <span class="n">tts</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_embeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">embeds</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">show_user_input</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"show_user_input is longer supported by discord."</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">if</span> <span class="n">show_user_input</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">"show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may remove this parameter."</span>
+        <span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">4</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_is_followup</span> <span class="o">=</span> <span class="n">follow_up_message</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_is_empherical</span> <span class="o">=</span> <span class="n">empherical</span>

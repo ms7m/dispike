@@ -675,11 +675,9 @@ assisting in helping write documentation!
                 
                   <h1>Incoming</h1>
                 
-                <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Json</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
+                <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
 <span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">from</span> <span class="nn">.discord_types.member</span> <span class="kn">import</span> <span class="n">Member</span>
-<span class="kn">from</span> <span class="nn">.discord_types.component</span> <span class="kn">import</span> <span class="n">ComponentType</span>
 
 <span class="kn">from</span> <span class="nn">..register.models</span> <span class="kn">import</span> <span class="n">CommandOption</span><span class="p">,</span> <span class="n">SubcommandOption</span>
 
@@ -688,11 +686,6 @@ assisting in helping write documentation!
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="c1"># backport</span>
     <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Literal</span>  <span class="c1"># pragma: no cover</span>
-
-
-<span class="k">class</span> <span class="nc">InteractionType</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-    <span class="n">APPLICATION_COMMAND</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">MESSAGE_COMPONENT</span> <span class="o">=</span> <span class="mi">3</span>
 
 
 <span class="k">class</span> <span class="nc">IncomingDiscordOption</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -756,7 +749,7 @@ assisting in helping write documentation!
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">arbitary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="nb">type</span><span class="p">:</span> <span class="n">InteractionType</span>  <span class="c1"># 1 is removed, this lib will handle PING</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>  <span class="c1"># 1 is removed, this lib will handle PING</span>
     <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">IncomingDiscordOptionList</span>
     <span class="n">guild_id</span><span class="p">:</span> <span class="nb">int</span>
@@ -764,7 +757,6 @@ assisting in helping write documentation!
     <span class="n">member</span><span class="p">:</span> <span class="n">Member</span>
     <span class="n">token</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">version</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">channel_id</span><span class="p">:</span> <span class="nb">int</span>
 
 
 <span class="k">class</span> <span class="nc">IncomingApplicationCommand</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -787,30 +779,6 @@ assisting in helping write documentation!
 
     <span class="c1"># ? not listed in docs but appears in request</span>
     <span class="n">version</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-
-
-<span class="k">class</span> <span class="nc">SelectedButtonInteractionData</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">custom_id</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="n">component_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="n">ComponentType</span><span class="o">.</span><span class="n">BUTTON</span><span class="p">]</span>
-
-
-<span class="k">class</span> <span class="nc">IncomingButtonInteraction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span>
-        <span class="n">InteractionType</span><span class="o">.</span><span class="n">MESSAGE_COMPONENT</span>
-    <span class="p">]</span>  <span class="c1"># 1 is removed, this lib will handle PING</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">guild_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">channel_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">member</span><span class="p">:</span> <span class="n">Member</span>
-    <span class="n">token</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">version</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">channel_id</span><span class="p">:</span> <span class="nb">int</span>
-
-    <span class="n">message</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Json</span><span class="p">]</span>  <span class="c1"># TODO: Create BaseModel for Discord Messages</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">SelectedButtonInteractionData</span>
 </code></pre></div>
                 
               

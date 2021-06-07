@@ -846,7 +846,7 @@ the FastAPI docs.</p>
 <h2 class="doc doc-heading" id="dispike.main.Dispike.register">
 
         <code class="highlight">
-register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7f738c05b4d0</span><span class="o">&gt;</span>        </code>
+register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7fa20148ca70</span><span class="o">&gt;</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -866,7 +866,7 @@ register: <span class="o">&lt;</span><span class="n">function</span> <span class
 </thead>
 <tbody>
 <tr>
-<td><code>&lt;function RegisterCommands.register at 0x7f738c05b4d0&gt;</code></td>
+<td><code>&lt;function RegisterCommands.register at 0x7fa20148ca70&gt;</code></td>
 <td>
 <p>RegisterCommands.register: internal RegisterCommands Object</p>
 </td>
@@ -2097,12 +2097,15 @@ send_deferred_message<span class="p">(</span><span class="bp">self</span><span c
 <span class="sd">    """</span>
     <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span>
         <span class="n">base_url</span><span class="o">=</span><span class="sa">f</span><span class="s2">"https://discord.com/api/v8/webhooks/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">original_context</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">/messages/"</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bot </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bot </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="p">},</span>
     <span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># TODO: Probably change later to inside the DeferredResponse?</span>
             <span class="n">new_message</span><span class="o">.</span><span class="n">_switch_to_followup_message</span><span class="p">()</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">"/@original"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">new_message</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">"/@original"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">new_message</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
             <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
         <span class="k">except</span> <span class="n">httpx</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
