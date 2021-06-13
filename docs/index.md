@@ -70,7 +70,12 @@ This library is **only tested** on python versions
 | ApplicationCommandOptionChoice | **✅ Implemented** |
 | Interaction | **✅ Implemented** |
 | Interaction Response | **✅ Implemented** |
+| Message Components | **⚠️ Not implemented** |
+| Buttons (Message Components) | **⚠️ Not implemented** |
+| Action Rows (Message Components) | **⚠️ Not implemented** |
+| Message Select (Message Components)[^1] | **⚠️ Not implemented** |
 
+[^1]: Message select is currently being tested and is not available..
 ### Special Thanks
 - [Squidtoon99](https://github.com/Squidtoon99)
 
