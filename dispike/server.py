@@ -41,8 +41,6 @@ async def handle_interactions(request: Request) -> Response:
         return {"type": 1}
 
     if _get_request_body["type"] == 3:
-        logger.info("We have a component interaction~!")
-
         if _get_request_body["data"]["component_type"] == ComponentTypes.BUTTON.value:
             # Button
             _get_res = await interaction.emit(
