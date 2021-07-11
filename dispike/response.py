@@ -37,6 +37,7 @@ class DiscordResponse(object):
         empherical=False,
         allowed_mentions: "AllowedMentions" = None,
         action_row: ActionRow = None,
+        update_message=False,
     ):
         """Initialize a DiscordResponse, you can either pass data into here, or
         simply create a DiscordResponse() and edit via properties.
@@ -76,6 +77,9 @@ class DiscordResponse(object):
             )
 
         self._type_response = 4
+
+        if update_message:
+            self._type_response = 7
 
         self._is_followup = follow_up_message
         self._is_empherical = empherical
