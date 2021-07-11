@@ -193,7 +193,7 @@ class SelectMenu:
             "custom_id": self.custom_id,
             "min_values": self.min_values,
             "max_values": self.max_values,
-            "placeholder": self.placeholder
+            "placeholder": self.placeholder,
         }
 
 
