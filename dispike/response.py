@@ -168,7 +168,7 @@ class DiscordResponse(object):
 
             if self._is_empherical == True:
                 logger.info("setting empherical")
-                _req["flags"] == 1 << 6
+                _req["flags"] = 1 << 6
 
             if self._action_row:
                 _req["data"]["components"] = [self.components]
