@@ -45,10 +45,6 @@ async def handle_interactions(request: Request) -> Response:
 
         if _get_request_body["data"]["component_type"] == ComponentTypes.BUTTON.value:
             # Button
-            logger.info(
-                f"Hit button with id `{_get_request_body['data']['custom_id']}`"
-            )
-
             _get_res = await interaction.emit(
                 _get_request_body["data"]["custom_id"], "component"
             )
