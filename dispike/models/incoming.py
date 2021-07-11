@@ -82,6 +82,17 @@ class IncomingDiscordInteraction(BaseModel):
     version: typing.Optional[Literal[1]] = None
 
 
+class IncomingDiscordButtonInteraction(BaseModel):
+    """An incoming discord button interaction, this is not intended for you to edit, and will not
+    be accepted as an argument in any function.
+    """
+
+    class Config:
+        arbitary_types_allowed = True
+
+    custom_id: str
+
+
 class IncomingApplicationCommand(BaseModel):
 
     """an Incoming Application command, this is not intended for you to edit, and will not be accepted

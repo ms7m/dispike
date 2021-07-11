@@ -1,4 +1,5 @@
 from .helper.embed import Embed
+from .helper.components import ActionRow
 import typing
 from .errors.network import DiscordAPIError
 from loguru import logger
@@ -35,6 +36,7 @@ class DiscordResponse(object):
         follow_up_message=False,
         empherical=False,
         allowed_mentions: "AllowedMentions" = None,
+        action_row: ActionRow = None,
     ):
         """Initialize a DiscordResponse, you can either pass data into here, or
         simply create a DiscordResponse() and edit via properties.
@@ -62,6 +64,12 @@ class DiscordResponse(object):
         self._content = content
         self._tts = tts
         self._embeds = [x.to_dict() for x in embeds]
+
+        if action_row:
+            self._action_row = action_row.to_dict()
+        else:
+            self._action_row = None
+
         if show_user_input == True:
             logger.warning(
                 "show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may remove this parameter."
@@ -82,6 +90,16 @@ class DiscordResponse(object):
         """
         # TODO: if accessing .embeds, return an Embed object instead of dict.
         return self._embeds
+
+    @property
+    def action_row(self) -> ActionRow:
+        """Returns a action row.
+
+        Returns:
+            ActionRow: The action row.
+        """
+        # TODO: if accessing .action_row, return an Embed object instead of dict.
+        return self._action_row
 
     def add_new_embed(self, embed_to_add: Embed):
         """Append a new embed, provided with a proper Embed object
@@ -148,6 +166,9 @@ class DiscordResponse(object):
                 logger.info("setting empherical")
                 _req["flags"] == 1 << 6
 
+            if self._action_row:
+                _req["data"]["components"] = [self.components]
+
             return _req
 
         _req = {
@@ -156,6 +177,9 @@ class DiscordResponse(object):
         }
         if self._is_empherical == True:
             _req["data"]["flags"] = 1 << 6
+
+        if self._action_row:
+            _req["data"]["components"] = [self.action_row]
 
         if self._allowed_mentions:
             _req["allowed_mentions"] = self._allowed_mentions.dict()
@@ -171,3 +195,7 @@ class DiscordResponse(object):
 
 class DeferredResponse:
     response = {"type": 5}
+
+
+class AcknowledgeComponentResponse:
+    response = {"type": 4, "data": {}}
