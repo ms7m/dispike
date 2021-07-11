@@ -63,7 +63,6 @@ async def handle_interactions(request: Request) -> Response:
             _get_res = await interaction.emit(
                 _get_request_body["data"]["custom_id"],
                 EventTypes.COMPONENT,
-                _get_request_body["data"]["values"],
                 _parse_to_object,
             )
             return _get_res.response
