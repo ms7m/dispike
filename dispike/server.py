@@ -56,7 +56,9 @@ async def handle_interactions(request: Request) -> Response:
         ):
             # Select Menu
             _get_res = await interaction.emit(
-                _event_name, "command", _get_request_body["data"["values"]]
+                _get_request_body["data"]["custom_id"],
+                "component",
+                _get_request_body["data"]["values"],
             )
             return _get_res.response
 

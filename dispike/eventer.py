@@ -107,4 +107,4 @@ class EventHandler(object):
             )
 
         _look_up_function = self.return_event_function(event, type)
-        return await _look_up_function(**kwargs)
+        return await _look_up_function(*args, **kwargs)
