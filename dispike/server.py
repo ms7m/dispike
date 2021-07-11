@@ -7,6 +7,8 @@ from .models.incoming import (
     IncomingDiscordOptionList,
     SubcommandIncomingDiscordOptionList,
     IncomingDiscordOption,
+    IncomingDiscordButtonInteraction,
+    IncomingDiscordSelectMenuInteraction,
 )
 from .eventer import EventHandler, EventTypes
 from .eventer_helpers.determine_event_information import determine_event_information
@@ -43,20 +45,26 @@ async def handle_interactions(request: Request) -> Response:
     if _get_request_body["type"] == 3:
         if _get_request_body["data"]["component_type"] == ComponentTypes.BUTTON.value:
             # Button
-            _get_res = await interaction.emit(
-                _get_request_body["data"]["custom_id"], EventTypes.COMPONENT
-            )
+            _parse_to_object = IncomingDiscordButtonInteraction(**_get_request_body)
 
-            # return {"type": 4,"data": {}}
+            _get_res = await interaction.emit(
+                _get_request_body["data"]["custom_id"],
+                EventTypes.COMPONENT,
+                _parse_to_object,
+            )
+            return _get_res.response
         if (
             _get_request_body["data"]["component_type"]
             == ComponentTypes.SELECT_MENU.value
         ):
             # Select Menu
+            _parse_to_object = IncomingDiscordSelectMenuInteraction(**_get_request_body)
+
             _get_res = await interaction.emit(
                 _get_request_body["data"]["custom_id"],
                 EventTypes.COMPONENT,
                 _get_request_body["data"]["values"],
+                _parse_to_object,
             )
             return _get_res.response
 

@@ -63,6 +63,15 @@ class IncomingDiscordOptionList(BaseModel):
     ] = None
 
 
+class IncomingDiscordButtonData(BaseModel):
+    custom_id: str
+
+
+class IncomingDiscordSelectMenuData(BaseModel):
+    custom_id: str
+    values: typing.List[str]
+
+
 class IncomingDiscordInteraction(BaseModel):
 
     """An incoming discord interaction, this is not intended for you to edit, and will not
@@ -83,14 +92,25 @@ class IncomingDiscordInteraction(BaseModel):
 
 
 class IncomingDiscordButtonInteraction(BaseModel):
-    """An incoming discord button interaction, this is not intended for you to edit, and will not
-    be accepted as an argument in any function.
-    """
+    type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
+    id: int
+    data: IncomingDiscordButtonData
+    guild_id: int
+    channel_id: int
+    member: Member
+    token: str
+    version: typing.Optional[Literal[1]] = None
 
-    class Config:
-        arbitary_types_allowed = True
 
-    custom_id: str
+class IncomingDiscordSelectMenuInteraction(BaseModel):
+    type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
+    id: int
+    data: IncomingDiscordSelectMenuData
+    guild_id: int
+    channel_id: int
+    member: Member
+    token: str
+    version: typing.Optional[Literal[1]] = None
 
 
 class IncomingApplicationCommand(BaseModel):
