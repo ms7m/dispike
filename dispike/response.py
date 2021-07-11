@@ -156,9 +156,7 @@ class DiscordResponse(object):
         self.content = "" if self.content == None else self.content
 
         if self._is_followup:
-            _req = {
-                "content": self.content,
-            }
+            _req = {"content": self.content, "data": {}}
 
             if self.embeds != []:
                 _req["embeds"] = self.embeds
@@ -171,7 +169,7 @@ class DiscordResponse(object):
                 _req["flags"] = 1 << 6
 
             if self._action_row:
-                _req["data"]["components"] = [self.components]
+                _req["data"]["components"] = [self.action_row]
 
             return _req
 
