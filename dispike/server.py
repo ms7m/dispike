@@ -8,7 +8,7 @@ from .models.incoming import (
     SubcommandIncomingDiscordOptionList,
     IncomingDiscordOption,
 )
-from .eventer import EventHandler
+from .eventer import EventHandler, EventTypes
 from .eventer_helpers.determine_event_information import determine_event_information
 from .response import DiscordResponse, DeferredResponse
 from dispike.helper.components import ComponentTypes
@@ -44,7 +44,7 @@ async def handle_interactions(request: Request) -> Response:
         if _get_request_body["data"]["component_type"] == ComponentTypes.BUTTON.value:
             # Button
             _get_res = await interaction.emit(
-                _get_request_body["data"]["custom_id"], "component"
+                _get_request_body["data"]["custom_id"], EventTypes.COMPONENT
             )
 
             # return {"type": 4,"data": {}}
@@ -55,7 +55,7 @@ async def handle_interactions(request: Request) -> Response:
             # Select Menu
             _get_res = await interaction.emit(
                 _get_request_body["data"]["custom_id"],
-                "component",
+                EventTypes.COMPONENT,
                 _get_request_body["data"]["values"],
             )
             return _get_res.response
@@ -63,7 +63,7 @@ async def handle_interactions(request: Request) -> Response:
     _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
     _event_name, arguments = determine_event_information(_parse_to_object)
     logger.info(f"event name: {_event_name}")
-    if interaction.check_event_exists(_event_name, "command") == False:
+    if interaction.check_event_exists(_event_name, EventTypes.COMMAND) == False:
         logger.debug("discarding event not existing.") is ex
         return {"type": 5}
 
@@ -74,21 +74,25 @@ async def handle_interactions(request: Request) -> Response:
     # Check the type hint for the return type, fallback for checking the type if no hints are provided
     try:
         _type_hinted_request = interaction.view_event_function_return_type(
-            _event_name, "command"
+            _event_name, EventTypes.COMMAND
         )
         _type_hinted_returned_value = _type_hinted_request["return"]
         if _type_hinted_returned_value == DiscordResponse:
-            _get_res = await interaction.emit(_event_name, "command", **arguments)
+            _get_res = await interaction.emit(
+                _event_name, EventTypes.COMMAND, **arguments
+            )
 
             logger.debug(_get_res.response)
             return _get_res.response
         elif _type_hinted_returned_value == DeferredResponse:
             logger.debug("This is a deferred response...")
-            asyncio.create_task(interaction.emit(_event_name, "command", **arguments))
+            asyncio.create_task(
+                interaction.emit(_event_name, EventTypes.COMMAND, **arguments)
+            )
             return DeferredResponse.response
 
         elif _type_hinted_returned_value == dict:
-            return await interaction.emit(_event_name, "command", **arguments)
+            return await interaction.emit(_event_name, EventTypes.COMMAND, **arguments)
     except KeyError:
         logger.error(
             "unable to find return value for type hint.. resorting to guessing.."
@@ -99,7 +103,9 @@ async def handle_interactions(request: Request) -> Response:
         logger.exception("unhandled exception for returning hinted value")
         raise
 
-    interaction_data = await interaction.emit(_event_name, "command", **arguments)
+    interaction_data = await interaction.emit(
+        _event_name, EventTypes.COMMAND, **arguments
+    )
     if isinstance(interaction_data, DiscordResponse):
         interaction_data: DiscordResponse
         return interaction_data.response
