@@ -105,6 +105,9 @@ class DiscordResponse(object):
         # TODO: if accessing .action_row, return an Embed object instead of dict.
         return self._action_row
 
+    def set_type_response(self, type: int):
+        self._type_response = type
+
     def add_new_embed(self, embed_to_add: Embed):
         """Append a new embed, provided with a proper Embed object
 
