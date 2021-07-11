@@ -38,18 +38,21 @@ class ButtonStyles(int, Enum):
 
 
 class PartialEmoji:
-    def __init__(self, name: str = None, id: str = None, animated: bool = True):
+    def __init__(self, name: str = None, id: str = None, animated: bool = None):
         if not name:
             raise TypeError("name cannot be None")
-        if not id:
-            raise TypeError("id cannot be None")
 
         self.name = name
         self.id = id
         self.animated = animated
 
     def to_dict(self):
-        return {"name": self.name, "id": self.id, "aniamted": self.animated}
+        _dict = {"name": self.name}
+        if self.id:
+            _dict["id"] = self.id
+        if self.animated is not None:
+            _dict["aniamted"] = self.animated
+        return _dict
 
 
 class Button:
