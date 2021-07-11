@@ -4,6 +4,12 @@ from loguru import logger
 import inspect
 from functools import wraps
 from dispike.helper.components import ComponentTypes
+from enum import Enum
+
+
+class EventTypes(str, Enum):
+    COMMAND = "command"
+    COMPONENT = "component"
 
 
 class EventHandler(object):
@@ -20,7 +26,7 @@ class EventHandler(object):
     def on(
         self,
         event: str,
-        type: str,
+        type: EventTypes,
         func: typing.Callable = None,
     ):
         """A wrapper over an async function, registers it in .callbacks.
