@@ -1,5 +1,5 @@
 import json
-from dispike.errors.network import DiscordAPIError
+from dispike.helper.components import Button, PartialEmoji, ActionRow, LinkButton
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
 from dispike.helper.embed import Embed
@@ -73,6 +73,28 @@ def test_response_with_embed():
 
     assert isinstance(_created_content.embeds[0], dict) == True
     assert _created_content.embeds[0] != {}
+
+
+def test_response_with_button():
+    _created_button = Button(
+        label="test",
+        custom_id="test_id",
+        disabled=True,
+        emoji=PartialEmoji(name="test_emoji", id="123123123132", animated=True),
+    )
+    _created_link_button = LinkButton(
+        label="test",
+        disabled=True,
+        url="https://github.com/"
+    )
+    _created_content = DiscordResponse(
+        content="test", action_row=ActionRow(components=[_created_button, _created_link_button])
+    )
+
+    assert isinstance(_created_content.action_row["components"][0], dict)
+    assert isinstance(_created_content.action_row["components"][1], dict)
+    assert _created_content.action_row["components"][0] != {}
+    assert _created_content.action_row["components"][1] != {}
 
 
 def test_response_with_allowed_mentions():
