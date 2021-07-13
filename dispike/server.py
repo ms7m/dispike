@@ -70,7 +70,7 @@ async def handle_interactions(request: Request) -> Response:
     _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
     _event_name, arguments = determine_event_information(_parse_to_object)
     logger.info(f"event name: {_event_name}")
-    if interaction.check_event_exists(_event_name, EventTypes.COMMAND) == False:
+    if not interaction.check_event_exists(_event_name, EventTypes.COMMAND):
         logger.debug("discarding event not existing.") is ex
         return {"type": 5}
 
@@ -104,7 +104,7 @@ async def handle_interactions(request: Request) -> Response:
         logger.error(
             "unable to find return value for type hint.. resorting to guessing.."
         )
-        if _RAISE_FOR_TESTING == True:
+        if _RAISE_FOR_TESTING:
             raise AssertionError("No hinting!")  # pragma: no cover
     except Exception:
         logger.exception("unhandled exception for returning hinted value")
