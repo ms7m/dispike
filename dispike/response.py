@@ -46,8 +46,10 @@ class DiscordResponse(object):
             tts (bool, optional): bool returning if the message should be spoken via tts
             embeds (typing.List[Embed], optional): a List representing .to_dict of an Embed object
             show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.
+            follow_up_message (bool, optional): Whether this is a follow up to a previous message.
             empherical (bool, optional): Whether to send message as an empherical message.
             allowed_mentions (typing.List[AllowedMentions], optional): Let discord filter mentions per configuration.
+            update_message (bool, optional): Whether to edit the original message this is responding too.
         """
         if content is not None:
             if not isinstance(content, str):
