@@ -71,7 +71,7 @@ async def handle_interactions(request: Request) -> Response:
     _event_name, arguments = determine_event_information(_parse_to_object)
     logger.info(f"event name: {_event_name}")
     if not interaction.check_event_exists(_event_name, EventTypes.COMMAND):
-        logger.debug("discarding event not existing.") is ex
+        logger.debug("discarding event not existing.")
         return {"type": 5}
 
     # _event_settings = interaction.return_event_settings(_event_name)
