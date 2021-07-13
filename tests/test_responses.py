@@ -77,8 +77,7 @@ def test_response_with_embed():
     _created_embed.add_field(name="test", value="test")
     _created_content.add_new_embed(_created_embed)
 
-    assert isinstance(_created_content.embeds[0], dict) == True
-    assert _created_content.embeds[0] != {}
+    assert _created_content.embeds[0] == _created_embed
 
 
 def test_response_with_button():
@@ -96,10 +95,9 @@ def test_response_with_button():
         action_row=ActionRow(components=[_created_button, _created_link_button]),
     )
 
-    assert isinstance(_created_content.action_row["components"][0], dict)
-    assert isinstance(_created_content.action_row["components"][1], dict)
-    assert _created_content.action_row["components"][0] != {}
-    assert _created_content.action_row["components"][1] != {}
+    assert _created_content.action_row == ActionRow(
+        components=[_created_button, _created_link_button]
+    )
 
 
 def test_response_with_select_menu():
@@ -123,8 +121,7 @@ def test_response_with_select_menu():
         content="test", action_row=ActionRow(components=[_created_select_menu])
     )
 
-    assert isinstance(_created_content.action_row["components"][0], dict)
-    assert _created_content.action_row["components"][0] != {}
+    assert _created_content.action_row == ActionRow(components=[_created_select_menu])
 
 
 def test_response_with_allowed_mentions():

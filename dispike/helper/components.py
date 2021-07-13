@@ -223,3 +223,11 @@ class ActionRow:
             "type": self.type.value,
             "components": [x.to_dict() for x in self.components],
         }
+
+    def __eq__(self, other: "ActionRow"):
+        return (
+            self.__dict__ == other.__dict__
+            and [x.to_dict() for x in self.components]
+            == [x.to_dict() for x in self.components]
+            and self.__class__ == other.__class__
+        )

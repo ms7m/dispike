@@ -50,8 +50,8 @@ class DiscordResponse(object):
             empherical (bool, optional): Whether to send message as an empherical message.
             allowed_mentions (typing.List[AllowedMentions], optional): Let discord filter mentions per configuration.
         """
-        if content != None:
-            if isinstance(content, str) == False:
+        if content is not None:
+            if not isinstance(content, str):
                 raise TypeError(f"Content must be a string")
             elif content == "":
                 content = None
@@ -59,21 +59,22 @@ class DiscordResponse(object):
         # if isinstance(content, str) == False or content == "" or content != None:
         #    raise TypeError(f"content must be a string. recieved: {content}")
 
-        if isinstance(tts, bool) == False:
+        if not isinstance(tts, bool):
             raise TypeError("tts must be a bool")
 
         self._content = content
         self._tts = tts
-        self._embeds = [x.to_dict() for x in embeds]
+        self._embeds = embeds
 
         if action_row:
-            self._action_row = action_row.to_dict()
+            self._action_row = action_row
         else:
             self._action_row = None
 
-        if show_user_input == True:
+        if show_user_input:
             logger.warning(
-                "show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may remove this parameter."
+                "show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may "
+                "remove this parameter. "
             )
 
         self._type_response = 4
@@ -86,13 +87,12 @@ class DiscordResponse(object):
         self._allowed_mentions = allowed_mentions
 
     @property
-    def embeds(self) -> typing.List[dict]:
+    def embeds(self) -> typing.List[Embed]:
         """Returns a list of embeds to send to.
 
         Returns:
-            typing.List[dict]: Embeds represented as a dict.
+            typing.List[Embed]: List of embeds in this object.
         """
-        # TODO: if accessing .embeds, return an Embed object instead of dict.
         return self._embeds
 
     @property
@@ -102,7 +102,6 @@ class DiscordResponse(object):
         Returns:
             ActionRow: The action row.
         """
-        # TODO: if accessing .action_row, return an ActionRow object instead of dict.
         return self._action_row
 
     def set_type_response(self, type: int):
@@ -118,7 +117,7 @@ class DiscordResponse(object):
             TypeError: Raised if you do not pass a proper Embed object.
         """
         if isinstance(embed_to_add, Embed):
-            self._embeds.append(embed_to_add.to_dict())
+            self._embeds.append(embed_to_add)
         else:
             raise TypeError("embed must be a Embed object.")
 
@@ -162,7 +161,7 @@ class DiscordResponse(object):
             _req = {"content": self.content, "data": {}}
 
             if self.embeds != []:
-                _req["embeds"] = self.embeds
+                _req["embeds"] = [x.to_dict() for x in self.embeds]
 
             if self.tts == True:
                 _req["tts"] = True
@@ -172,19 +171,23 @@ class DiscordResponse(object):
                 _req["flags"] = 1 << 6
 
             if self._action_row:
-                _req["data"]["components"] = [self.action_row]
+                _req["data"]["components"] = [self.action_row.to_dict()]
 
             return _req
 
         _req = {
             "type": self._type_response,
-            "data": {"tts": self.tts, "content": self.content, "embeds": self.embeds},
+            "data": {
+                "tts": self.tts,
+                "content": self.content,
+                "embeds": [x.to_dict() for x in self.embeds],
+            },
         }
         if self._is_empherical == True:
             _req["data"]["flags"] = 1 << 6
 
         if self._action_row:
-            _req["data"]["components"] = [self.action_row]
+            _req["data"]["components"] = [self.action_row.to_dict()]
 
         if self._allowed_mentions:
             _req["allowed_mentions"] = self._allowed_mentions.dict()
