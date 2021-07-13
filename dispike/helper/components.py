@@ -185,6 +185,8 @@ class SelectMenu:
         self.min_values = min_values
         self.max_values = max_values
 
+        self.disabled = disabled
+
     def to_dict(self):
         return {
             "type": self.type.value,
@@ -193,6 +195,7 @@ class SelectMenu:
             "min_values": self.min_values,
             "max_values": self.max_values,
             "placeholder": self.placeholder,
+            "disabled": self.disabled,
         }
 
 
