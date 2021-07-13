@@ -90,7 +90,7 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
         _status_bool, _status_code = self.verify_request(
             passed_signature=get_signature, timestamp=get_timestamp, body=get_body
         )
-        if _status_bool == True:
+        if _status_bool:
             logger.info("approved request. forwarding call")
             _dispatch_request = await call_next(request)
             return _dispatch_request

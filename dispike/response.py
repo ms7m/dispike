@@ -17,7 +17,6 @@ if typing.TYPE_CHECKING:
 
 
 class DiscordResponse(object):
-
     """Represents an outgoing Discord Response
 
     Attributes:
@@ -155,18 +154,18 @@ class DiscordResponse(object):
             dict: a valid discord response.
         """
 
-        self.content = "" if self.content == None else self.content
+        self.content = "" if self.content is None else self.content
 
         if self._is_followup:
             _req = {"content": self.content, "data": {}}
 
-            if self.embeds != []:
+            if self.embeds:
                 _req["embeds"] = [x.to_dict() for x in self.embeds]
 
-            if self.tts == True:
+            if self.tts:
                 _req["tts"] = True
 
-            if self._is_empherical == True:
+            if self._is_empherical:
                 logger.info("setting empherical")
                 _req["flags"] = 1 << 6
 
@@ -183,7 +182,7 @@ class DiscordResponse(object):
                 "embeds": [x.to_dict() for x in self.embeds],
             },
         }
-        if self._is_empherical == True:
+        if self._is_empherical:
             _req["data"]["flags"] = 1 << 6
 
         if self._action_row:
