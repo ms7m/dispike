@@ -1,5 +1,5 @@
 import json
-from dispike.helper.components import Button, PartialEmoji, ActionRow, LinkButton
+from dispike.helper.components import Button, PartialEmoji, ActionRow, LinkButton, SelectMenu
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
 from dispike.helper.embed import Embed
@@ -95,6 +95,31 @@ def test_response_with_button():
     assert isinstance(_created_content.action_row["components"][1], dict)
     assert _created_content.action_row["components"][0] != {}
     assert _created_content.action_row["components"][1] != {}
+
+
+def test_response_with_select_menu():
+    _created_select_menu = SelectMenu(
+        custom_id="test_id",
+        disabled=True,
+        max_values=1,
+        min_values=1,
+        options=[
+            SelectMenu.SelectMenuOption(
+                label="test",
+                emoji=PartialEmoji(name="test_emoji", id="123123123132", animated=True),
+                description="desc",
+                value="test",
+                default=True,
+            )
+        ],
+        placeholder="Test"
+    )
+    _created_content = DiscordResponse(
+        content="test", action_row=ActionRow(components=[_created_select_menu])
+    )
+
+    assert isinstance(_created_content.action_row["components"][0], dict)
+    assert _created_content.action_row["components"][0] != {}
 
 
 def test_response_with_allowed_mentions():
