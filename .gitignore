@@ -5,6 +5,7 @@ bot.py
 register.py
 .venv
 venv/*
+.idea/*
 test.py
 .coverage
 coverage.xml
