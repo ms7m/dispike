@@ -1,5 +1,11 @@
 import json
-from dispike.helper.components import Button, PartialEmoji, ActionRow, LinkButton, SelectMenu
+from dispike.helper.components import (
+    Button,
+    PartialEmoji,
+    ActionRow,
+    LinkButton,
+    SelectMenu,
+)
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
 from dispike.helper.embed import Embed
@@ -83,12 +89,11 @@ def test_response_with_button():
         emoji=PartialEmoji(name="test_emoji", id="123123123132", animated=True),
     )
     _created_link_button = LinkButton(
-        label="test",
-        disabled=True,
-        url="https://github.com/"
+        label="test", disabled=True, url="https://github.com/"
     )
     _created_content = DiscordResponse(
-        content="test", action_row=ActionRow(components=[_created_button, _created_link_button])
+        content="test",
+        action_row=ActionRow(components=[_created_button, _created_link_button]),
     )
 
     assert isinstance(_created_content.action_row["components"][0], dict)
@@ -112,7 +117,7 @@ def test_response_with_select_menu():
                 default=True,
             )
         ],
-        placeholder="Test"
+        placeholder="Test",
     )
     _created_content = DiscordResponse(
         content="test", action_row=ActionRow(components=[_created_select_menu])

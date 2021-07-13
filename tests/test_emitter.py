@@ -1,5 +1,8 @@
 from dispike.eventer import EventHandler
-from dispike.models.incoming import IncomingDiscordInteraction
+from dispike.models.incoming import (
+    IncomingDiscordInteraction,
+    IncomingDiscordSelectMenuInteraction,
+)
 import pytest
 from dispike.eventer import EventTypes
 
@@ -7,6 +10,11 @@ event_handler = EventHandler()
 
 
 @event_handler.on("sampleEvent", EventTypes.COMMAND)
+async def dummy_function(*args, **kwargs):
+    return kwargs.get("payload")
+
+
+@event_handler.on("sampleEvent", EventTypes.COMPONENT)
 async def dummy_function(*args, **kwargs):
     return kwargs.get("payload")
 
@@ -22,14 +30,23 @@ async def test_event_handler():
         await event_handler.emit("sampleEvent", payload=True, type=EventTypes.COMMAND)
         == True
     )
+    assert (
+        await event_handler.emit("sampleEvent", payload=True, type=EventTypes.COMPONENT)
+        == True
+    )
     assert "sampleEvent" in event_handler.callbacks[EventTypes.COMMAND]
+    assert "sampleEvent" in event_handler.callbacks[EventTypes.COMPONENT]
     assert event_handler.return_event_settings("sampleEvent", EventTypes.COMMAND) == {}
+    assert (
+        event_handler.return_event_settings("sampleEvent", EventTypes.COMPONENT) == {}
+    )
 
 
 @pytest.mark.asyncio
 async def test_event_handler_fail_no_event():
     with pytest.raises(TypeError):
         await event_handler.return_event_settings("fail", EventTypes.COMMAND)
+        await event_handler.return_event_settings("fail", EventTypes.COMPONENT)
 
 
 @pytest.mark.asyncio
@@ -90,17 +107,24 @@ def test_non_async_event_handler():
         def test_function(*args, **kwargs):
             return True
 
+        @event_handler.on("badEvent", EventTypes.COMPONENT)
+        def test_function(*args, **kwargs):
+            return True
+
 
 @pytest.mark.asyncio
 async def test_event_not_existing():
     with pytest.raises(TypeError):
         await event_handler.emit("NotExisting", EventTypes.COMMAND)
+        await event_handler.emit("NotExisting", EventTypes.COMPONENT)
 
     with pytest.raises(TypeError):
         await event_handler.return_event_settings("NotExisting", EventTypes.COMMAND)
+        await event_handler.return_event_settings("NotExisting", EventTypes.COMPONENT)
 
     with pytest.raises(TypeError):
         await event_handler.return_event_function("Not Existing", EventTypes.COMMAND)
+        await event_handler.return_event_function("Not Existing", EventTypes.COMPONENT)
 
 
 @pytest.mark.asyncio
@@ -112,5 +136,13 @@ async def test_attempt_to_register_multiple_handlers():
             pass
 
         @event_handler.on("duplicateEvent", EventTypes.COMMAND)
+        async def dup_two(*args, **kwargs):
+            pass
+
+        @event_handler.on("duplicateEvent", EventTypes.COMPONENT)
+        async def dup_one(*args, **kwargs):
+            pass
+
+        @event_handler.on("duplicateEvent", EventTypes.COMPONENT)
         async def dup_two(*args, **kwargs):
             pass
