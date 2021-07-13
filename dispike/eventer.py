@@ -75,7 +75,7 @@ class EventHandler(object):
         )
 
     def return_event_function(self, event: str, type: str) -> dict:
-        if self.check_event_exists(event, type) == True:
+        if self.check_event_exists(event, type):
             return self.callbacks[type][event]["function"]
         raise TypeError(
             f"Event {event} is not in callbacks. Did you register this event?"
