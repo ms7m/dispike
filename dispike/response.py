@@ -102,7 +102,7 @@ class DiscordResponse(object):
         Returns:
             ActionRow: The action row.
         """
-        # TODO: if accessing .action_row, return an Embed object instead of dict.
+        # TODO: if accessing .action_row, return an ActionRow object instead of dict.
         return self._action_row
 
     def set_type_response(self, type: int):
