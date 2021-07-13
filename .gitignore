@@ -4,6 +4,7 @@ __pycache__
 bot.py
 register.py
 .venv
+venv/*
 test.py
 .coverage
 coverage.xml
