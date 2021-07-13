@@ -1,6 +1,5 @@
 import typing
 from enum import Enum
-import json
 
 
 class ComponentTypes(int, Enum):
