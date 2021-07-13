@@ -37,10 +37,15 @@ class ButtonStyles(int, Enum):
 
 
 class PartialEmoji:
-    def __init__(self, name: str = None, id: str = None, animated: bool = None):
-        if not name:
-            raise TypeError("name cannot be None")
+    """Represents a partial Discord emoji"""
 
+    def __init__(self, name: str, id: str = None, animated: bool = None):
+        """
+        Args:
+            name (str): The emojis name, or unicode symbol.
+            id (str, optional): id of the emoji, if not a unicode one.
+            animated (bool, options): bool Specifying if this emoji should be animated, if not a unicode one.
+        """
         self.name = name
         self.id = id
         self.animated = animated
@@ -55,6 +60,8 @@ class PartialEmoji:
 
 
 class Button:
+    """Represents a partial Discord emoji"""
+
     def __init__(
         self,
         label: str = None,
@@ -63,6 +70,14 @@ class Button:
         style: ButtonStyles = ButtonStyles.PRIMARY,
         emoji: PartialEmoji = None,
     ):
+        """
+        Args:
+            label (str): label of the button.
+            custom_id (str, optional): custom id of the button.
+            disabled (bool, optional): bool specifying if this button should be disabled.
+            style (ButtonStyles, optional): style of the button. Cannot be LINK
+            emoji (PartialEmoji, optional): a partial emoji.
+        """
         self.type = ComponentTypes.BUTTON
 
         if style == ButtonStyles.LINK:
@@ -94,7 +109,15 @@ class Button:
 
 
 class LinkButton:
+    """Represents a partial Discord emoji"""
+
     def __init__(self, label: str = None, url: str = None, disabled: bool = False):
+        """
+        Args:
+            label (str): Label of the button.
+            url (str): Url of the link button.
+            disabled (bool, optional): bool Specifying if this button should be disabled.
+        """
         self.type = ComponentTypes.BUTTON
         self.style = ButtonStyles.LINK
 
@@ -118,7 +141,11 @@ class LinkButton:
 
 
 class SelectMenu:
+    """Represents a Discord select menu"""
+
     class SelectMenuOption:
+        """Represents a Discord select menu option"""
+
         def __init__(
             self,
             label: str = None,
@@ -127,6 +154,15 @@ class SelectMenu:
             emoji: PartialEmoji = None,
             default: bool = False,
         ):
+            """
+            Args:
+                label (str): Label of the option.
+                value (str): Internal value of the option.
+                description (str): Description of the option.
+                emoji (PartialEmoji, optional): A partial emoji
+                default (bool): Whether or not this option should be the default.
+            """
+
             if not label:
                 raise TypeError("label cannot be None")
             if not value:
@@ -161,6 +197,15 @@ class SelectMenu:
         max_values: int,
         disabled: False,
     ):
+        """
+        Args:
+            custom_id (str): Custom id of the menu.
+            options (SelectMenu.SelectMenuOption): List of SelectMenu.SelectMenuOption's
+            placeholder (str, optional): Text that's shown before a user selects anything.
+            min_values (int): The minimum amount of values a user can select. Cannot be lower than 0
+            max_values (int): The maximum amount of values a user can select. Cannot be higher than the amount of options.
+            disabled (bool, optional): Whether to disable menu
+        """
         self.type = ComponentTypes.SELECT_MENU
         self.options = options
 
@@ -205,6 +250,11 @@ class ActionRow:
     def __init__(
         self, components: typing.List[typing.Union[Button, LinkButton, SelectMenu]]
     ):
+        """
+        Args:
+            components (typing.List[typing.Union[Button, LinkButton, SelectMenu]]): Components for this action row. You cannot combine buttons and select menus
+        """
+
         self.type = ComponentTypes.ACTION_ROW
 
         # Do a heap of stuff to figure out if a select menu is being combined with a button

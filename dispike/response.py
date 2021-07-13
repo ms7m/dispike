@@ -205,4 +205,6 @@ class DeferredResponse:
 
 
 class AcknowledgeComponentResponse:
+    """Represents an interaction ACK response"""
+
     response = {"type": 4, "data": {}}
