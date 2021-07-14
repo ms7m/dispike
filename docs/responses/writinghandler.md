@@ -20,7 +20,7 @@ Your handler must be
     async def ...(argument_one, argument_two, ctx) -> ...
     ```
 
-- Contain a ``bot.interaction.on(<command-identifier>)`` decorator.
+- Contain a ``bot.interaction.on(<command-identifier>, <event type>)`` decorator.
 
 
 
@@ -52,7 +52,7 @@ command_to_be_registered = DiscordCommand(
 The command identifier in this case will be ``wave``. 
 
 ```python
-@bot.interaction.on("wave")
+@bot.interaction.on("wave", EventTypes.COMMAND)
 async def handle_wave(person, ctx) -> DiscordResponse:
     ...
 ```
@@ -133,7 +133,7 @@ The command argument names must match to the one set as the ``value`` when regis
 
 
 ```python
-@bot.interaction.on("forex.latest.convert")
+@bot.interaction.on("forex.latest.convert", EventTypes.COMMAND)
 async def handle_forex_convert(symbol_1: str, symbol_2: str, ctx: IncomingDiscordInteraction) -> DiscordResponse:
     ...
 ```
