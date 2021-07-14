@@ -33,6 +33,7 @@ class EventHandler(object):
 
         Args:
             event (str): Event name
+            type (EventTypes): Type of this event.
             func (None, optional): function to wrap around
 
         Returns:

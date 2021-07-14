@@ -15,6 +15,10 @@ class IncomingDiscordOption(BaseModel):
 
     """An incoming discord option, this is not intended for you to edit, and will not
     be accepted as an argument in any function nor will be accepted as a value in DiscordCommand
+
+    Attributes:
+        name (str): Name of the option
+        value (str): Value of the option
     """
 
     name: str
@@ -22,6 +26,13 @@ class IncomingDiscordOption(BaseModel):
 
 
 class SubcommandIncomingDiscordOptionListChild(BaseModel):
+
+    """
+    Attributes:
+        name (str): Name of the subcommand
+        options (typing.List[IncomingDiscordOption]], optional): Options selected by the user
+    """
+
     class Config:
         arbitary_types_allowed = True
 
@@ -30,8 +41,13 @@ class SubcommandIncomingDiscordOptionListChild(BaseModel):
 
 
 class SubcommandIncomingDiscordOptionList(BaseModel):
+
     """An incoming discord option list, this is not intended for you to edit, and will not
     be accepted as an argument in any function nor accepted in DiscordCommand
+
+    Attributes:
+        name (str): Name of the subcommand
+        options (typing.Union[typing.List[IncomingDiscordOption],typing.List[SubcommandIncomingDiscordOptionListChild]], optional): Options selected by the user
     """
 
     class Config:
@@ -48,6 +64,11 @@ class IncomingDiscordOptionList(BaseModel):
 
     """An incoming discord option list, this is not intended for you to edit, and will not
     be accepted as an argument in any function nor accepted in DiscordCommand
+
+    Attributes:
+        id (str): Id of the command
+        name (str): Name of the command
+        options (typing.Union[typing.List[IncomingDiscordOption],typing.List[SubcommandIncomingDiscordOptionList]], optional): Options selected by the user
     """
 
     class Config:
@@ -64,18 +85,43 @@ class IncomingDiscordOptionList(BaseModel):
 
 
 class IncomingDiscordButtonData(BaseModel):
+
+    """
+    Incoming button data.
+
+    Attributes:
+        custom_id (str): The custom id of this button.
+    """
+
     custom_id: str
 
 
 class IncomingDiscordSelectMenuData(BaseModel):
+
+    """
+    Incoming select menu data.
+
+    Attributes:
+        custom_id (str): The custom id of this button.
+        values (typing.List[str]): A list of string values that the user selected.
+    """
+
     custom_id: str
     values: typing.List[str]
 
 
 class IncomingDiscordInteraction(BaseModel):
 
-    """An incoming discord interaction, this is not intended for you to edit, and will not
+    """An incoming discord interaction that was triggered by a command, this is not intended for you to edit, and will not
     be accepted as an argument in any function.
+
+    Attributes:
+        id (int): Id of the interaction.
+        data (IncomingDiscordOptionList): Options from the command.
+        guild_id (int): Guild ID where this happened.
+        channel_id (int): Channel ID where this happened.
+        member (Member): Member that used this interaction.
+        token (str): Token of this interaction.
     """
 
     class Config:
@@ -92,6 +138,19 @@ class IncomingDiscordInteraction(BaseModel):
 
 
 class IncomingDiscordButtonInteraction(BaseModel):
+
+    """An incoming discord interaction that was triggered by a button press, this is not intended for you to edit, and will not
+    be accepted as an argument in any function.
+
+    Attributes:
+        id (int): Id of the interaction.
+        data (IncomingDiscordButtonData): Data from the interaction.
+        guild_id (int): Guild ID where this happened.
+        channel_id (int): Channel ID where this happened.
+        member (Member): TODO: IDK if this is the member that called the command originally or the one that used the button.
+        token (str): Token of this interaction.
+    """
+
     type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
     id: int
     data: IncomingDiscordButtonData
@@ -103,6 +162,19 @@ class IncomingDiscordButtonInteraction(BaseModel):
 
 
 class IncomingDiscordSelectMenuInteraction(BaseModel):
+
+    """An incoming discord interaction that was triggered by a select menu interaction, this is not intended for you to edit, and will not
+    be accepted as an argument in any function.
+
+    Attributes:
+        id (int): Id of the interaction.
+        data (IncomingDiscordSelectMenuData): Data from the interaction.
+        guild_id (int): Guild ID where this happened.
+        channel_id (int): Channel ID where this happened.
+        member (Member): TODO: IDK if this is the member that called the command originally or the one that used the select menu.
+        token (str): Token of this interaction.
+    """
+
     type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
     id: int
     data: IncomingDiscordSelectMenuData
@@ -115,8 +187,16 @@ class IncomingDiscordSelectMenuInteraction(BaseModel):
 
 class IncomingApplicationCommand(BaseModel):
 
-    """an Incoming Application command, this is not intended for you to edit, and will not be accepted
+    """An Incoming Application command, this is not intended for you to edit, and will not be accepted
     in any function
+
+    Attributes:
+        id (int): Id of the interaction.
+        application_id (int): The id of your bot.
+        name (int): Name of the command.
+        description (int): Description of the command.
+        options (typing.Union[typing.List[CommandOption], typing.List[SubcommandOption]], optional): Selected options from the command.
+        default_permission (bool, optional): Bool whether if uses default permissions.
     """
 
     class Config:
