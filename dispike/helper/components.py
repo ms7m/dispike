@@ -211,6 +211,10 @@ class SelectMenu:
         self.type = ComponentTypes.SELECT_MENU
         self.options = options
 
+        for option in options:
+            if not isinstance(option, SelectMenu.SelectMenuOption):
+                raise SelectMenuOptionError(f"{option} is not type SelectMenuOption")
+
         if not placeholder:
             raise TypeError("placeholder cannot be None")
         if not custom_id:
@@ -267,6 +271,9 @@ class ActionRow:
                 contains_button = True
             elif isinstance(component, SelectMenu):
                 contains_select_menu = True
+            else:
+                # raise error if neither.
+                raise InvalidComponentError(type(component))
 
         if contains_button and contains_select_menu:
             raise ComponentCombinationError("You cannot combine buttons and select menus")
