@@ -30,7 +30,7 @@ class SubcommandIncomingDiscordOptionListChild(BaseModel):
     """
     Attributes:
         name (str): Name of the subcommand
-        options (typing.List[IncomingDiscordOption]], optional): Options selected by the user
+        options (List[IncomingDiscordOption]], optional): Options selected by the user
     """
 
     class Config:
@@ -47,7 +47,7 @@ class SubcommandIncomingDiscordOptionList(BaseModel):
 
     Attributes:
         name (str): Name of the subcommand
-        options (typing.Union[typing.List[IncomingDiscordOption],typing.List[SubcommandIncomingDiscordOptionListChild]], optional): Options selected by the user
+        options (Union[List[IncomingDiscordOption], List[SubcommandIncomingDiscordOptionListChild]], optional): Options selected by the user
     """
 
     class Config:
@@ -68,7 +68,7 @@ class IncomingDiscordOptionList(BaseModel):
     Attributes:
         id (str): Id of the command
         name (str): Name of the command
-        options (typing.Union[typing.List[IncomingDiscordOption],typing.List[SubcommandIncomingDiscordOptionList]], optional): Options selected by the user
+        options (Union[List[IncomingDiscordOption], List[SubcommandIncomingDiscordOptionList]], optional): Options selected by the user
     """
 
     class Config:
@@ -103,7 +103,7 @@ class IncomingDiscordSelectMenuData(BaseModel):
 
     Attributes:
         custom_id (str): The custom id of this button.
-        values (typing.List[str]): A list of string values that the user selected.
+        values (List[str]): A list of string values that the user selected.
     """
 
     custom_id: str
@@ -195,7 +195,7 @@ class IncomingApplicationCommand(BaseModel):
         application_id (int): The id of your bot.
         name (int): Name of the command.
         description (int): Description of the command.
-        options (typing.Union[typing.List[CommandOption], typing.List[SubcommandOption]], optional): Selected options from the command.
+        options (Union[List[CommandOption], List[SubcommandOption]], optional): Selected options from the command.
         default_permission (bool, optional): Bool whether if uses default permissions.
     """
 

@@ -48,7 +48,7 @@ class DiscordResponse(object):
             show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.
             follow_up_message (bool, optional): Whether this is a follow up to a previous message.
             empherical (bool, optional): Whether to send message as an empherical message.
-            allowed_mentions (typing.List[AllowedMentions], optional): Let discord filter mentions per configuration.
+            allowed_mentions (List[AllowedMentions], optional): Let discord filter mentions per configuration.
             update_message (bool, optional): Whether to edit the original message this is responding too.
         """
         if content is not None:
@@ -92,7 +92,7 @@ class DiscordResponse(object):
         """Returns a list of embeds to send to.
 
         Returns:
-            typing.List[Embed]: List of embeds in this object.
+            List[Embed]: List of embeds in this object.
         """
         return self._embeds
 
