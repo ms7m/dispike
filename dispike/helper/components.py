@@ -267,7 +267,7 @@ class ActionRow:
                 contains_select_menu = True
 
         if contains_button and contains_select_menu:
-            raise TypeError("You cannot combine buttons and select menus")
+            raise ComponentCombinationError("You cannot combine buttons and select menus")
 
         self.components = components
 
