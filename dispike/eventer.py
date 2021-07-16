@@ -26,7 +26,7 @@ class EventHandler(object):
     def on(
         self,
         event: str,
-        type: EventTypes,
+        type: EventTypes = EventTypes.COMMAND,
         func: typing.Callable = None,
     ):
         """A wrapper over an async function, registers it in .callbacks.
