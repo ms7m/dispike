@@ -1,6 +1,8 @@
 import typing
 from enum import Enum
 
+from dispike.errors.components import InvalidComponentError, ComponentCombinationError, SelectMenuOptionError
+
 
 class ComponentTypes(int, Enum):
 
@@ -261,9 +263,9 @@ class ActionRow:
         contains_button = False
         contains_select_menu = False
         for component in components:
-            if type(component) == Button or type(component) == LinkButton:
+            if isinstance(component, (Button, LinkButton)):
                 contains_button = True
-            elif type(component) == SelectMenu:
+            elif isinstance(component, SelectMenu):
                 contains_select_menu = True
 
         if contains_button and contains_select_menu:
