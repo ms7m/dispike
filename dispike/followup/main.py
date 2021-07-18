@@ -45,11 +45,11 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if isinstance(message, DiscordResponse) == False:
+        if not isinstance(message, DiscordResponse):
             raise TypeError("Message must be a DiscordResponse")
 
         message._switch_to_followup_message()
-        if self._message_id != None:
+        if self._message_id is not None:
             raise TypeError("Creating a followup message can only be done once.")
         try:
             _request = self._sync_client.post(url=self.base_url, json=message.response)
@@ -82,11 +82,11 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if isinstance(message, DiscordResponse) == False:
+        if not isinstance(message, DiscordResponse):
             raise TypeError("Message must be a DiscordResponse")
 
         message._switch_to_followup_message()
-        if self._message_id != None:
+        if self._message_id is not None:
             raise TypeError("Creating a followup message can only be done once.")
         try:
             _request = await self._async_client.post(
@@ -121,7 +121,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first!")
         try:
             _request = self._sync_client.patch(
@@ -155,7 +155,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first!")
         try:
             _request = await self._async_client.patch(
@@ -186,7 +186,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first.")
         try:
             _request = self._sync_client.delete(f"/messages/{self._message_id}")
@@ -214,7 +214,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first.")
         try:
             _request = await self._async_client.delete(f"/messages/{self._message_id}")

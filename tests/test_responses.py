@@ -1,5 +1,11 @@
 import json
-from dispike.errors.network import DiscordAPIError
+from dispike.helper.components import (
+    Button,
+    PartialEmoji,
+    ActionRow,
+    LinkButton,
+    SelectMenu,
+)
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
 from dispike.helper.embed import Embed
@@ -71,8 +77,51 @@ def test_response_with_embed():
     _created_embed.add_field(name="test", value="test")
     _created_content.add_new_embed(_created_embed)
 
-    assert isinstance(_created_content.embeds[0], dict) == True
-    assert _created_content.embeds[0] != {}
+    assert _created_content.embeds[0] == _created_embed
+
+
+def test_response_with_button():
+    _created_button = Button(
+        label="test",
+        custom_id="test_id",
+        disabled=True,
+        emoji=PartialEmoji(name="test_emoji", id="123123123132", animated=True),
+    )
+    _created_link_button = LinkButton(
+        label="test", disabled=True, url="https://github.com/"
+    )
+    _created_content = DiscordResponse(
+        content="test",
+        action_row=ActionRow(components=[_created_button, _created_link_button]),
+    )
+
+    assert _created_content.action_row == ActionRow(
+        components=[_created_button, _created_link_button]
+    )
+
+
+def test_response_with_select_menu():
+    _created_select_menu = SelectMenu(
+        custom_id="test_id",
+        disabled=True,
+        max_values=1,
+        min_values=1,
+        options=[
+            SelectMenu.SelectMenuOption(
+                label="test",
+                emoji=PartialEmoji(name="test_emoji", id="123123123132", animated=True),
+                description="desc",
+                value="test",
+                default=True,
+            )
+        ],
+        placeholder="Test",
+    )
+    _created_content = DiscordResponse(
+        content="test", action_row=ActionRow(components=[_created_select_menu])
+    )
+
+    assert _created_content.action_row == ActionRow(components=[_created_select_menu])
 
 
 def test_response_with_allowed_mentions():

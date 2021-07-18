@@ -13,15 +13,12 @@ def determine_event_information(
     interaction: IncomingDiscordInteraction,
 ) -> typing.Tuple[str, dict]:
 
-    if isinstance(interaction, IncomingDiscordInteraction) == True:
+    if isinstance(interaction, IncomingDiscordInteraction):
 
-        if interaction.data.options == None:
+        if interaction.data.options is None:
             return interaction.data.name, {}
 
-        if (
-            isinstance(interaction.data.options[0], SubcommandIncomingDiscordOptionList)
-            == True
-        ):
+        if isinstance(interaction.data.options[0], SubcommandIncomingDiscordOptionList):
             # subcommand event names will be must be xxx.xxx
             _sub_command_arguments = {}
 
@@ -45,7 +42,7 @@ def determine_event_information(
 
             return _event_name, _sub_command_arguments
 
-        elif isinstance(interaction.data.options[0], IncomingDiscordOption) == True:
+        elif isinstance(interaction.data.options[0], IncomingDiscordOption):
             _command_arguments = {}
 
             for argument in interaction.data.options:

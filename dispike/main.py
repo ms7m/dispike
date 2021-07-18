@@ -16,7 +16,6 @@ from .register.models.permissions import (
     GuildApplicationCommandPermissions,
 )
 
-
 if typing.TYPE_CHECKING:
     from .eventer import EventHandler  # pragma: no cover
     from .models.incoming import IncomingDiscordInteraction  # pragma: no cover
@@ -24,7 +23,6 @@ if typing.TYPE_CHECKING:
 
 
 class Dispike(object):
-
     """Dispike - python library for interacting with discord slash commands via an independently hosted server.
 
     *Powered by FastAPI*
@@ -74,12 +72,12 @@ class Dispike(object):
             TYPE: bool
         """
         try:
-            if new_bot_token == None:
+            if new_bot_token is None:
                 _bot_token = self._bot_token
             else:
                 _bot_token = new_bot_token
 
-            if new_application_id == None:
+            if new_application_id is None:
                 _application_id = self._application_id
             else:
                 _application_id = new_application_id
@@ -151,8 +149,8 @@ class Dispike(object):
         Raises:
             DiscordAPIError: any Discord returned errors.
         """
-        if guild_only == True:
-            if guild_id_passed == False or not isinstance(guild_id_passed, str):
+        if guild_only:
+            if not guild_id_passed or not isinstance(guild_id_passed, str):
                 raise TypeError(
                     "You cannot have guild_only == True and NOT pass any guild id."
                 )
@@ -203,12 +201,12 @@ class Dispike(object):
         if not isinstance(new_command, (DiscordCommand, dict, list)):
             raise TypeError("New command must be a DiscordCommand or a valid dict.")
 
-        if guild_only == True:
-            if guild_id_passed == False:
+        if guild_only:
+            if not guild_id_passed:
                 raise TypeError(
                     "You cannot have guild_only set to True and NOT pass any guild id."
                 )
-            if bulk == True:
+            if bulk:
                 _url = f"/guilds/{guild_id_passed}/commands"
             else:
                 _url = f"/guilds/{guild_id_passed}/commands/{command_id}"
@@ -230,7 +228,7 @@ class Dispike(object):
             if _send_request.status_code != 200:
                 raise DiscordAPIError(_send_request.status_code, _send_request.text)
 
-            if bulk == True:
+            if bulk:
                 return [DiscordCommand(**x) for x in _send_request.json()]
             else:
                 return DiscordCommand(**_send_request.json())
@@ -258,8 +256,8 @@ class Dispike(object):
             TypeError: Invalid types passed.
             DiscordAPIError: any Discord returned errors.
         """
-        if guild_only == True:
-            if guild_id_passed == False:
+        if guild_only:
+            if not guild_id_passed:
                 raise TypeError(
                     "You cannot have guild_only == True and NOT pass any guild id."
                 )

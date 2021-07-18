@@ -1,4 +1,5 @@
 from .helper.embed import Embed
+from .helper.components import ActionRow
 import typing
 from .errors.network import DiscordAPIError
 from loguru import logger
@@ -16,7 +17,6 @@ if typing.TYPE_CHECKING:
 
 
 class DiscordResponse(object):
-
     """Represents an outgoing Discord Response
 
     Attributes:
@@ -35,6 +35,8 @@ class DiscordResponse(object):
         follow_up_message=False,
         empherical=False,
         allowed_mentions: "AllowedMentions" = None,
+        action_row: ActionRow = None,
+        update_message=False,
     ):
         """Initialize a DiscordResponse, you can either pass data into here, or
         simply create a DiscordResponse() and edit via properties.
@@ -44,11 +46,13 @@ class DiscordResponse(object):
             tts (bool, optional): bool returning if the message should be spoken via tts
             embeds (typing.List[Embed], optional): a List representing .to_dict of an Embed object
             show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.
+            follow_up_message (bool, optional): Whether this is a follow up to a previous message.
             empherical (bool, optional): Whether to send message as an empherical message.
-            allowed_mentions (typing.List[AllowedMentions], optional): Let discord filter mentions per configuration.
+            allowed_mentions (List[AllowedMentions], optional): Let discord filter mentions per configuration.
+            update_message (bool, optional): Whether to edit the original message this is responding too.
         """
-        if content != None:
-            if isinstance(content, str) == False:
+        if content is not None:
+            if not isinstance(content, str):
                 raise TypeError(f"Content must be a string")
             elif content == "":
                 content = None
@@ -56,32 +60,53 @@ class DiscordResponse(object):
         # if isinstance(content, str) == False or content == "" or content != None:
         #    raise TypeError(f"content must be a string. recieved: {content}")
 
-        if isinstance(tts, bool) == False:
+        if not isinstance(tts, bool):
             raise TypeError("tts must be a bool")
 
         self._content = content
         self._tts = tts
-        self._embeds = [x.to_dict() for x in embeds]
-        if show_user_input == True:
+        self._embeds = embeds
+
+        if action_row:
+            self._action_row = action_row
+        else:
+            self._action_row = None
+
+        if show_user_input:
             logger.warning(
-                "show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may remove this parameter."
+                "show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may "
+                "remove this parameter. "
             )
 
         self._type_response = 4
+
+        if update_message:
+            self._type_response = 7
 
         self._is_followup = follow_up_message
         self._is_empherical = empherical
         self._allowed_mentions = allowed_mentions
 
     @property
-    def embeds(self) -> typing.List[dict]:
+    def embeds(self) -> typing.List[Embed]:
         """Returns a list of embeds to send to.
 
         Returns:
-            typing.List[dict]: Embeds represented as a dict.
+            List[Embed]: List of embeds in this object.
         """
-        # TODO: if accessing .embeds, return an Embed object instead of dict.
         return self._embeds
+
+    @property
+    def action_row(self) -> ActionRow:
+        """Returns a action row.
+
+        Returns:
+            ActionRow: The action row.
+        """
+        return self._action_row
+
+    def set_type_response(self, type: int):
+        self._type_response = type
 
     def add_new_embed(self, embed_to_add: Embed):
         """Append a new embed, provided with a proper Embed object
@@ -93,7 +118,7 @@ class DiscordResponse(object):
             TypeError: Raised if you do not pass a proper Embed object.
         """
         if isinstance(embed_to_add, Embed):
-            self._embeds.append(embed_to_add.to_dict())
+            self._embeds.append(embed_to_add)
         else:
             raise TypeError("embed must be a Embed object.")
 
@@ -131,31 +156,39 @@ class DiscordResponse(object):
             dict: a valid discord response.
         """
 
-        self.content = "" if self.content == None else self.content
+        self.content = "" if self.content is None else self.content
 
         if self._is_followup:
-            _req = {
-                "content": self.content,
-            }
+            _req = {"content": self.content, "data": {}}
 
-            if self.embeds != []:
-                _req["embeds"] = self.embeds
+            if self.embeds:
+                _req["embeds"] = [x.to_dict() for x in self.embeds]
 
-            if self.tts == True:
+            if self.tts:
                 _req["tts"] = True
 
-            if self._is_empherical == True:
+            if self._is_empherical:
                 logger.info("setting empherical")
-                _req["flags"] == 1 << 6
+                _req["flags"] = 1 << 6
+
+            if self._action_row:
+                _req["data"]["components"] = [self.action_row.to_dict()]
 
             return _req
 
         _req = {
             "type": self._type_response,
-            "data": {"tts": self.tts, "content": self.content, "embeds": self.embeds},
+            "data": {
+                "tts": self.tts,
+                "content": self.content,
+                "embeds": [x.to_dict() for x in self.embeds],
+            },
         }
-        if self._is_empherical == True:
+        if self._is_empherical:
             _req["data"]["flags"] = 1 << 6
+
+        if self._action_row:
+            _req["data"]["components"] = [self.action_row.to_dict()]
 
         if self._allowed_mentions:
             _req["allowed_mentions"] = self._allowed_mentions.dict()
@@ -171,3 +204,9 @@ class DiscordResponse(object):
 
 class DeferredResponse:
     response = {"type": 5}
+
+
+class AcknowledgeComponentResponse:
+    """Represents an interaction ACK response"""
+
+    response = {"type": 4, "data": {}}
