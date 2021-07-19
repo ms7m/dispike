@@ -1,9 +1,7 @@
+from dispike.errors.events import InvalidEventType
 import typing
-from fastapi import Response
 from loguru import logger
 import inspect
-from functools import wraps
-from dispike.helper.components import ComponentTypes
 from enum import Enum
 
 
@@ -39,6 +37,15 @@ class EventHandler(object):
         Returns:
             <function>: returns the wrapped function
         """
+
+        if not isinstance(type, EventTypes):
+            if isinstance(type, str):
+                logger.warning(
+                    "Passing a unknown EventType, this may cause issues and is unsupported"
+                )  # noqa
+            else:
+                # TODO: Maybe it's not good to overrwrite a default python function. Maybe change type to a different value?
+                raise InvalidEventType(type)
 
         def on(func):
             if not inspect.iscoroutinefunction(func):
