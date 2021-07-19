@@ -58,6 +58,7 @@ class Dispike(object):
 
         self._cache_router = router
 
+    @logger.catch(reraise=True)
     def reset_registration(self, new_bot_token=None, new_application_id=None):
         """This method resets the built-in RgeisterCommands.
         You should not have to call this method directly.
@@ -71,24 +72,20 @@ class Dispike(object):
         Returns:
             TYPE: bool
         """
-        try:
-            if new_bot_token is None:
-                _bot_token = self._bot_token
-            else:
-                _bot_token = new_bot_token
-
-            if new_application_id is None:
-                _application_id = self._application_id
-            else:
-                _application_id = new_application_id
-            self._registrator = RegisterCommands(
-                application_id=_application_id, bot_token=_bot_token
-            )
-            self._bot_token = _bot_token
-            self._application_id = _application_id
-            return True
-        except Exception:
-            return False
+        if new_bot_token is None:
+            _bot_token = self._bot_token
+        else:
+            _bot_token = new_bot_token
+        if new_application_id is None:
+            _application_id = self._application_id
+        else:
+            _application_id = new_application_id
+        self._registrator = RegisterCommands(
+            application_id=_application_id, bot_token=_bot_token
+        )
+        self._bot_token = _bot_token
+        self._application_id = _application_id
+        return True
 
     @staticmethod
     async def background(function: typing.Callable, *args, **kwargs):
@@ -134,6 +131,7 @@ class Dispike(object):
         """
         return self._registrator._client
 
+    @logger.catch(reraise=True, message="Issue with getting commands from Discord")
     def get_commands(
         self, guild_only=False, guild_id_passed=None
     ) -> typing.List[IncomingApplicationCommand]:
@@ -169,10 +167,8 @@ class Dispike(object):
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
             raise
-        except Exception:
-            logger.exception("Unknown exception returned")
-            raise
 
+    @logger.catch(reraise=True, message="Issue with editing commands from Discord")
     def edit_command(
         self,
         new_command: typing.Union[typing.List[DiscordCommand], DiscordCommand],
@@ -235,10 +231,8 @@ class Dispike(object):
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
             return False
-        except Exception:
-            logger.exception("Unknown exception returned")
-            return False
 
+    @logger.catch(reraise=True, message="Issue with deleting commands from Discord")
     def delete_command(
         self, command_id: int, guild_only=False, guild_id_passed=None
     ) -> bool:
@@ -274,9 +268,6 @@ class Dispike(object):
             return True
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
-            raise
-        except Exception:
-            logger.exception("Unknown exception returned")
             raise
 
     def set_command_permission(
