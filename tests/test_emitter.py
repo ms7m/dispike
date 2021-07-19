@@ -1,3 +1,4 @@
+from dispike.errors.events import InvalidEventType
 from dispike.eventer import EventHandler
 from dispike.models.incoming import (
     IncomingDiscordInteraction,
@@ -145,4 +146,13 @@ async def test_attempt_to_register_multiple_handlers():
 
         @event_handler.on("duplicateEvent", EventTypes.COMPONENT)
         async def dup_two(*args, **kwargs):
+            pass
+
+
+@pytest.mark.asyncio
+async def pass_invalid_type_to_event_function():
+    with pytest.raises(InvalidEventType):
+
+        @event_handler.on("sampleEvent", type=22)
+        async def invalid_event_type(*args, **kwargs):
             pass
