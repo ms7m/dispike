@@ -32,6 +32,7 @@ class FollowUpMessages(object):
 
         self._message_id = None
 
+    @logger.catch(reraise=True)
     def create_follow_up_message(self, message: DiscordResponse):
         """Create an initial follow up message. (Sync)
 
@@ -65,10 +66,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     async def async_create_follow_up_message(self, message: DiscordResponse):
         """Create an initial follow up message. (Async)
 
@@ -104,10 +103,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     def edit_follow_up_message(self, updated_message: DiscordResponse):
         """Edit an already sent initial follow-up message. (Sync)
 
@@ -138,10 +135,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     async def async_edit_follow_up_message(self, updated_message: DiscordResponse):
         """Edit an already sent initial follow-up message. (Async)
 
@@ -172,10 +167,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     def delete_follow_up_message(self):
         """Deletes an already sent initial follow-up message. (sync)
 
@@ -200,10 +193,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     async def async_delete_follow_up_message(self):
         """Deletes an already sent initial follow-up message. (Async)
 
@@ -227,7 +218,4 @@ class FollowUpMessages(object):
             else:
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
-            raise
-        except Exception:
-            logger.exception("error creating message.")
             raise
