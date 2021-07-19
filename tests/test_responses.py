@@ -155,3 +155,19 @@ def test_invalid_content():
 
     with pytest.raises(TypeError):
         _created_content = DiscordResponse(content="Test", tts="invalid")
+
+
+def test_type_response_update():
+    _sample = DiscordResponse(content="test")
+    _sample.set_type_response = 4
+    assert _sample._type_response == 4
+
+
+def test_type_response_update_message():
+    _sample = DiscordResponse(content="test", update_message=True)
+    assert _sample._type_response == 7
+
+
+def test_if_call_function_returns_response():
+    _sample = DiscordResponse(content="test")
+    assert _sample.__call__() == _sample.response

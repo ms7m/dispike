@@ -154,3 +154,43 @@ def test_no_guild_id_passed_but_guild_only_argument_for_edit_command():
         _current_dispike_object.edit_command(
             new_command=[], guild_only=True, command_id=1122122
         )
+
+
+def test_reset_registration_with_none_values(dispike_object: Dispike):
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    _current_dispike_object = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="BOTTOKEN",
+        application_id="APPID",
+    )
+
+    assert (
+        _current_dispike_object.reset_registration(
+            new_bot_token=None, new_application_id=None
+        )
+        == True
+    )
+    assert _current_dispike_object._bot_token == "BOTTOKEN"
+    assert _current_dispike_object._application_id == "APPID"
+
+
+def test_delete_command_with_invalid_guild_combinations():
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    _current_dispike_object = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="BOTTOKEN",
+        application_id="APPID",
+    )
+
+    with pytest.raises(TypeError):
+        _current_dispike_object.delete_command(command_id=123123123123, guild_only=True)
