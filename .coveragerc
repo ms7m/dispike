@@ -1,2 +1,2 @@
 [run]
-omit = dispike/helper/*
+omit = dispike/helper/*, dispike/errors/*
