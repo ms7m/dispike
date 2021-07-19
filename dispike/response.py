@@ -3,6 +3,7 @@ from .helper.components import ActionRow
 import typing
 from .errors.network import DiscordAPIError
 from loguru import logger
+import warnings
 
 try:
     from typing import Literal  # pragma: no cover
@@ -11,9 +12,9 @@ except ImportError:  # pragma: no cover
     from typing_extensions import Literal  # pragma: no cover
 
 if typing.TYPE_CHECKING:
-    from .main import Dispike
-    from .models import IncomingDiscordInteraction
-    from .models.allowed_mentions import AllowedMentions
+    from .main import Dispike  # pragma: no cover
+    from .models import IncomingDiscordInteraction  # pragma: no cover
+    from .models.allowed_mentions import AllowedMentions  # pragma: no cover
 
 
 class DiscordResponse(object):
@@ -73,10 +74,14 @@ class DiscordResponse(object):
             self._action_row = None
 
         if show_user_input:
+            # show deprecation warning
+            warnings.warn(
+                "show_user_input is deprecated by Dispike as it is no longer supported by Discord. Future versions of dispike may remove this parameter entirely.",
+                DeprecationWarning,
+            )  # pragma: no cover
             logger.warning(
-                "show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may "
-                "remove this parameter. "
-            )
+                "show_user_input is deprecated by Dispike as it is no longer supported by Discord. Future versions of dispike may remove this parameter entirely."
+            )  # pragma: no cover
 
         self._type_response = 4
 
