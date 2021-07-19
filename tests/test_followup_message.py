@@ -347,3 +347,27 @@ def test_correct_async_functions(followup_message_object: FollowUpMessages):
     assert inspect.iscoroutinefunction(
         followup_message_object.async_edit_follow_up_message
     )
+
+
+def test_invalid_type_passed_to_followup_functions(
+    followup_message_object: FollowUpMessages,
+):
+    with pytest.raises(TypeError):
+        followup_message_object.create_follow_up_message(message="Invalid")
+    with pytest.raises(TypeError):
+        followup_message_object.edit_follow_up_message(message="Invalid")
+    with pytest.raises(TypeError):
+        followup_message_object.delete_follow_up_message(message="Invalid")
+
+
+@pytest.mark.asyncio
+async def async_test_invalid_type_passed_to_followup_functions(
+    followup_message_object: FollowUpMessages,
+):
+    with pytest.raises(TypeError):
+        await followup_message_object.async_create_follow_up_message(message="Invalid")
+
+    with pytest.raises(TypeError):
+        await followup_message_object.async_edit_follow_up_message(message="Invalid")
+    with pytest.raises(TypeError):
+        await followup_message_object.async_delete_follow_up_message(message="Invalid")
