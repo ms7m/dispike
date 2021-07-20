@@ -513,8 +513,8 @@ class Dispike(object):
         """
         uvicorn = self._return_uvicorn_run_function()
 
-        if unix_socket is not None and port is not None:
-            raise ArgumentError("You cannot bind to port AND a unix socket")
+        if unix_socket and port:
+            raise ValueError("You cannot bind to port AND a unix socket")
         else:
             if port:
                 if bind_to_ip_address:
@@ -536,4 +536,4 @@ class Dispike(object):
                 else:
                     uvicorn.run(self.referenced_application, host=unix_socket)
             if not unix_socket and not port:
-                raise ArgumentError("You must specify a port or unix socket")
+                raise ValueError("You must specify a port or unix socket")
