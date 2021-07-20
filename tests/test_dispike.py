@@ -1,3 +1,4 @@
+import asyncio
 import warnings
 from dispike import __version__
 from dispike import Dispike
@@ -215,3 +216,14 @@ def test_valid_arguments_for_run_function(dispike_object: Dispike):
 #        assert "Binding to a IP Address other than 127.0.0.1 may not be secure!" in str(
 #            w[-1].message
 #        )
+
+
+@pytest.mark.asyncio
+async def test_if_background_function_is_called_correctly(dispike_object: Dispike):
+    async def sample_task():
+        asyncio.sleep(8888)
+
+    # tbh: i don't know if this is the correct way to test this
+    await dispike_object.background(sample_task)
+    _running_tasks = list(asyncio.all_tasks())
+    assert _running_tasks[0].get_coro().__name__ == "sample_task"
