@@ -1,3 +1,4 @@
+import warnings
 from dispike import __version__
 from dispike import Dispike
 
@@ -194,3 +195,23 @@ def test_delete_command_with_invalid_guild_combinations():
 
     with pytest.raises(TypeError):
         _current_dispike_object.delete_command(command_id=123123123123, guild_only=True)
+
+
+# test exception if no port is set for .run
+def test_valid_arguments_for_run_function(dispike_object: Dispike):
+    with pytest.raises(ValueError):
+        dispike_object.run()
+
+    # test if ValueError is raised if unix_host and port are both set
+    with pytest.raises(ValueError):
+        dispike_object.run(unix_socket="unix://testingDispikeObject", port=21332)
+
+
+# def test_display_warning_if_non_local_port(dispike_object: Dispike):
+#    with warnings.catch_warnings(record=True) as w:
+#        dispike_object.run(port=21332, bind_to_ip_address="0.0.0.0")
+#        assert len(w) == 1
+#        assert issubclass(w[-1].category, UserWarning)
+#        assert "Binding to a IP Address other than 127.0.0.1 may not be secure!" in str(
+#            w[-1].message
+#        )
