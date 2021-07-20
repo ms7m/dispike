@@ -39,13 +39,13 @@ class EventHandler(object):
         """
 
         if not isinstance(type, EventTypes):
-            if isinstance(type, str):
+            if isinstance(type, str):  # pragma: no cover
                 logger.warning(
                     "Passing a unknown EventType, this may cause issues and is unsupported"
                 )  # noqa
             else:
                 # TODO: Maybe it's not good to overrwrite a default python function. Maybe change type to a different value?
-                raise InvalidEventType(type)
+                raise InvalidEventType(type)  # pragma: no cover
 
         def on(func):
             if not inspect.iscoroutinefunction(func):
