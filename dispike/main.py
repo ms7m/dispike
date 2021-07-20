@@ -1,3 +1,6 @@
+from argparse import ArgumentError
+from dispike.errors.warnings import InsecureBindingWithCustomHostWarning
+import warnings
 from fastapi import FastAPI
 import typing
 from loguru import logger
@@ -492,13 +495,45 @@ class Dispike(object):
                 "Uvicorn is not installed. Please use a different webserver pointing to <..>.referenced_application"
             )
 
-    def run(self, port: int = 5000):
-
+    def run(
+        self,
+        port: int = None,
+        unix_socket: str = None,
+        bind_to_ip_address: str = None,
+        supress_insecure_binding_warning: bool = False,
+    ):
         """Runs the bot with the already-installed Uvicorn webserver.
 
         Args:
-            port (int, optional): Port to run the bot over. Defaults to 5000.
-        """
+            port (int, optional): Run the bot on a specific port.
+            unix_socket (str, optional): [description]. Run the bot and listen on a specific unix domain socket..
 
+        Raises:
+            ArgumentError: [description]
+        """
         uvicorn = self._return_uvicorn_run_function()
-        uvicorn.run(app=self.referenced_application, port=port)
+
+        if unix_socket is not None and port is not None:
+            raise ArgumentError("You cannot bind to port AND a unix socket")
+        else:
+            if port:
+                if bind_to_ip_address:
+                    if supress_insecure_binding_warning == False:
+                        warnings.warn(
+                            "Binding to a IP Address other than 127.0.0.1 may not be secure! If you are exposing this service to the outside world -- a reverse proxy is strongly recommended.",
+                            InsecureBindingWithCustomHostWarning,
+                        )
+                    uvicorn.run(
+                        app=self.referenced_application,
+                        host=bind_to_ip_address,
+                        port=port,
+                    )
+                else:
+                    uvicorn.run(app=self.referenced_application, port=port)
+            elif unix_socket:
+                if "unix" not in unix_socket:
+                    unix_socket = f"unix:{unix_socket}"
+                else:
+                    uvicorn.run(self.referenced_application, host=unix_socket)
+            if not unix_socket and not port:
+                raise ArgumentError("You must specify a port or unix socket")
