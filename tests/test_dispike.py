@@ -1,4 +1,5 @@
 import asyncio
+import sys
 import warnings
 from dispike import __version__
 from dispike import Dispike
@@ -219,6 +220,7 @@ def test_valid_arguments_for_run_function(dispike_object: Dispike):
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(sys.version_info <= (3, 8), reason="requires python3.8 or higher")
 async def test_if_background_function_is_called_correctly(dispike_object: Dispike):
     async def sample_task():
         asyncio.sleep(8888)
