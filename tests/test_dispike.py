@@ -225,5 +225,5 @@ async def test_if_background_function_is_called_correctly(dispike_object: Dispik
 
     # tbh: i don't know if this is the correct way to test this
     await dispike_object.background(sample_task)
-    _running_tasks = list(asyncio.all_tasks())
-    assert _running_tasks[0].get_coro().__name__ == "sample_task"
+    _running_tasks = [x.get_coro().__name__ for x in list(asyncio.all_tasks())]
+    assert "sample_task" in _running_tasks
