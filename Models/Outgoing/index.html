@@ -845,6 +845,32 @@ assisting in helping write documentation!
       <a class="headerlink" href="#dispike.register.models.options.CommandChoice" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a key-value command choice.</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of the choice.</p>
+</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>str</code></td>
+<td>
+<p>Value of the choice.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 
@@ -872,6 +898,60 @@ assisting in helping write documentation!
       <a class="headerlink" href="#dispike.register.models.options.CommandOption" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a standard command option (not a subcommand).</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of the option.</p>
+</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>str</code></td>
+<td>
+<p>Description of the option.</p>
+</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>CommandTypes</code></td>
+<td>
+<p>The option type.</p>
+</td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether or not this option is required.</p>
+</td>
+</tr>
+<tr>
+<td><code>choices</code></td>
+<td><code>Union[List[dict], List[CommandChoice]]</code></td>
+<td>
+<p>Possible choices for this option for the user to pick from.</p>
+</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>Union[List[CommandChoice], List]</code></td>
+<td>
+<p>If the option is a subcommand or subcommand group type, this nested options will be the parameters.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 
@@ -998,6 +1078,46 @@ assisting in helping write documentation!
       <a class="headerlink" href="#dispike.register.models.options.DiscordCommand" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a discord command.</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Id of this command.</p>
+</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of this command.</p>
+</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>str</code></td>
+<td>
+<p>Description of this command.</p>
+</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>List[Union[SubcommandOption, CommandOption]]</code></td>
+<td>
+<p>Options for this command.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 
@@ -1025,6 +1145,39 @@ assisting in helping write documentation!
       <a class="headerlink" href="#dispike.register.models.options.SubcommandOption" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
 <p>Represents a subcommand group usually you would put this as an option in a DiscordCommand</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of this group.</p>
+</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>str</code></td>
+<td>
+<p>Description of this group.</p>
+</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>List[CommandOption]</code></td>
+<td>
+<p>Options for this group.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 

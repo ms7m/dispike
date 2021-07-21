@@ -846,7 +846,7 @@ the FastAPI docs.</p>
 <h2 class="doc doc-heading" id="dispike.main.Dispike.register">
 
         <code class="highlight">
-register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7f917cc61a70</span><span class="o">&gt;</span>        </code>
+register: <span class="o">&lt;</span><span class="n">function</span> <span class="n">RegisterCommands</span><span class="o">.</span><span class="n">register</span> <span class="n">at</span> <span class="mh">0x7f88a46a9680</span><span class="o">&gt;</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -866,7 +866,7 @@ register: <span class="o">&lt;</span><span class="n">function</span> <span class
 </thead>
 <tbody>
 <tr>
-<td><code>&lt;function RegisterCommands.register at 0x7f917cc61a70&gt;</code></td>
+<td><code>&lt;function RegisterCommands.register at 0x7f88a46a9680&gt;</code></td>
 <td>
 <p>RegisterCommands.register: internal RegisterCommands Object</p>
 </td>
@@ -1377,7 +1377,8 @@ delete_command<span class="p">(</span><span class="bp">self</span><span class="p
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">delete_command</span><span class="p">(</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Issue with deleting commands from Discord"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">delete_command</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">command_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">guild_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guild_id_passed</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">"""Deletes a command, provided with a command_id</span>
@@ -1394,8 +1395,8 @@ delete_command<span class="p">(</span><span class="bp">self</span><span class="p
 <span class="sd">        TypeError: Invalid types passed.</span>
 <span class="sd">        DiscordAPIError: any Discord returned errors.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">guild_only</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">guild_id_passed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">guild_only</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">guild_id_passed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"You cannot have guild_only == True and NOT pass any guild id."</span>
             <span class="p">)</span>
@@ -1412,9 +1413,6 @@ delete_command<span class="p">(</span><span class="bp">self</span><span class="p
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Discord API Failure."</span><span class="p">)</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Unknown exception returned"</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>
@@ -1527,7 +1525,8 @@ edit_command<span class="p">(</span><span class="bp">self</span><span class="p">
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">edit_command</span><span class="p">(</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Issue with editing commands from Discord"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">edit_command</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">new_command</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">DiscordCommand</span><span class="p">],</span> <span class="n">DiscordCommand</span><span class="p">],</span>
     <span class="n">command_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1555,12 +1554,12 @@ edit_command<span class="p">(</span><span class="bp">self</span><span class="p">
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_command</span><span class="p">,</span> <span class="p">(</span><span class="n">DiscordCommand</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"New command must be a DiscordCommand or a valid dict."</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">guild_only</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">guild_id_passed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">guild_only</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">guild_id_passed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"You cannot have guild_only set to True and NOT pass any guild id."</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">bulk</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bulk</span><span class="p">:</span>
             <span class="n">_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/guilds/</span><span class="si">{</span><span class="n">guild_id_passed</span><span class="si">}</span><span class="s2">/commands"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/guilds/</span><span class="si">{</span><span class="n">guild_id_passed</span><span class="si">}</span><span class="s2">/commands/</span><span class="si">{</span><span class="n">command_id</span><span class="si">}</span><span class="s2">"</span>
@@ -1582,15 +1581,12 @@ edit_command<span class="p">(</span><span class="bp">self</span><span class="p">
         <span class="k">if</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">bulk</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bulk</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">DiscordCommand</span><span class="p">(</span><span class="o">**</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">DiscordCommand</span><span class="p">(</span><span class="o">**</span><span class="n">_send_request</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Discord API Failure."</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Unknown exception returned"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 </code></pre>
 </div>
@@ -1850,7 +1846,8 @@ get_commands<span class="p">(</span><span class="bp">self</span><span class="p">
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">get_commands</span><span class="p">(</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Issue with getting commands from Discord"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_commands</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">guild_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guild_id_passed</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">IncomingApplicationCommand</span><span class="p">]:</span>
     <span class="sd">"""Returns a list of ``DiscordCommands`` either globally or for a specific guild.</span>
@@ -1865,8 +1862,8 @@ get_commands<span class="p">(</span><span class="bp">self</span><span class="p">
 <span class="sd">    Raises:</span>
 <span class="sd">        DiscordAPIError: any Discord returned errors.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">guild_only</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">guild_id_passed</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">guild_id_passed</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">guild_only</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">guild_id_passed</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">guild_id_passed</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"You cannot have guild_only == True and NOT pass any guild id."</span>
             <span class="p">)</span>
@@ -1884,9 +1881,6 @@ get_commands<span class="p">(</span><span class="bp">self</span><span class="p">
         <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Discord API Failure."</span><span class="p">)</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Unknown exception returned"</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>
@@ -1954,7 +1948,8 @@ You should not have to call this method directly.</p>
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">reset_registration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_bot_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_application_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">reset_registration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_bot_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_application_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">"""This method resets the built-in RgeisterCommands.</span>
 <span class="sd">    You should not have to call this method directly.</span>
 
@@ -1967,24 +1962,20 @@ You should not have to call this method directly.</p>
 <span class="sd">    Returns:</span>
 <span class="sd">        TYPE: bool</span>
 <span class="sd">    """</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">new_bot_token</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_bot_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">_bot_token</span> <span class="o">=</span> <span class="n">new_bot_token</span>
-
-        <span class="k">if</span> <span class="n">new_application_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_application_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">_application_id</span> <span class="o">=</span> <span class="n">new_application_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_registrator</span> <span class="o">=</span> <span class="n">RegisterCommands</span><span class="p">(</span>
-            <span class="n">application_id</span><span class="o">=</span><span class="n">_application_id</span><span class="p">,</span> <span class="n">bot_token</span><span class="o">=</span><span class="n">_bot_token</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span> <span class="o">=</span> <span class="n">_bot_token</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span> <span class="o">=</span> <span class="n">_application_id</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">new_bot_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_bot_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_bot_token</span> <span class="o">=</span> <span class="n">new_bot_token</span>
+    <span class="k">if</span> <span class="n">new_application_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_application_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_application_id</span> <span class="o">=</span> <span class="n">new_application_id</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_registrator</span> <span class="o">=</span> <span class="n">RegisterCommands</span><span class="p">(</span>
+        <span class="n">application_id</span><span class="o">=</span><span class="n">_application_id</span><span class="p">,</span> <span class="n">bot_token</span><span class="o">=</span><span class="n">_bot_token</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_bot_token</span> <span class="o">=</span> <span class="n">_bot_token</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span> <span class="o">=</span> <span class="n">_application_id</span>
+    <span class="k">return</span> <span class="kc">True</span>
 </code></pre>
 </div>
 </details>
@@ -1994,7 +1985,7 @@ You should not have to call this method directly.</p>
 <h2 class="doc doc-heading" id="dispike.main.Dispike.run">
 
         <code class="highlight language-python">
-run<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>        </code>
+run<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unix_socket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bind_to_ip_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">supress_insecure_binding_warning</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
 
 
       <a class="headerlink" href="#dispike.main.Dispike.run" title="Permanent link">&para;</a></h2>
@@ -2015,25 +2006,82 @@ run<span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
 <td><code>port</code></td>
 <td><code>int</code></td>
 <td>
-<p>Port to run the bot over. Defaults to 5000.</p>
+<p>Run the bot on a specific port.</p>
 </td>
-<td><code>5000</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>unix_socket</code></td>
+<td><code>str</code></td>
+<td>
+<p>[description]. Run the bot and listen on a specific unix domain socket..</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exceptions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ArgumentError</code></td>
+<td>
+<p>[description]</p>
+</td>
 </tr>
 </tbody>
 </table>
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">):</span>
-
+<pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">unix_socket</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bind_to_ip_address</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">supress_insecure_binding_warning</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">"""Runs the bot with the already-installed Uvicorn webserver.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        port (int, optional): Port to run the bot over. Defaults to 5000.</span>
-<span class="sd">    """</span>
+<span class="sd">        port (int, optional): Run the bot on a specific port.</span>
+<span class="sd">        unix_socket (str, optional): [description]. Run the bot and listen on a specific unix domain socket..</span>
 
+<span class="sd">    Raises:</span>
+<span class="sd">        ArgumentError: [description]</span>
+<span class="sd">    """</span>
     <span class="n">uvicorn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_return_uvicorn_run_function</span><span class="p">()</span>
-    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">referenced_application</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">unix_socket</span> <span class="ow">and</span> <span class="n">port</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"You cannot bind to port AND a unix socket"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">port</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">bind_to_ip_address</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">supress_insecure_binding_warning</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="s2">"Binding to a IP Address other than 127.0.0.1 may not be secure! If you are exposing this service to the outside world -- a reverse proxy is strongly recommended."</span><span class="p">,</span>
+                        <span class="n">InsecureBindingWithCustomHostWarning</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                    <span class="n">app</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">referenced_application</span><span class="p">,</span>
+                    <span class="n">host</span><span class="o">=</span><span class="n">bind_to_ip_address</span><span class="p">,</span>
+                    <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">referenced_application</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unix_socket</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"unix"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unix_socket</span><span class="p">:</span>
+                <span class="n">unix_socket</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"unix:</span><span class="si">{</span><span class="n">unix_socket</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">referenced_application</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">unix_socket</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">unix_socket</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">port</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"You must specify a port or unix socket"</span><span class="p">)</span>
 </code></pre>
 </div>
 </details>

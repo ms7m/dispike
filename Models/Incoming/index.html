@@ -493,6 +493,20 @@ assisting in helping write documentation!
 </li>
       
         <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordButtonData" class="md-nav__link">
+    IncomingDiscordButtonData
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordButtonInteraction" class="md-nav__link">
+    IncomingDiscordButtonInteraction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispike.models.incoming.IncomingDiscordInteraction" class="md-nav__link">
     IncomingDiscordInteraction
   </a>
@@ -514,8 +528,29 @@ assisting in helping write documentation!
 </li>
       
         <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordSelectMenuData" class="md-nav__link">
+    IncomingDiscordSelectMenuData
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordSelectMenuInteraction" class="md-nav__link">
+    IncomingDiscordSelectMenuInteraction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispike.models.incoming.SubcommandIncomingDiscordOptionList" class="md-nav__link">
     SubcommandIncomingDiscordOptionList
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.models.incoming.SubcommandIncomingDiscordOptionListChild" class="md-nav__link">
+    SubcommandIncomingDiscordOptionListChild
   </a>
   
 </li>
@@ -778,6 +813,20 @@ assisting in helping write documentation!
 </li>
       
         <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordButtonData" class="md-nav__link">
+    IncomingDiscordButtonData
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordButtonInteraction" class="md-nav__link">
+    IncomingDiscordButtonInteraction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispike.models.incoming.IncomingDiscordInteraction" class="md-nav__link">
     IncomingDiscordInteraction
   </a>
@@ -799,8 +848,29 @@ assisting in helping write documentation!
 </li>
       
         <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordSelectMenuData" class="md-nav__link">
+    IncomingDiscordSelectMenuData
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.models.incoming.IncomingDiscordSelectMenuInteraction" class="md-nav__link">
+    IncomingDiscordSelectMenuInteraction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispike.models.incoming.SubcommandIncomingDiscordOptionList" class="md-nav__link">
     SubcommandIncomingDiscordOptionList
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.models.incoming.SubcommandIncomingDiscordOptionListChild" class="md-nav__link">
+    SubcommandIncomingDiscordOptionListChild
   </a>
   
 </li>
@@ -839,8 +909,190 @@ assisting in helping write documentation!
 
       <a class="headerlink" href="#dispike.models.incoming.IncomingApplicationCommand" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
-<p>an Incoming Application command, this is not intended for you to edit, and will not be accepted
+<p>An Incoming Application command, this is not intended for you to edit, and will not be accepted
 in any function</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Id of the interaction.</p>
+</td>
+</tr>
+<tr>
+<td><code>application_id</code></td>
+<td><code>int</code></td>
+<td>
+<p>The id of your bot.</p>
+</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>int</code></td>
+<td>
+<p>Name of the command.</p>
+</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>int</code></td>
+<td>
+<p>Description of the command.</p>
+</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>Union[List[CommandOption], List[SubcommandOption]]</code></td>
+<td>
+<p>Selected options from the command.</p>
+</td>
+</tr>
+<tr>
+<td><code>default_permission</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Bool whether if uses default permissions.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="dispike.models.incoming.IncomingDiscordButtonData">
+
+        <code>IncomingDiscordButtonData</code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+      <a class="headerlink" href="#dispike.models.incoming.IncomingDiscordButtonData" title="Permanent link">&para;</a></h2>
+<div class="doc doc-contents ">
+<p>Incoming button data.</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>custom_id</code></td>
+<td><code>str</code></td>
+<td>
+<p>The custom id of this button.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="dispike.models.incoming.IncomingDiscordButtonInteraction">
+
+        <code>IncomingDiscordButtonInteraction</code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+      <a class="headerlink" href="#dispike.models.incoming.IncomingDiscordButtonInteraction" title="Permanent link">&para;</a></h2>
+<div class="doc doc-contents ">
+<p>An incoming discord interaction that was triggered by a button press, this is not intended for you to edit, and will not
+be accepted as an argument in any function.</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Id of the interaction.</p>
+</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>IncomingDiscordButtonData</code></td>
+<td>
+<p>Data from the interaction.</p>
+</td>
+</tr>
+<tr>
+<td><code>guild_id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Guild ID where this happened.</p>
+</td>
+</tr>
+<tr>
+<td><code>channel_id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Channel ID where this happened.</p>
+</td>
+</tr>
+<tr>
+<td><code>member</code></td>
+<td><code>Member</code></td>
+<td>
+<p>TODO: IDK if this is the member that called the command originally or the one that used the button.</p>
+</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td><code>str</code></td>
+<td>
+<p>Token of this interaction.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 
@@ -867,8 +1119,62 @@ in any function</p>
 
       <a class="headerlink" href="#dispike.models.incoming.IncomingDiscordInteraction" title="Permanent link">&para;</a></h2>
 <div class="doc doc-contents ">
-<p>An incoming discord interaction, this is not intended for you to edit, and will not
+<p>An incoming discord interaction that was triggered by a command, this is not intended for you to edit, and will not
 be accepted as an argument in any function.</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Id of the interaction.</p>
+</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>IncomingDiscordOptionList</code></td>
+<td>
+<p>Options from the command.</p>
+</td>
+</tr>
+<tr>
+<td><code>guild_id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Guild ID where this happened.</p>
+</td>
+</tr>
+<tr>
+<td><code>channel_id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Channel ID where this happened.</p>
+</td>
+</tr>
+<tr>
+<td><code>member</code></td>
+<td><code>Member</code></td>
+<td>
+<p>Member that used this interaction.</p>
+</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td><code>str</code></td>
+<td>
+<p>Token of this interaction.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 
@@ -897,6 +1203,32 @@ be accepted as an argument in any function.</p>
 <div class="doc doc-contents ">
 <p>An incoming discord option, this is not intended for you to edit, and will not
 be accepted as an argument in any function nor will be accepted as a value in DiscordCommand</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of the option</p>
+</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>str</code></td>
+<td>
+<p>Value of the option</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 
@@ -925,6 +1257,174 @@ be accepted as an argument in any function nor will be accepted as a value in Di
 <div class="doc doc-contents ">
 <p>An incoming discord option list, this is not intended for you to edit, and will not
 be accepted as an argument in any function nor accepted in DiscordCommand</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>str</code></td>
+<td>
+<p>Id of the command</p>
+</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of the command</p>
+</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>Union[List[IncomingDiscordOption], List[SubcommandIncomingDiscordOptionList]]</code></td>
+<td>
+<p>Options selected by the user</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="dispike.models.incoming.IncomingDiscordSelectMenuData">
+
+        <code>IncomingDiscordSelectMenuData</code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+      <a class="headerlink" href="#dispike.models.incoming.IncomingDiscordSelectMenuData" title="Permanent link">&para;</a></h2>
+<div class="doc doc-contents ">
+<p>Incoming select menu data.</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>custom_id</code></td>
+<td><code>str</code></td>
+<td>
+<p>The custom id of this button.</p>
+</td>
+</tr>
+<tr>
+<td><code>values</code></td>
+<td><code>List[str]</code></td>
+<td>
+<p>A list of string values that the user selected.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="dispike.models.incoming.IncomingDiscordSelectMenuInteraction">
+
+        <code>IncomingDiscordSelectMenuInteraction</code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+      <a class="headerlink" href="#dispike.models.incoming.IncomingDiscordSelectMenuInteraction" title="Permanent link">&para;</a></h2>
+<div class="doc doc-contents ">
+<p>An incoming discord interaction that was triggered by a select menu interaction, this is not intended for you to edit, and will not
+be accepted as an argument in any function.</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Id of the interaction.</p>
+</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>IncomingDiscordSelectMenuData</code></td>
+<td>
+<p>Data from the interaction.</p>
+</td>
+</tr>
+<tr>
+<td><code>guild_id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Guild ID where this happened.</p>
+</td>
+</tr>
+<tr>
+<td><code>channel_id</code></td>
+<td><code>int</code></td>
+<td>
+<p>Channel ID where this happened.</p>
+</td>
+</tr>
+<tr>
+<td><code>member</code></td>
+<td><code>Member</code></td>
+<td>
+<p>TODO: IDK if this is the member that called the command originally or the one that used the select menu.</p>
+</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td><code>str</code></td>
+<td>
+<p>Token of this interaction.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 
@@ -953,6 +1453,84 @@ be accepted as an argument in any function nor accepted in DiscordCommand</p>
 <div class="doc doc-contents ">
 <p>An incoming discord option list, this is not intended for you to edit, and will not
 be accepted as an argument in any function nor accepted in DiscordCommand</p>
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of the subcommand</p>
+</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>Union[List[IncomingDiscordOption], List[SubcommandIncomingDiscordOptionListChild]]</code></td>
+<td>
+<p>Options selected by the user</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+</div>
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="dispike.models.incoming.SubcommandIncomingDiscordOptionListChild">
+
+        <code>SubcommandIncomingDiscordOptionListChild</code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+      <a class="headerlink" href="#dispike.models.incoming.SubcommandIncomingDiscordOptionListChild" title="Permanent link">&para;</a></h2>
+<div class="doc doc-contents ">
+<p><strong>Attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>
+<p>Name of the subcommand</p>
+</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>List[IncomingDiscordOption]]</code></td>
+<td>
+<p>Options selected by the user</p>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="doc doc-children">
 
 

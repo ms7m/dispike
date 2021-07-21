@@ -1004,7 +1004,8 @@ async_create_follow_up_message<span class="p">(</span><span class="bp">self</spa
 <details class="quote">
           <summary>Source code in <code>dispike/followup/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">async_create_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_create_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
     <span class="sd">"""Create an initial follow up message. (Async)</span>
 
 <span class="sd">    Args:</span>
@@ -1017,11 +1018,11 @@ async_create_follow_up_message<span class="p">(</span><span class="bp">self</spa
 <span class="sd">        DiscordAPIError: Discord returning a non-OK status status_code</span>
 <span class="sd">        TypeError: Invalid type passed.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">DiscordResponse</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">DiscordResponse</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Message must be a DiscordResponse"</span><span class="p">)</span>
 
     <span class="n">message</span><span class="o">.</span><span class="n">_switch_to_followup_message</span><span class="p">()</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Creating a followup message can only be done once."</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_request</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_async_client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -1038,9 +1039,6 @@ async_create_follow_up_message<span class="p">(</span><span class="bp">self</spa
             <span class="p">)</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"error creating message."</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>
@@ -1103,7 +1101,8 @@ async_delete_follow_up_message<span class="p">(</span><span class="bp">self</spa
 <details class="quote">
           <summary>Source code in <code>dispike/followup/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">async_delete_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_delete_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">"""Deletes an already sent initial follow-up message. (Async)</span>
 
 <span class="sd">    Returns:</span>
@@ -1113,7 +1112,7 @@ async_delete_follow_up_message<span class="p">(</span><span class="bp">self</spa
 <span class="sd">        DiscordAPIError: Discord returning a non-OK status status_code</span>
 <span class="sd">        TypeError: Invalid type passed.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"a followup message must be sent first."</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_request</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_async_client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/messages/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -1126,9 +1125,6 @@ async_delete_follow_up_message<span class="p">(</span><span class="bp">self</spa
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"error creating message."</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>
@@ -1212,7 +1208,8 @@ async_edit_follow_up_message<span class="p">(</span><span class="bp">self</span>
 <details class="quote">
           <summary>Source code in <code>dispike/followup/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">async_edit_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_edit_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
     <span class="sd">"""Edit an already sent initial follow-up message. (Async)</span>
 
 <span class="sd">    Args:</span>
@@ -1225,7 +1222,7 @@ async_edit_follow_up_message<span class="p">(</span><span class="bp">self</span>
 <span class="sd">        DiscordAPIError: Discord returning a non-OK status status_code</span>
 <span class="sd">        TypeError: Invalid type passed.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"a followup message must be sent first!"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_request</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_async_client</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
@@ -1241,9 +1238,6 @@ async_edit_follow_up_message<span class="p">(</span><span class="bp">self</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"error creating message."</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>
@@ -1324,7 +1318,8 @@ create_follow_up_message<span class="p">(</span><span class="bp">self</span><spa
 <details class="quote">
           <summary>Source code in <code>dispike/followup/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">create_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
     <span class="sd">"""Create an initial follow up message. (Sync)</span>
 
 <span class="sd">    Args:</span>
@@ -1337,11 +1332,11 @@ create_follow_up_message<span class="p">(</span><span class="bp">self</span><spa
 <span class="sd">        DiscordAPIError: Discord returning a non-OK status status_code</span>
 <span class="sd">        TypeError: Invalid type passed.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">DiscordResponse</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">DiscordResponse</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Message must be a DiscordResponse"</span><span class="p">)</span>
 
     <span class="n">message</span><span class="o">.</span><span class="n">_switch_to_followup_message</span><span class="p">()</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Creating a followup message can only be done once."</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
@@ -1356,9 +1351,6 @@ create_follow_up_message<span class="p">(</span><span class="bp">self</span><spa
             <span class="p">)</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"error creating message."</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>
@@ -1418,7 +1410,8 @@ delete_follow_up_message<span class="p">(</span><span class="bp">self</span><spa
 <details class="quote">
           <summary>Source code in <code>dispike/followup/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">delete_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">delete_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">"""Deletes an already sent initial follow-up message. (sync)</span>
 
 <span class="sd">    Returns:</span>
@@ -1428,7 +1421,7 @@ delete_follow_up_message<span class="p">(</span><span class="bp">self</span><spa
 <span class="sd">        DiscordAPIError: Discord returning a non-OK status status_code</span>
 <span class="sd">        TypeError: Invalid type passed.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"a followup message must be sent first."</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/messages/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -1441,9 +1434,6 @@ delete_follow_up_message<span class="p">(</span><span class="bp">self</span><spa
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"error creating message."</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>
@@ -1524,7 +1514,8 @@ edit_follow_up_message<span class="p">(</span><span class="bp">self</span><span 
 <details class="quote">
           <summary>Source code in <code>dispike/followup/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">edit_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">edit_follow_up_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updated_message</span><span class="p">:</span> <span class="n">DiscordResponse</span><span class="p">):</span>
     <span class="sd">"""Edit an already sent initial follow-up message. (Sync)</span>
 
 <span class="sd">    Args:</span>
@@ -1537,7 +1528,7 @@ edit_follow_up_message<span class="p">(</span><span class="bp">self</span><span 
 <span class="sd">        DiscordAPIError: Discord returning a non-OK status status_code</span>
 <span class="sd">        TypeError: Invalid type passed.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"a followup message must be sent first!"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_client</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span>
@@ -1553,9 +1544,6 @@ edit_follow_up_message<span class="p">(</span><span class="bp">self</span><span 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"error creating message."</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>

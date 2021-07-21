@@ -823,7 +823,7 @@ assisting in helping write documentation!
     async def ...(argument_one, argument_two, ctx) -&gt; ...</code></p>
 </li>
 <li>
-<p>Contain a <code>bot.interaction.on(&lt;command-identifier&gt;)</code> decorator.</p>
+<p>Contain a <code>bot.interaction.on(&lt;command-identifier&gt;, &lt;event type&gt;)</code> decorator.</p>
 </li>
 </ul>
 <h3 id="finding-the-command-identifier">Finding the command identifier.<a class="headerlink" href="#finding-the-command-identifier" title="Permanent link">&para;</a></h3>
@@ -843,7 +843,7 @@ assisting in helping write documentation!
 <span class="err">)</span>
 </code></pre></div>
 <p>The command identifier in this case will be <code>wave</code>. </p>
-<div class="highlight"><pre><span></span><code><span class="nd">@bot</span><span class="o">.</span><span class="n">interaction</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;wave&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@bot</span><span class="o">.</span><span class="n">interaction</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;wave&quot;</span><span class="p">,</span> <span class="n">EventTypes</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">handle_wave</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DiscordResponse</span><span class="p">:</span>
     <span class="o">...</span>
 </code></pre></div>
@@ -895,7 +895,7 @@ assisting in helping write documentation!
 <details class="warning" open="open"><summary>Warning</summary><p>If you have an optional argument, you can pass the <code>**kwargs</code> argument to your function. Learn more about the <code>*kwargs</code> argument <a href="https://book.pythontips.com/en/latest/args_and_kwargs.html">here</a>. If the user adds an optional argument, this will be passed to the function. Otherwise, it will not be present. Write your code to check if it exists before doing anything!</p>
 </details>
 <p>The command argument names must match to the one set as the <code>value</code> when registering your command.</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@bot</span><span class="o">.</span><span class="n">interaction</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;forex.latest.convert&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@bot</span><span class="o">.</span><span class="n">interaction</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;forex.latest.convert&quot;</span><span class="p">,</span> <span class="n">EventTypes</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">handle_forex_convert</span><span class="p">(</span><span class="n">symbol_1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbol_2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">IncomingDiscordInteraction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DiscordResponse</span><span class="p">:</span>
     <span class="o">...</span>
 </code></pre></div>

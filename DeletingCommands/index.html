@@ -803,7 +803,8 @@ assisting in helping write documentation!
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">delete_command</span><span class="p">(</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Issue with deleting commands from Discord"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">delete_command</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">command_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">guild_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guild_id_passed</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">"""Deletes a command, provided with a command_id</span>
@@ -820,8 +821,8 @@ assisting in helping write documentation!
 <span class="sd">        TypeError: Invalid types passed.</span>
 <span class="sd">        DiscordAPIError: any Discord returned errors.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">guild_only</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">guild_id_passed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">guild_only</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">guild_id_passed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"You cannot have guild_only == True and NOT pass any guild id."</span>
             <span class="p">)</span>
@@ -838,9 +839,6 @@ assisting in helping write documentation!
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Discord API Failure."</span><span class="p">)</span>
-        <span class="k">raise</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Unknown exception returned"</span><span class="p">)</span>
         <span class="k">raise</span>
 </code></pre>
 </div>

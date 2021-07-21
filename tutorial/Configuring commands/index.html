@@ -866,7 +866,12 @@ assisting in helping write documentation!
 <span class="nd">@static_check_init_args</span>
 <span class="k">class</span> <span class="nc">CommandChoice</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a key-value command choice.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a key-value command choice.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): Name of the choice.</span>
+<span class="sd">        value (str): Value of the choice.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
@@ -875,7 +880,16 @@ assisting in helping write documentation!
 <span class="nd">@static_check_init_args</span>
 <span class="k">class</span> <span class="nc">CommandOption</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a standard command option (not a subcommand).&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a standard command option (not a subcommand).</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): Name of the option.</span>
+<span class="sd">        description (str): Description of the option.</span>
+<span class="sd">        type (CommandTypes): The option type.</span>
+<span class="sd">        required (bool): Whether or not this option is required.</span>
+<span class="sd">        choices (typing.Union[typing.List[dict], typing.List[CommandChoice]], optional): Possible choices for this option for the user to pick from.</span>
+<span class="sd">        options (typing.Union[typing.List[CommandChoice], typing.List], optional): If the option is a subcommand or subcommand group type, this nested options will be the parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
@@ -902,7 +916,13 @@ assisting in helping write documentation!
 <span class="nd">@static_check_init_args</span>
 <span class="k">class</span> <span class="nc">SubcommandOption</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a subcommand group usually you would put this as an option in a DiscordCommand&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a subcommand group usually you would put this as an option in a DiscordCommand</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): Name of this group.</span>
+<span class="sd">        description (str): Description of this group.</span>
+<span class="sd">        options (typing.List[CommandOption]): Options for this group.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
@@ -933,7 +953,14 @@ assisting in helping write documentation!
 <span class="nd">@static_check_init_args</span>
 <span class="k">class</span> <span class="nc">DiscordCommand</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Represents a discord command.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Represents a discord command.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (int, optional): Id of this command.</span>
+<span class="sd">        name (str): Name of this command.</span>
+<span class="sd">        description (str): Description of this command.</span>
+<span class="sd">        options (typing.List[typing.Union[SubcommandOption, CommandOption]]): Options for this command.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">id</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>

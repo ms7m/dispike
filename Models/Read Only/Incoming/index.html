@@ -692,6 +692,10 @@ assisting in helping write documentation!
 
     <span class="sd">&quot;&quot;&quot;An incoming discord option, this is not intended for you to edit, and will not</span>
 <span class="sd">    be accepted as an argument in any function nor will be accepted as a value in DiscordCommand</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): Name of the option</span>
+<span class="sd">        value (str): Value of the option</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
@@ -699,6 +703,13 @@ assisting in helping write documentation!
 
 
 <span class="k">class</span> <span class="nc">SubcommandIncomingDiscordOptionListChild</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): Name of the subcommand</span>
+<span class="sd">        options (List[IncomingDiscordOption]], optional): Options selected by the user</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">arbitary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -707,8 +718,13 @@ assisting in helping write documentation!
 
 
 <span class="k">class</span> <span class="nc">SubcommandIncomingDiscordOptionList</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;An incoming discord option list, this is not intended for you to edit, and will not</span>
 <span class="sd">    be accepted as an argument in any function nor accepted in DiscordCommand</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): Name of the subcommand</span>
+<span class="sd">        options (Union[List[IncomingDiscordOption], List[SubcommandIncomingDiscordOptionListChild]], optional): Options selected by the user</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
@@ -725,6 +741,11 @@ assisting in helping write documentation!
 
     <span class="sd">&quot;&quot;&quot;An incoming discord option list, this is not intended for you to edit, and will not</span>
 <span class="sd">    be accepted as an argument in any function nor accepted in DiscordCommand</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (str): Id of the command</span>
+<span class="sd">        name (str): Name of the command</span>
+<span class="sd">        options (Union[List[IncomingDiscordOption], List[SubcommandIncomingDiscordOptionList]], optional): Options selected by the user</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
@@ -740,10 +761,44 @@ assisting in helping write documentation!
     <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
+<span class="k">class</span> <span class="nc">IncomingDiscordButtonData</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Incoming button data.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        custom_id (str): The custom id of this button.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">custom_id</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">IncomingDiscordSelectMenuData</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Incoming select menu data.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        custom_id (str): The custom id of this button.</span>
+<span class="sd">        values (List[str]): A list of string values that the user selected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">custom_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+
 <span class="k">class</span> <span class="nc">IncomingDiscordInteraction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;An incoming discord interaction, this is not intended for you to edit, and will not</span>
+    <span class="sd">&quot;&quot;&quot;An incoming discord interaction that was triggered by a command, this is not intended for you to edit, and will not</span>
 <span class="sd">    be accepted as an argument in any function.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (int): Id of the interaction.</span>
+<span class="sd">        data (IncomingDiscordOptionList): Options from the command.</span>
+<span class="sd">        guild_id (int): Guild ID where this happened.</span>
+<span class="sd">        channel_id (int): Channel ID where this happened.</span>
+<span class="sd">        member (Member): Member that used this interaction.</span>
+<span class="sd">        token (str): Token of this interaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
@@ -759,10 +814,66 @@ assisting in helping write documentation!
     <span class="n">version</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
+<span class="k">class</span> <span class="nc">IncomingDiscordButtonInteraction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;An incoming discord interaction that was triggered by a button press, this is not intended for you to edit, and will not</span>
+<span class="sd">    be accepted as an argument in any function.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (int): Id of the interaction.</span>
+<span class="sd">        data (IncomingDiscordButtonData): Data from the interaction.</span>
+<span class="sd">        guild_id (int): Guild ID where this happened.</span>
+<span class="sd">        channel_id (int): Channel ID where this happened.</span>
+<span class="sd">        member (Member): TODO: IDK if this is the member that called the command originally or the one that used the button.</span>
+<span class="sd">        token (str): Token of this interaction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>  <span class="c1"># 1 is removed, this lib will handle PING</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">IncomingDiscordButtonData</span>
+    <span class="n">guild_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">channel_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">member</span><span class="p">:</span> <span class="n">Member</span>
+    <span class="n">token</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">IncomingDiscordSelectMenuInteraction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;An incoming discord interaction that was triggered by a select menu interaction, this is not intended for you to edit, and will not</span>
+<span class="sd">    be accepted as an argument in any function.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (int): Id of the interaction.</span>
+<span class="sd">        data (IncomingDiscordSelectMenuData): Data from the interaction.</span>
+<span class="sd">        guild_id (int): Guild ID where this happened.</span>
+<span class="sd">        channel_id (int): Channel ID where this happened.</span>
+<span class="sd">        member (Member): TODO: IDK if this is the member that called the command originally or the one that used the select menu.</span>
+<span class="sd">        token (str): Token of this interaction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>  <span class="c1"># 1 is removed, this lib will handle PING</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">IncomingDiscordSelectMenuData</span>
+    <span class="n">guild_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">channel_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">member</span><span class="p">:</span> <span class="n">Member</span>
+    <span class="n">token</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
 <span class="k">class</span> <span class="nc">IncomingApplicationCommand</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;an Incoming Application command, this is not intended for you to edit, and will not be accepted</span>
+    <span class="sd">&quot;&quot;&quot;An Incoming Application command, this is not intended for you to edit, and will not be accepted</span>
 <span class="sd">    in any function</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (int): Id of the interaction.</span>
+<span class="sd">        application_id (int): The id of your bot.</span>
+<span class="sd">        name (int): Name of the command.</span>
+<span class="sd">        description (int): Description of the command.</span>
+<span class="sd">        options (Union[List[CommandOption], List[SubcommandOption]], optional): Selected options from the command.</span>
+<span class="sd">        default_permission (bool, optional): Bool whether if uses default permissions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>

@@ -800,7 +800,7 @@ Let’s write the handler so it can properly display to the user.</p>
 <span class="n">bot</span> <span class="o">=</span> <span class="n">Dispike</span><span class="p">(</span><span class="err">…</span><span class="p">)</span>
 
 
-<span class="nd">@bot</span><span class="o">.</span><span class="n">interaction</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;wave&quot;</span><span class="p">)</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">interaction</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;wave&quot;</span><span class="p">,</span> <span class="n">EventTypes</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">handle_send_wave</span><span class="p">(</span><span class="n">person</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">IncomingDiscordInteraction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DiscordResponse</span><span class="p">:</span>
   <span class="nb">print</span><span class="p">(</span><span class="err">“</span><span class="n">recieved</span> <span class="n">wave</span> <span class="n">command</span><span class="err">”</span><span class="p">)</span>
 
@@ -811,7 +811,7 @@ Let’s write the handler so it can properly display to the user.</p>
 
   <span class="k">return</span> <span class="n">response</span>
 </code></pre></div>
-<p>Take a look at <code>@bot.interaction.on(‘wave’)</code>, you can see that the <code>.on</code> takes in the command name we registered earlier.</p>
+<p>Take a look at <code>@bot.interaction.on('wave', EventTypes.COMMAND)</code>, you can see that the <code>.on</code> takes in the command name we registered earlier.</p>
 <p>The function also accepts two arguments. Our registered argument is named “person”, as well as the context that we will be receiving.</p>
 <p>Also take a look at <code>-&gt; DiscordResponse</code>, this is a type-hint,  this is optional, but it will make your requests faster, as Dispike would not have to guess what your response type is.</p>
                 

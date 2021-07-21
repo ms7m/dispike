@@ -846,7 +846,8 @@ assisting in helping write documentation!
 <details class="quote">
           <summary>Source code in <code>dispike/main.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">edit_command</span><span class="p">(</span>
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Issue with editing commands from Discord"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">edit_command</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">new_command</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">DiscordCommand</span><span class="p">],</span> <span class="n">DiscordCommand</span><span class="p">],</span>
     <span class="n">command_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -874,12 +875,12 @@ assisting in helping write documentation!
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_command</span><span class="p">,</span> <span class="p">(</span><span class="n">DiscordCommand</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"New command must be a DiscordCommand or a valid dict."</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">guild_only</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">guild_id_passed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">guild_only</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">guild_id_passed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"You cannot have guild_only set to True and NOT pass any guild id."</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">bulk</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bulk</span><span class="p">:</span>
             <span class="n">_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/guilds/</span><span class="si">{</span><span class="n">guild_id_passed</span><span class="si">}</span><span class="s2">/commands"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/guilds/</span><span class="si">{</span><span class="n">guild_id_passed</span><span class="si">}</span><span class="s2">/commands/</span><span class="si">{</span><span class="n">command_id</span><span class="si">}</span><span class="s2">"</span>
@@ -901,15 +902,12 @@ assisting in helping write documentation!
         <span class="k">if</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">bulk</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bulk</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">DiscordCommand</span><span class="p">(</span><span class="o">**</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">DiscordCommand</span><span class="p">(</span><span class="o">**</span><span class="n">_send_request</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
     <span class="k">except</span> <span class="n">DiscordAPIError</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Discord API Failure."</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Unknown exception returned"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 </code></pre>
 </div>

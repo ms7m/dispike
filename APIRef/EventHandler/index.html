@@ -442,7 +442,7 @@ assisting in helping write documentation!
 <div class="doc doc-object doc-method">
 <h2 class="doc doc-heading" id="dispike.eventer.EventHandler.check_event_exists">
 <code class="highlight language-python">
-check_event_exists<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span> </code>
+check_event_exists<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> </code>
 <a class="headerlink" href="#dispike.eventer.EventHandler.check_event_exists" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
 <p>Checks if the event in <code>.callbacks</code></p>
@@ -487,7 +487,7 @@ check_event_exists<span class="p">(</span><span class="bp">self</span><span clas
 <details class="quote">
 <summary>Source code in <code>dispike/eventer.py</code></summary>
 <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">check_event_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">check_event_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">"""Checks if the event in ``.callbacks``</span>
 
 <span class="sd">    Args:</span>
@@ -496,7 +496,7 @@ check_event_exists<span class="p">(</span><span class="bp">self</span><span clas
 <span class="sd">    Returns:</span>
 <span class="sd">        bool: returns if the event is in callbacks.</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span>
+    <span class="k">return</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span>
 </code></pre>
 </div>
 </details>
@@ -505,7 +505,7 @@ check_event_exists<span class="p">(</span><span class="bp">self</span><span clas
 <div class="doc doc-object doc-method">
 <h2 class="doc doc-heading" id="dispike.eventer.EventHandler.emit">
 <code class="highlight language-python">
-emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> </code>
+emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> </code>
 <span class="doc doc-properties">
 <small class="doc doc-property doc-property-async"><code>async</code></small>
 </span>
@@ -528,6 +528,14 @@ emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span>
 <td><code>str</code></td>
 <td>
 <p>Event name</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>str</code></td>
+<td>
+<p>Event type</p>
 </td>
 <td><em>required</em></td>
 </tr>
@@ -586,11 +594,12 @@ emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span>
 <details class="quote">
 <summary>Source code in <code>dispike/eventer.py</code></summary>
 <div class="highlight">
-<pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">"""'Emits' an event. It will basically call the function from .callbacks and return the function result</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        event (str): Event name</span>
+<span class="sd">        type (str): Event type</span>
 <span class="sd">        *args: extra arguments to pass</span>
 <span class="sd">        **kwargs: extra kwargs to pass</span>
 
@@ -600,13 +609,13 @@ emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span>
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: raises if event is not registered.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">event</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">event</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">[</span><span class="nb">type</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"event </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2"> does not have a corresponding handler. Did you register this function/event?"</span>
         <span class="p">)</span>
 
-    <span class="n">_look_up_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_event_function</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">_look_up_function</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">_look_up_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_event_function</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">_look_up_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre>
 </div>
 </details>
@@ -615,7 +624,7 @@ emit<span class="p">(</span><span class="bp">self</span><span class="p">,</span>
 <div class="doc doc-object doc-method">
 <h2 class="doc doc-heading" id="dispike.eventer.EventHandler.on">
 <code class="highlight language-python">
-on<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+on<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="nb">type</span><span class="o">=&lt;</span><span class="n">EventTypes</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">:</span> <span class="s1">'command'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
 <a class="headerlink" href="#dispike.eventer.EventHandler.on" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
 <p>A wrapper over an async function, registers it in .callbacks.</p>
@@ -637,6 +646,14 @@ on<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <
 <p>Event name</p>
 </td>
 <td><em>required</em></td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>EventTypes</code></td>
+<td>
+<p>Type of this event.</p>
+</td>
+<td><code>&lt;EventTypes.COMMAND: 'command'&gt;</code></td>
 </tr>
 <tr>
 <td><code>func</code></td>
@@ -671,25 +688,36 @@ on<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <
 <pre><span></span><code><span class="k">def</span> <span class="nf">on</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">EventTypes</span> <span class="o">=</span> <span class="n">EventTypes</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">,</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""A wrapper over an async function, registers it in .callbacks.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        event (str): Event name</span>
+<span class="sd">        type (EventTypes): Type of this event.</span>
 <span class="sd">        func (None, optional): function to wrap around</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        &lt;function&gt;: returns the wrapped function</span>
 <span class="sd">    """</span>
 
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">EventTypes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"Passing a unknown EventType, this may cause issues and is unsupported"</span>
+            <span class="p">)</span>  <span class="c1"># noqa</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TODO: Maybe it's not good to overrwrite a default python function. Maybe change type to a different value?</span>
+            <span class="k">raise</span> <span class="n">InvalidEventType</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+
     <span class="k">def</span> <span class="nf">on</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Function must be a async function."</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">event</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">[</span><span class="nb">type</span><span class="p">]:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Added </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2"> to corresponding function to </span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">[</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">"settings"</span><span class="p">:</span> <span class="p">{},</span>
                 <span class="s2">"function"</span><span class="p">:</span> <span class="n">func</span><span class="p">,</span>
             <span class="p">}</span>
@@ -707,7 +735,7 @@ on<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <
 <div class="doc doc-object doc-method">
 <h2 class="doc doc-heading" id="dispike.eventer.EventHandler.view_event_function_return_type">
 <code class="highlight language-python">
-view_event_function_return_type<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span> </code>
+view_event_function_return_type<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> </code>
 <a class="headerlink" href="#dispike.eventer.EventHandler.view_event_function_return_type" title="Permanent link">¶</a></h2>
 <div class="doc doc-contents">
 <p>Get type hint for event functions</p>
@@ -752,7 +780,7 @@ view_event_function_return_type<span class="p">(</span><span class="bp">self</sp
 <details class="quote">
 <summary>Source code in <code>dispike/eventer.py</code></summary>
 <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">view_event_function_return_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">view_event_function_return_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">"""Get type hint for event functions</span>
 
 <span class="sd">    Args:</span>
@@ -761,7 +789,7 @@ view_event_function_return_type<span class="p">(</span><span class="bp">self</sp
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: Returns .get_type_hints for event</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">typing</span><span class="o">.</span><span class="n">get_type_hints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">[</span><span class="n">event</span><span class="p">][</span><span class="s2">"function"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">typing</span><span class="o">.</span><span class="n">get_type_hints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="n">event</span><span class="p">][</span><span class="s2">"function"</span><span class="p">])</span>
 </code></pre>
 </div>
 </details>

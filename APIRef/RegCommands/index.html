@@ -347,6 +347,13 @@ assisting in helping write documentation!
 </li>
       
         <li class="md-nav__item">
+  <a href="#dispike.register.registrator.RegisterCommands.bulk_overwrite_commands" class="md-nav__link">
+    bulk_overwrite_commands()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispike.register.registrator.RegisterCommands.register" class="md-nav__link">
     register()
   </a>
@@ -779,6 +786,13 @@ assisting in helping write documentation!
 </li>
       
         <li class="md-nav__item">
+  <a href="#dispike.register.registrator.RegisterCommands.bulk_overwrite_commands" class="md-nav__link">
+    bulk_overwrite_commands()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispike.register.registrator.RegisterCommands.register" class="md-nav__link">
     register()
   </a>
@@ -936,6 +950,100 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
     <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span>
         <span class="n">base_url</span><span class="o">=</span><span class="sa">f</span><span class="s2">"https://discord.com/api/v8/applications/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_application_id</span><span class="si">}</span><span class="s2">/"</span>
     <span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h2 class="doc doc-heading" id="dispike.register.registrator.RegisterCommands.bulk_overwrite_commands">
+
+        <code class="highlight language-python">
+bulk_overwrite_commands<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">guild_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guild_to_target</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
+
+
+      <a class="headerlink" href="#dispike.register.registrator.RegisterCommands.bulk_overwrite_commands" title="Permanent link">&para;</a></h2>
+<div class="doc doc-contents ">
+<p>Bulk OVERWRITE commands to specific guilds or globally.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>commands</code></td>
+<td><code>List[dispike.register.models.options.DiscordCommand]</code></td>
+<td>
+<p>List of new commands (these commands will be overwritten)</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>guild_only</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Default to set global mode (True). Set to False to let the function know to expect a guild_id</p>
+</td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>guild_to_target</code></td>
+<td><code>int</code></td>
+<td>
+<p>A guild Id if guild_only is set to True.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>dispike/register/registrator.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="nd">@logger</span><span class="o">.</span><span class="n">catch</span><span class="p">(</span><span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Issue with bulk overrwriting commands"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">bulk_overwrite_commands</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">commands</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">DiscordCommand</span><span class="p">],</span>
+    <span class="n">guild_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">guild_to_target</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">"""Bulk OVERWRITE commands to specific guilds or globally.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        commands (typing.List[DiscordCommand]): List of new commands (these commands will be overwritten)</span>
+<span class="sd">        guild_only (bool, optional): Default to set global mode (True). Set to False to let the function know to expect a guild_id</span>
+<span class="sd">        guild_to_target (int, optional): A guild Id if guild_only is set to True.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">guild_only</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">guild_to_target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">"if guild_only is set to true, a guild id must be provided."</span>
+            <span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Targeting a specific guild -&gt; </span><span class="si">{</span><span class="n">guild_to_target</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">_request_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"guilds/</span><span class="si">{</span><span class="n">guild_to_target</span><span class="si">}</span><span class="s2">/commands"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_request_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"commands"</span>
+
+    <span class="n">_commands_to_json</span> <span class="o">=</span> <span class="p">[</span><span class="n">command</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">]</span>
+    <span class="n">_send_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">_request_url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">_commands_to_json</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request_headers</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Overwritten </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">_send_request</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> commands.. Recieved (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">_commands_to_json</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"BULK Overwrite failed (</span><span class="si">{</span><span class="n">guild_only</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">guild_to_target</span><span class="si">}</span><span class="s2">): Body: </span><span class="si">{</span><span class="n">_commands_to_json</span><span class="si">}</span><span class="s2">.. Status code: </span><span class="si">{</span><span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">DiscordAPIError</span><span class="p">(</span><span class="n">_send_request</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">_send_request</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </code></pre>
 </div>
 </details>

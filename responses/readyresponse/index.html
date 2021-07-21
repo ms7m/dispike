@@ -555,6 +555,27 @@ assisting in helping write documentation!
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#update-original-message" class="md-nav__link">
+    Update original message
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buttons" class="md-nav__link">
+    Buttons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#select-menus" class="md-nav__link">
+    Select Menus
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -563,6 +584,13 @@ assisting in helping write documentation!
         <li class="md-nav__item">
   <a href="#dispike.response.DiscordResponse" class="md-nav__link">
     dispike.response.DiscordResponse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.response.DiscordResponse.action_row" class="md-nav__link">
+    action_row
   </a>
   
 </li>
@@ -799,6 +827,27 @@ assisting in helping write documentation!
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#update-original-message" class="md-nav__link">
+    Update original message
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buttons" class="md-nav__link">
+    Buttons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#select-menus" class="md-nav__link">
+    Select Menus
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -807,6 +856,13 @@ assisting in helping write documentation!
         <li class="md-nav__item">
   <a href="#dispike.response.DiscordResponse" class="md-nav__link">
     dispike.response.DiscordResponse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispike.response.DiscordResponse.action_row" class="md-nav__link">
+    action_row
   </a>
   
 </li>
@@ -904,6 +960,73 @@ assisting in helping write documentation!
 <span class="n">response</span> <span class="o">=</span> <span class="n">DiscordResponse</span><span class="p">(</span><span class="n">empherical</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Content Text Here&quot;</span>
 </code></pre></div>
+<h3 id="update-original-message">Update original message<a class="headerlink" href="#update-original-message" title="Permanent link">&para;</a></h3>
+<details class="warning" open="open"><summary>Warning</summary><p>You can only update an original message if you are responding to a component interaction</p>
+</details>
+<p>You can update the original message if you are responding to a component interaction.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">dispike.responses</span> <span class="kn">import</span> <span class="n">DiscordResponse</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">DiscordResponse</span><span class="p">(</span><span class="n">update_message</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Brand new content&quot;</span>
+</code></pre></div>
+<h3 id="buttons">Buttons<a class="headerlink" href="#buttons" title="Permanent link">&para;</a></h3>
+<details class="info" open="open"><summary>Info</summary><p>Remember to register an event for these buttons!</p>
+</details>
+<div class="highlight"><pre><span></span><code><span class="n">DiscordResponse</span><span class="p">(</span>
+    <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Content!&quot;</span><span class="p">,</span>
+    <span class="n">empherical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">action_row</span><span class="o">=</span><span class="n">ActionRow</span><span class="p">(</span>
+        <span class="n">components</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">Button</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Next&quot;</span><span class="p">,</span>
+                <span class="n">custom_id</span><span class="o">=</span><span class="s2">&quot;tutorial_step1_next&quot;</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="n">ButtonStyles</span><span class="o">.</span><span class="n">PRIMARY</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">Button</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Cancel&quot;</span><span class="p">,</span>
+                <span class="n">custom_id</span><span class="o">=</span><span class="s2">&quot;tutorial_cancel&quot;</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="n">ButtonStyles</span><span class="o">.</span><span class="n">DANGER</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">LinkButton</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Go to the docs!&quot;</span><span class="p">,</span>
+                <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://dispike.ms7m.me/&quot;</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+<span class="p">),</span>
+</code></pre></div>
+<h3 id="select-menus">Select Menus<a class="headerlink" href="#select-menus" title="Permanent link">&para;</a></h3>
+<details class="info" open="open"><summary>Info</summary><p>Remember to register an event for this select menu!</p>
+</details>
+<div class="highlight"><pre><span></span><code><span class="n">DiscordResponse</span><span class="p">(</span>
+    <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Content!&quot;</span><span class="p">,</span>
+    <span class="n">action_row</span><span class="o">=</span><span class="n">ActionRow</span><span class="p">(</span>
+        <span class="n">components</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">SelectMenu</span><span class="p">(</span>
+                <span class="n">custom_id</span><span class="o">=</span><span class="s2">&quot;class_select_1&quot;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Choose a class&quot;</span><span class="p">,</span>
+                <span class="n">min_values</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">max_values</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">options</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">SelectMenu</span><span class="o">.</span><span class="n">SelectMenuOption</span><span class="p">(</span>
+                        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Rogue&quot;</span><span class="p">,</span>
+                        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sneak n stab&quot;</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="s2">&quot;rogue&quot;</span><span class="p">,</span>
+                        <span class="n">emoji</span><span class="o">=</span><span class="n">PartialEmoji</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;rogue&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;625891304148303894&quot;</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="n">SelectMenu</span><span class="o">.</span><span class="n">SelectMenuOption</span><span class="p">(</span>
+                        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mage&quot;</span><span class="p">,</span>
+                        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Turn &#39;em into a sheep&quot;</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="s2">&quot;mage&quot;</span><span class="p">,</span>
+                        <span class="n">emoji</span><span class="o">=</span><span class="n">PartialEmoji</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;mage&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;625891304081063986&quot;</span><span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">],</span>
+                <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+<span class="p">),</span>
+</code></pre></div>
 <details class="info" open="open"><summary>Info</summary><p>DiscordResponse is simply a helper to help you generate a valid response to discord. If you can generate a valid response yourself, you can simply type-hint your function to hint at a dict and return a <em>proper</em> response. This is only recommended for <strong>Advanced</strong> users.</p>
 </details>
 <div class="doc doc-object doc-class">
@@ -953,6 +1076,39 @@ assisting in helping write documentation!
 </table>
 <div class="doc doc-children">
 <div class="doc doc-object doc-attribute">
+<h2 class="doc doc-heading" id="dispike.response.DiscordResponse.action_row">
+
+        <code class="highlight">
+action_row: <span class="n">ActionRow</span>        </code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+      <a class="headerlink" href="#dispike.response.DiscordResponse.action_row" title="Permanent link">&para;</a></h2>
+<div class="doc doc-contents ">
+<p>Returns a action row.</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ActionRow</code></td>
+<td>
+<p>ActionRow: The action row.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="doc doc-object doc-attribute">
 <h2 class="doc doc-heading" id="dispike.response.DiscordResponse.content">
 
         <code class="highlight">
@@ -989,7 +1145,7 @@ content: <span class="nb">str</span>        </code>
 <h2 class="doc doc-heading" id="dispike.response.DiscordResponse.embeds">
 
         <code class="highlight">
-embeds: <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>        </code>
+embeds: <span class="n">List</span><span class="p">[</span><span class="n">dispike</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">embed</span><span class="o">.</span><span class="n">Embed</span><span class="p">]</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -1009,9 +1165,9 @@ embeds: <span class="n">List</span><span class="p">[</span><span class="nb">dict
 </thead>
 <tbody>
 <tr>
-<td><code>List[dict]</code></td>
+<td><code>List[dispike.helper.embed.Embed]</code></td>
 <td>
-<p>typing.List[dict]: Embeds represented as a dict.</p>
+<p>List[Embed]: List of embeds in this object.</p>
 </td>
 </tr>
 </tbody>
@@ -1088,7 +1244,7 @@ tts: <span class="nb">bool</span>        </code>
 <h2 class="doc doc-heading" id="dispike.response.DiscordResponse.__init__">
 
         <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tts</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">embeds</span><span class="o">=</span><span class="p">[],</span> <span class="n">show_user_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">empherical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allowed_mentions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tts</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">embeds</span><span class="o">=</span><span class="p">[],</span> <span class="n">show_user_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">empherical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allowed_mentions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">action_row</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_message</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1142,6 +1298,14 @@ simply create a DiscordResponse() and edit via properties.</p>
 <td><code>False</code></td>
 </tr>
 <tr>
+<td><code>follow_up_message</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether this is a follow up to a previous message.</p>
+</td>
+<td><code>False</code></td>
+</tr>
+<tr>
 <td><code>empherical</code></td>
 <td><code>bool</code></td>
 <td>
@@ -1157,6 +1321,14 @@ simply create a DiscordResponse() and edit via properties.</p>
 </td>
 <td><code>None</code></td>
 </tr>
+<tr>
+<td><code>update_message</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to edit the original message this is responding too.</p>
+</td>
+<td><code>False</code></td>
+</tr>
 </tbody>
 </table>
 <details class="quote">
@@ -1171,6 +1343,8 @@ simply create a DiscordResponse() and edit via properties.</p>
     <span class="n">follow_up_message</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">empherical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">allowed_mentions</span><span class="p">:</span> <span class="s2">"AllowedMentions"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">action_row</span><span class="p">:</span> <span class="n">ActionRow</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">update_message</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""Initialize a DiscordResponse, you can either pass data into here, or</span>
 <span class="sd">    simply create a DiscordResponse() and edit via properties.</span>
@@ -1180,11 +1354,13 @@ simply create a DiscordResponse() and edit via properties.</p>
 <span class="sd">        tts (bool, optional): bool returning if the message should be spoken via tts</span>
 <span class="sd">        embeds (typing.List[Embed], optional): a List representing .to_dict of an Embed object</span>
 <span class="sd">        show_user_input (bool, optional): Whether to delete the user's message of calling the command after responding.</span>
+<span class="sd">        follow_up_message (bool, optional): Whether this is a follow up to a previous message.</span>
 <span class="sd">        empherical (bool, optional): Whether to send message as an empherical message.</span>
-<span class="sd">        allowed_mentions (typing.List[AllowedMentions], optional): Let discord filter mentions per configuration.</span>
+<span class="sd">        allowed_mentions (List[AllowedMentions], optional): Let discord filter mentions per configuration.</span>
+<span class="sd">        update_message (bool, optional): Whether to edit the original message this is responding too.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">content</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Content must be a string"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">content</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1192,18 +1368,32 @@ simply create a DiscordResponse() and edit via properties.</p>
     <span class="c1"># if isinstance(content, str) == False or content == "" or content != None:</span>
     <span class="c1">#    raise TypeError(f"content must be a string. recieved: {content}")</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tts</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"tts must be a bool"</span><span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_tts</span> <span class="o">=</span> <span class="n">tts</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_embeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">embeds</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">show_user_input</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_embeds</span> <span class="o">=</span> <span class="n">embeds</span>
+
+    <span class="k">if</span> <span class="n">action_row</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_action_row</span> <span class="o">=</span> <span class="n">action_row</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_action_row</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">show_user_input</span><span class="p">:</span>
+        <span class="c1"># show deprecation warning</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">"show_user_input is deprecated by Dispike as it is no longer supported by Discord. Future versions of dispike may remove this parameter entirely."</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="p">)</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">"show_user_input is no longer supported by Discord, and deprecated by Dispike. Future versions may remove this parameter."</span>
-        <span class="p">)</span>
+            <span class="s2">"show_user_input is deprecated by Dispike as it is no longer supported by Discord. Future versions of dispike may remove this parameter entirely."</span>
+        <span class="p">)</span>  <span class="c1"># pragma: no cover</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="k">if</span> <span class="n">update_message</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_type_response</span> <span class="o">=</span> <span class="mi">7</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_is_followup</span> <span class="o">=</span> <span class="n">follow_up_message</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_is_empherical</span> <span class="o">=</span> <span class="n">empherical</span>
@@ -1274,7 +1464,7 @@ add_new_embed<span class="p">(</span><span class="bp">self</span><span class="p"
 <span class="sd">        TypeError: Raised if you do not pass a proper Embed object.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">embed_to_add</span><span class="p">,</span> <span class="n">Embed</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_embeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">embed_to_add</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_embeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">embed_to_add</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"embed must be a Embed object."</span><span class="p">)</span>
 </code></pre>
