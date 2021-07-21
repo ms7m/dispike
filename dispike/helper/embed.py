@@ -22,7 +22,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-
 import datetime
 
 try:
@@ -75,7 +74,7 @@ class EmbedProxy:
         )
         return f"EmbedProxy({inner})"
 
-    def __getattr__(self, attr: str) -> _EmptyEmbed:
+    def __getattr__(self, attr: str) -> "_EmptyEmbed":
         return EmptyEmbed
 
 
@@ -194,10 +193,10 @@ class Embed:
         *,
         colour: Union[int, Colour, _EmptyEmbed] = EmptyEmbed,
         color: Union[int, Colour, _EmptyEmbed] = EmptyEmbed,
-        title: MaybeEmpty[Any] = EmptyEmbed,
-        type: EmbedType = "rich",
-        url: MaybeEmpty[Any] = EmptyEmbed,
-        description: MaybeEmpty[Any] = EmptyEmbed,
+        title: "MaybeEmpty[Any]" = EmptyEmbed,
+        type: "EmbedType" = "rich",
+        url: "MaybeEmpty[Any]" = EmptyEmbed,
+        description: "MaybeEmpty[Any]" = EmptyEmbed,
         timestamp: datetime.datetime = None,
     ):
 
@@ -220,7 +219,7 @@ class Embed:
             self.timestamp = timestamp
 
     @classmethod
-    def from_dict(cls: Type[E], data: EmbedData) -> E:
+    def from_dict(cls: "Type[E]", data: "EmbedData") -> "E":
         """Converts a :class:`dict` to a :class:`Embed` provided it is in the
         format that Discord expects it to be in.
 
@@ -284,7 +283,7 @@ class Embed:
 
         return self
 
-    def copy(self: E) -> E:
+    def copy(self: E) -> "E":
         """Returns a shallow copy of the embed."""
         return self.__class__.from_dict(self.to_dict())
 
@@ -328,7 +327,7 @@ class Embed:
         )
 
     @property
-    def colour(self) -> MaybeEmpty[Colour]:
+    def colour(self) -> "MaybeEmpty[Colour]":
         return getattr(self, "_colour", EmptyEmbed)
 
     @colour.setter
@@ -345,11 +344,11 @@ class Embed:
     color = colour
 
     @property
-    def timestamp(self) -> MaybeEmpty[datetime.datetime]:
+    def timestamp(self) -> "MaybeEmpty[datetime.datetime]":
         return getattr(self, "_timestamp", EmptyEmbed)
 
     @timestamp.setter
-    def timestamp(self, value: MaybeEmpty[datetime.datetime]):
+    def timestamp(self, value: "MaybeEmpty[datetime.datetime]"):
         if isinstance(value, datetime.datetime):
             if value.tzinfo is None:
                 value = value.astimezone()
@@ -362,7 +361,7 @@ class Embed:
             )
 
     @property
-    def footer(self) -> _EmbedFooterProxy:
+    def footer(self) -> "_EmbedFooterProxy":
         """Returns an ``EmbedProxy`` denoting the footer contents.
 
         See :meth:`set_footer` for possible values you can access.
@@ -374,9 +373,9 @@ class Embed:
     def set_footer(
         self: E,
         *,
-        text: MaybeEmpty[Any] = EmptyEmbed,
-        icon_url: MaybeEmpty[Any] = EmptyEmbed,
-    ) -> E:
+        text: "MaybeEmpty[Any]" = EmptyEmbed,
+        icon_url: "MaybeEmpty[Any]" = EmptyEmbed,
+    ) -> "E":
         """Sets the footer for the embed content.
 
         This function returns the class instance to allow for fluent-style
@@ -399,7 +398,7 @@ class Embed:
 
         return self
 
-    def remove_footer(self: E) -> E:
+    def remove_footer(self: E) -> "E":
         """Clears embed's footer information.
 
         This function returns the class instance to allow for fluent-style
@@ -415,7 +414,7 @@ class Embed:
         return self
 
     @property
-    def image(self) -> _EmbedMediaProxy:
+    def image(self) -> "_EmbedMediaProxy":
         """Returns an ``EmbedProxy`` denoting the image contents.
 
         Possible attributes you can access are:
@@ -429,7 +428,7 @@ class Embed:
         """
         return EmbedProxy(getattr(self, "_image", {}))  # type: ignore
 
-    def set_image(self: E, *, url: MaybeEmpty[Any]) -> E:
+    def set_image(self: E, *, url: "MaybeEmpty[Any]") -> "E":
         """Sets the image for the embed content.
 
         This function returns the class instance to allow for fluent-style
@@ -457,7 +456,7 @@ class Embed:
         return self
 
     @property
-    def thumbnail(self) -> _EmbedMediaProxy:
+    def thumbnail(self) -> "_EmbedMediaProxy":
         """Returns an ``EmbedProxy`` denoting the thumbnail contents.
 
         Possible attributes you can access are:
@@ -471,7 +470,7 @@ class Embed:
         """
         return EmbedProxy(getattr(self, "_thumbnail", {}))  # type: ignore
 
-    def set_thumbnail(self: E, *, url: MaybeEmpty[Any]) -> E:
+    def set_thumbnail(self: E, *, url: "MaybeEmpty[Any]") -> "E":
         """Sets the thumbnail for the embed content.
 
         This function returns the class instance to allow for fluent-style
@@ -499,7 +498,7 @@ class Embed:
         return self
 
     @property
-    def video(self) -> _EmbedVideoProxy:
+    def video(self) -> "_EmbedVideoProxy":
         """Returns an ``EmbedProxy`` denoting the video contents.
 
         Possible attributes include:
@@ -513,7 +512,7 @@ class Embed:
         return EmbedProxy(getattr(self, "_video", {}))  # type: ignore
 
     @property
-    def provider(self) -> _EmbedProviderProxy:
+    def provider(self) -> "_EmbedProviderProxy":
         """Returns an ``EmbedProxy`` denoting the provider contents.
 
         The only attributes that might be accessed are ``name`` and ``url``.
@@ -523,7 +522,7 @@ class Embed:
         return EmbedProxy(getattr(self, "_provider", {}))  # type: ignore
 
     @property
-    def author(self) -> _EmbedAuthorProxy:
+    def author(self) -> "_EmbedAuthorProxy":
         """Returns an ``EmbedProxy`` denoting the author contents.
 
         See :meth:`set_author` for possible values you can access.
@@ -536,8 +535,8 @@ class Embed:
         self: E,
         *,
         name: Any,
-        url: MaybeEmpty[Any] = EmptyEmbed,
-        icon_url: MaybeEmpty[Any] = EmptyEmbed,
+        url: "MaybeEmpty[Any]" = EmptyEmbed,
+        icon_url: "MaybeEmpty[Any]" = EmptyEmbed,
     ) -> E:
         """Sets the author for the embed content.
 
@@ -582,7 +581,7 @@ class Embed:
         return self
 
     @property
-    def fields(self) -> List[_EmbedFieldProxy]:
+    def fields(self) -> List["_EmbedFieldProxy"]:
         """List[Union[``EmbedProxy``, :attr:`Empty`]]: Returns a :class:`list` of ``EmbedProxy`` denoting the field contents.
 
         See :meth:`add_field` for possible values you can access.
@@ -720,7 +719,7 @@ class Embed:
         field["inline"] = inline
         return self
 
-    def to_dict(self) -> EmbedData:
+    def to_dict(self) -> "EmbedData":
         """Converts this embed object into a dict."""
 
         # add in the raw data into the dict
