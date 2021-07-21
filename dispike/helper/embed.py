@@ -25,7 +25,23 @@ DEALINGS IN THE SOFTWARE.
 from __future__ import annotations
 
 import datetime
-from typing import Any, Dict, Final, List, Protocol, TYPE_CHECKING, Type, TypeVar, Union
+
+try:
+    from typing import (
+        Any,
+        Dict,
+        Final,
+        List,
+        Protocol,
+        TYPE_CHECKING,
+        Type,
+        TypeVar,
+        Union,
+    )
+except ImportError:
+    # backport
+    from typing_extensions import Final, Type, Protocol
+    from typing import Any, Dict, List, TYPE_CHECKING, Union, TypeVar
 
 from . import utils
 from .color import Colour
