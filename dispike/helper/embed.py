@@ -22,11 +22,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-try:
-    from __future__ import annotations
-except ImportError:
-    # ignore it
-    pass
 
 import datetime
 
