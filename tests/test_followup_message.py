@@ -150,7 +150,6 @@ async def test_mock_create_followup_message_async(
 def test_mock_create_followup_message_fail(
     followup_message_object: FollowUpMessages, create_example_response
 ):
-
     respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
         return_value=Response(404, json={"id": "exampleIncomingToken"})
     )
@@ -166,7 +165,6 @@ def test_mock_create_followup_message_fail(
 async def test_mock_create_followup_message_async_fail(
     followup_message_object: FollowUpMessages, create_example_response
 ):
-
     respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
         return_value=Response(404, json={"id": "exampleIncomingToken"})
     )
@@ -190,7 +188,6 @@ def followup_object_with_already_set_id(followup_message_object: FollowUpMessage
 def test_mock_edit_followup_message_sync(
     followup_object_with_already_set_id: FollowUpMessages, create_example_response
 ):
-
     respx.patch(
         f"https://discord.com/api/v8/webhooks/APPID/exampleToken/messages/SampleMessageId"
     ).mock(return_value=Response(200, json={"id": "exampleIncomingToken"}))
@@ -214,7 +211,6 @@ def test_mock_edit_followup_message_sync(
 async def test_mock_edit_followup_message_async(
     followup_object_with_already_set_id: FollowUpMessages, create_example_response
 ):
-
     respx.patch(
         f"https://discord.com/api/v8/webhooks/APPID/exampleToken/messages/SampleMessageId"
     ).mock(return_value=Response(200, json={"id": "exampleIncomingToken"}))
@@ -237,7 +233,6 @@ async def test_mock_edit_followup_message_async(
 def test_mock_edit_followup_message_fail_sync(
     followup_object_with_already_set_id: FollowUpMessages, create_example_response
 ):
-
     respx.patch(
         f"https://discord.com/api/v8/webhooks/APPID/exampleToken/messages/SampleMessageId"
     ).mock(return_value=Response(404, json={"id": "exampleIncomingToken"}))
@@ -253,7 +248,6 @@ def test_mock_edit_followup_message_fail_sync(
 async def test_mock_edit_followup_message_fail_async(
     followup_object_with_already_set_id: FollowUpMessages, create_example_response
 ):
-
     respx.patch(
         f"https://discord.com/api/v8/webhooks/APPID/exampleToken/messages/SampleMessageId"
     ).mock(return_value=Response(404, json={"id": "exampleIncomingToken"}))
@@ -353,3 +347,27 @@ def test_correct_async_functions(followup_message_object: FollowUpMessages):
     assert inspect.iscoroutinefunction(
         followup_message_object.async_edit_follow_up_message
     )
+
+
+def test_invalid_type_passed_to_followup_functions(
+    followup_message_object: FollowUpMessages,
+):
+    with pytest.raises(TypeError):
+        followup_message_object.create_follow_up_message(message="Invalid")
+    with pytest.raises(TypeError):
+        followup_message_object.edit_follow_up_message(message="Invalid")
+    with pytest.raises(TypeError):
+        followup_message_object.delete_follow_up_message(message="Invalid")
+
+
+@pytest.mark.asyncio
+async def async_test_invalid_type_passed_to_followup_functions(
+    followup_message_object: FollowUpMessages,
+):
+    with pytest.raises(TypeError):
+        await followup_message_object.async_create_follow_up_message(message="Invalid")
+
+    with pytest.raises(TypeError):
+        await followup_message_object.async_edit_follow_up_message(message="Invalid")
+    with pytest.raises(TypeError):
+        await followup_message_object.async_delete_follow_up_message(message="Invalid")

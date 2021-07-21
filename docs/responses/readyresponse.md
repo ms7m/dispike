@@ -47,6 +47,86 @@ response = DiscordResponse(empherical=True)
 response.content = "Content Text Here"
 ```
 
+### Update original message
+???+ warning
+    You can only update an original message if you are responding to a component interaction
+
+You can update the original message if you are responding to a component interaction.
+
+```python
+from dispike.responses import DiscordResponse
+
+response = DiscordResponse(update_message=True)
+response.content = "Brand new content"
+```
+
+### Buttons
+
+???+ info
+    Remember to register an event for these buttons!
+
+```python
+DiscordResponse(
+    content="Content!",
+    empherical=True,
+    action_row=ActionRow(
+        components=[
+            Button(
+                label="Next",
+                custom_id="tutorial_step1_next",
+                style=ButtonStyles.PRIMARY,
+            ),
+            Button(
+                label="Cancel",
+                custom_id="tutorial_cancel",
+                style=ButtonStyles.DANGER,
+            ),
+            LinkButton(
+                label="Go to the docs!",
+                url="https://dispike.ms7m.me/"
+            )
+        ]
+    ),
+),
+```
+
+### Select Menus
+
+???+ info
+    Remember to register an event for this select menu!
+
+```python
+DiscordResponse(
+    content="Content!",
+    action_row=ActionRow(
+        components=[
+            SelectMenu(
+                custom_id="class_select_1",
+                placeholder="Choose a class",
+                min_values=1,
+                max_values=1,
+                options=[
+                    SelectMenu.SelectMenuOption(
+                        label="Rogue",
+                        description="Sneak n stab",
+                        value="rogue",
+                        emoji=PartialEmoji(name="rogue", id="625891304148303894"),
+                    ),
+                    SelectMenu.SelectMenuOption(
+                        label="Mage",
+                        description="Turn 'em into a sheep",
+                        value="mage",
+                        emoji=PartialEmoji(name="mage", id="625891304081063986"),
+                    ),
+                ],
+                disabled=False,
+            )
+        ]
+    ),
+),
+```
+
+
 ???+ info
     DiscordResponse is simply a helper to help you generate a valid response to discord. If you can generate a valid response yourself, you can simply type-hint your function to hint at a dict and return a *proper* response. This is only recommended for **Advanced** users.
 

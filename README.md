@@ -77,3 +77,4 @@ Help is wanted in mantaining this library. Please try to direct PRs to the ``dev
 
 # Special Thanks
 - [Squidtoon99](https://github.com/Squidtoon99)
+- [marshmallow](https://github.com/mrshmllow)

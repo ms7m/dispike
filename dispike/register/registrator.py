@@ -1,3 +1,4 @@
+import typing
 from httpx import Client
 from .models import DiscordCommand
 from loguru import logger
@@ -25,6 +26,46 @@ class RegisterCommands(object):
         self._client = Client(
             base_url=f"https://discord.com/api/v8/applications/{self._application_id}/"
         )
+
+    @logger.catch(reraise=True, message="Issue with bulk overrwriting commands")
+    def bulk_overwrite_commands(
+        self,
+        commands: typing.List[DiscordCommand],
+        guild_only: bool = False,
+        guild_to_target: int = None,
+    ):
+        """Bulk OVERWRITE commands to specific guilds or globally.
+
+        Args:
+            commands (typing.List[DiscordCommand]): List of new commands (these commands will be overwritten)
+            guild_only (bool, optional): Default to set global mode (True). Set to False to let the function know to expect a guild_id
+            guild_to_target (int, optional): A guild Id if guild_only is set to True.
+        """
+        if guild_only == True:
+            if guild_to_target is None:
+                raise TypeError(
+                    "if guild_only is set to true, a guild id must be provided."
+                )
+
+            logger.info(f"Targeting a specific guild -> {guild_to_target}")
+            _request_url = f"guilds/{guild_to_target}/commands"
+        else:
+            _request_url = f"commands"
+
+        _commands_to_json = [command.dict(exclude_none=True) for command in commands]
+        _send_request = self._client.put(
+            url=_request_url, json=_commands_to_json, headers=self.request_headers
+        )
+        if _send_request.status_code == 200:
+            logger.info(
+                f"Overwritten {len(_send_request.json())} commands.. Recieved ({len(_commands_to_json)}"
+            )
+            return True
+        else:
+            logger.debug(
+                f"BULK Overwrite failed ({guild_only} = {guild_to_target}): Body: {_commands_to_json}.. Status code: {_send_request.status_code}"
+            )
+            raise DiscordAPIError(_send_request.status_code, _send_request.text)
 
     def register(
         self, command: DiscordCommand, guild_only=False, guild_to_target: int = None

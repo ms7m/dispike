@@ -113,3 +113,41 @@ def test_event_information_parse_subcommand(normal_subcommand_discord_interactio
 def test_invalid_item_raise_error():
     with pytest.raises(TypeError):
         determine_event_information({})
+
+
+def test_interaction_options_none():
+    _sample_incoming_no_options = {
+        "channel_id": "1231123123",
+        "data": {
+            "id": "exampleIDCommand",
+            "name": "quote",
+            "options": None,
+        },
+        "guild_id": "123123123",
+        "id": "12312123123123",
+        "member": {
+            "deaf": False,
+            "is_pending": False,
+            "joined_at": "2021-01-07T15:54:14+0000",
+            "mute": False,
+            "nick": None,
+            "pending": False,
+            "permissions": "2147483647",
+            "premium_since": None,
+            "roles": ["examplerole1"],
+            "user": {
+                "avatar": "sdfsdfsdfsdf",
+                "discriminator": "22212",
+                "id": "3333333",
+                "public_flags": 768,
+                "username": "cooluser",
+            },
+        },
+        "token": "exampleToken",
+        "type": 2,
+        "version": 1,
+    }
+    no_options_interaction = IncomingDiscordInteraction(**_sample_incoming_no_options)
+    event_name, event_args = determine_event_information(no_options_interaction)
+    assert event_name == "quote"
+    assert event_args == {}
