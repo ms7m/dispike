@@ -1,31 +1,53 @@
+from dispike.errors.events import InvalidEventType
 from dispike.eventer import EventHandler
-from dispike.models.incoming import IncomingDiscordInteraction
+from dispike.models.incoming import (
+    IncomingDiscordInteraction,
+    IncomingDiscordSelectMenuInteraction,
+)
 import pytest
+from dispike.eventer import EventTypes
 
 event_handler = EventHandler()
 
 
-@event_handler.on("sampleEvent")
+@event_handler.on("sampleEvent", EventTypes.COMMAND)
 async def dummy_function(*args, **kwargs):
     return kwargs.get("payload")
 
 
-@event_handler.on("sampleEventDynamicArgs")
+@event_handler.on("sampleEvent", EventTypes.COMPONENT)
+async def dummy_function(*args, **kwargs):
+    return kwargs.get("payload")
+
+
+@event_handler.on("sampleEventDynamicArgs", EventTypes.COMMAND)
 async def dummy_dynamic_function(dynamicargument, payload):
     return dynamicargument
 
 
 @pytest.mark.asyncio
 async def test_event_handler():
-    assert await event_handler.emit("sampleEvent", payload=True) == True
-    assert "sampleEvent" in event_handler.callbacks
-    assert event_handler.return_event_settings("sampleEvent") == {}
+    assert (
+        await event_handler.emit("sampleEvent", payload=True, type=EventTypes.COMMAND)
+        == True
+    )
+    assert (
+        await event_handler.emit("sampleEvent", payload=True, type=EventTypes.COMPONENT)
+        == True
+    )
+    assert "sampleEvent" in event_handler.callbacks[EventTypes.COMMAND]
+    assert "sampleEvent" in event_handler.callbacks[EventTypes.COMPONENT]
+    assert event_handler.return_event_settings("sampleEvent", EventTypes.COMMAND) == {}
+    assert (
+        event_handler.return_event_settings("sampleEvent", EventTypes.COMPONENT) == {}
+    )
 
 
 @pytest.mark.asyncio
 async def test_event_handler_fail_no_event():
     with pytest.raises(TypeError):
-        await event_handler.return_event_settings("fail")
+        await event_handler.return_event_settings("fail", EventTypes.COMMAND)
+        await event_handler.return_event_settings("fail", EventTypes.COMPONENT)
 
 
 @pytest.mark.asyncio
@@ -72,7 +94,9 @@ async def test_dynamic_arguments_event_handler():
     dymanic_kwargs = {x.name: x.value for x in discord_interaction.data.options}
     dymanic_kwargs["payload"] = discord_interaction
     assert (
-        await event_handler.emit("sampleEventDynamicArgs", **dymanic_kwargs)
+        await event_handler.emit(
+            "sampleEventDynamicArgs", EventTypes.COMMAND, **dymanic_kwargs
+        )
         == "dynamicargumentvalue"
     )
 
@@ -80,7 +104,11 @@ async def test_dynamic_arguments_event_handler():
 def test_non_async_event_handler():
     with pytest.raises(TypeError):
 
-        @event_handler.on("badEvent")
+        @event_handler.on("badEvent", EventTypes.COMMAND)
+        def test_function(*args, **kwargs):
+            return True
+
+        @event_handler.on("badEvent", EventTypes.COMPONENT)
         def test_function(*args, **kwargs):
             return True
 
@@ -88,23 +116,43 @@ def test_non_async_event_handler():
 @pytest.mark.asyncio
 async def test_event_not_existing():
     with pytest.raises(TypeError):
-        await event_handler.emit("NotExisting")
+        await event_handler.emit("NotExisting", EventTypes.COMMAND)
+        await event_handler.emit("NotExisting", EventTypes.COMPONENT)
 
     with pytest.raises(TypeError):
-        await event_handler.return_event_settings("NotExisting")
+        await event_handler.return_event_settings("NotExisting", EventTypes.COMMAND)
+        await event_handler.return_event_settings("NotExisting", EventTypes.COMPONENT)
 
     with pytest.raises(TypeError):
-        await event_handler.return_event_function("Not Existing")
+        await event_handler.return_event_function("Not Existing", EventTypes.COMMAND)
+        await event_handler.return_event_function("Not Existing", EventTypes.COMPONENT)
 
 
 @pytest.mark.asyncio
 async def test_attempt_to_register_multiple_handlers():
     with pytest.raises(TypeError):
 
-        @event_handler.on("duplicateEvent")
+        @event_handler.on("duplicateEvent", EventTypes.COMMAND)
         async def dup_one(*args, **kwargs):
             pass
 
-        @event_handler.on("duplicateEvent")
+        @event_handler.on("duplicateEvent", EventTypes.COMMAND)
         async def dup_two(*args, **kwargs):
+            pass
+
+        @event_handler.on("duplicateEvent", EventTypes.COMPONENT)
+        async def dup_one(*args, **kwargs):
+            pass
+
+        @event_handler.on("duplicateEvent", EventTypes.COMPONENT)
+        async def dup_two(*args, **kwargs):
+            pass
+
+
+@pytest.mark.asyncio
+async def pass_invalid_type_to_event_function():
+    with pytest.raises(InvalidEventType):
+
+        @event_handler.on("sampleEvent", type=22)
+        async def invalid_event_type(*args, **kwargs):
             pass

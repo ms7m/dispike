@@ -1,9 +1,10 @@
-from starlette.responses import PlainTextResponse
+from dispike.middlewares.verification import DiscordVerificationMiddleware
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
 from fastapi.testclient import TestClient
-from dispike.eventer import EventHandler
+from dispike.eventer import EventHandler, EventTypes
 from dispike import Dispike
+from unittest.mock import patch, Mock
 
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey
@@ -127,12 +128,12 @@ async def hinted_mock_functions(mocked_events: EventHandler):
         "version": 1,
     }
 
-    @mocked_events.on("hint_return_discord_response")
+    @mocked_events.on("hint_return_discord_response", EventTypes.COMMAND)
     async def return_event_hint(*args, **kwargs) -> DiscordResponse:
         logger.info("hint_return_discord_response")
         return DiscordResponse(content="sample")
 
-    @mocked_events.on("hint_return_dict")
+    @mocked_events.on("hint_return_dict", EventTypes.COMMAND)
     async def return_dict_hint(*args, **kwargs) -> dict:
         logger.info("hint_return_dict")
         return {"sample": "sample"}
@@ -177,12 +178,12 @@ async def no_hinted_mocked_functions(mocked_events: EventHandler):
         "version": 1,
     }
 
-    @mocked_events.on("no_hint_return_discord_response")
+    @mocked_events.on("no_hint_return_discord_response", EventTypes.COMMAND)
     async def return_event_no_hinting(*args, **kwargs):
         logger.info("called no_hint_return_discord_response")
         return DiscordResponse(content="sample")
 
-    @mocked_events.on("no_hint_return_dict")
+    @mocked_events.on("no_hint_return_dict", EventTypes.COMMAND)
     async def return_event_no_hinting_dict(*args, **kwargs):
         logger.info("no_hint_return_dict")
         return {"sample": "sample"}
@@ -235,6 +236,36 @@ def test_invalid_key_request_redirect():
         json={"invalid": "string"},
     )
     assert response.status_code == 401
+
+
+def test_invalid_headers():
+    response = client.get(
+        "/",
+        headers={
+            "X-Signature-Ed25519": signed_value.signature.decode(),
+        },
+    )
+    assert response.status_code == 400
+    assert response.json() == {"error_message": "Incorrect request."}
+
+
+def test_unknown_exception_on_verification():
+    _created_middleware = DiscordVerificationMiddleware(
+        client, client_public_key=verification_key.decode()
+    )
+    with patch(
+        "nacl.signing.VerifyKey.verify",
+        side_effect=Exception,
+    ):
+        response = client.get(
+            "/",
+            headers={
+                "X-Signature-Ed25519": signed_value.signature.decode(),
+                "x-Signature-Timestamp": _created_timestamp,
+            },
+            json=_created_message,
+        )
+        assert response.status_code == 500
 
 
 def test_ack_ping_discord():

@@ -1,3 +1,6 @@
+from argparse import ArgumentError
+from dispike.errors.warnings import InsecureBindingWithCustomHostWarning
+import warnings
 from fastapi import FastAPI
 import typing
 from loguru import logger
@@ -16,7 +19,6 @@ from .register.models.permissions import (
     GuildApplicationCommandPermissions,
 )
 
-
 if typing.TYPE_CHECKING:
     from .eventer import EventHandler  # pragma: no cover
     from .models.incoming import IncomingDiscordInteraction  # pragma: no cover
@@ -24,7 +26,6 @@ if typing.TYPE_CHECKING:
 
 
 class Dispike(object):
-
     """Dispike - python library for interacting with discord slash commands via an independently hosted server.
 
     *Powered by FastAPI*
@@ -60,6 +61,7 @@ class Dispike(object):
 
         self._cache_router = router
 
+    @logger.catch(reraise=True)
     def reset_registration(self, new_bot_token=None, new_application_id=None):
         """This method resets the built-in RgeisterCommands.
         You should not have to call this method directly.
@@ -73,24 +75,20 @@ class Dispike(object):
         Returns:
             TYPE: bool
         """
-        try:
-            if new_bot_token == None:
-                _bot_token = self._bot_token
-            else:
-                _bot_token = new_bot_token
-
-            if new_application_id == None:
-                _application_id = self._application_id
-            else:
-                _application_id = new_application_id
-            self._registrator = RegisterCommands(
-                application_id=_application_id, bot_token=_bot_token
-            )
-            self._bot_token = _bot_token
-            self._application_id = _application_id
-            return True
-        except Exception:
-            return False
+        if new_bot_token is None:
+            _bot_token = self._bot_token
+        else:
+            _bot_token = new_bot_token
+        if new_application_id is None:
+            _application_id = self._application_id
+        else:
+            _application_id = new_application_id
+        self._registrator = RegisterCommands(
+            application_id=_application_id, bot_token=_bot_token
+        )
+        self._bot_token = _bot_token
+        self._application_id = _application_id
+        return True
 
     @staticmethod
     async def background(function: typing.Callable, *args, **kwargs):
@@ -136,6 +134,7 @@ class Dispike(object):
         """
         return self._registrator._client
 
+    @logger.catch(reraise=True, message="Issue with getting commands from Discord")
     def get_commands(
         self, guild_only=False, guild_id_passed=None
     ) -> typing.List[IncomingApplicationCommand]:
@@ -151,8 +150,8 @@ class Dispike(object):
         Raises:
             DiscordAPIError: any Discord returned errors.
         """
-        if guild_only == True:
-            if guild_id_passed == False or not isinstance(guild_id_passed, str):
+        if guild_only:
+            if not guild_id_passed or not isinstance(guild_id_passed, str):
                 raise TypeError(
                     "You cannot have guild_only == True and NOT pass any guild id."
                 )
@@ -171,10 +170,8 @@ class Dispike(object):
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
             raise
-        except Exception:
-            logger.exception("Unknown exception returned")
-            raise
 
+    @logger.catch(reraise=True, message="Issue with editing commands from Discord")
     def edit_command(
         self,
         new_command: typing.Union[typing.List[DiscordCommand], DiscordCommand],
@@ -203,12 +200,12 @@ class Dispike(object):
         if not isinstance(new_command, (DiscordCommand, dict, list)):
             raise TypeError("New command must be a DiscordCommand or a valid dict.")
 
-        if guild_only == True:
-            if guild_id_passed == False:
+        if guild_only:
+            if not guild_id_passed:
                 raise TypeError(
                     "You cannot have guild_only set to True and NOT pass any guild id."
                 )
-            if bulk == True:
+            if bulk:
                 _url = f"/guilds/{guild_id_passed}/commands"
             else:
                 _url = f"/guilds/{guild_id_passed}/commands/{command_id}"
@@ -230,17 +227,15 @@ class Dispike(object):
             if _send_request.status_code != 200:
                 raise DiscordAPIError(_send_request.status_code, _send_request.text)
 
-            if bulk == True:
+            if bulk:
                 return [DiscordCommand(**x) for x in _send_request.json()]
             else:
                 return DiscordCommand(**_send_request.json())
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
             return False
-        except Exception:
-            logger.exception("Unknown exception returned")
-            return False
 
+    @logger.catch(reraise=True, message="Issue with deleting commands from Discord")
     def delete_command(
         self, command_id: int, guild_only=False, guild_id_passed=None
     ) -> bool:
@@ -258,8 +253,8 @@ class Dispike(object):
             TypeError: Invalid types passed.
             DiscordAPIError: any Discord returned errors.
         """
-        if guild_only == True:
-            if guild_id_passed == False:
+        if guild_only:
+            if not guild_id_passed:
                 raise TypeError(
                     "You cannot have guild_only == True and NOT pass any guild id."
                 )
@@ -276,9 +271,6 @@ class Dispike(object):
             return True
         except DiscordAPIError:
             logger.exception("Discord API Failure.")
-            raise
-        except Exception:
-            logger.exception("Unknown exception returned")
             raise
 
     def set_command_permission(
@@ -503,13 +495,45 @@ class Dispike(object):
                 "Uvicorn is not installed. Please use a different webserver pointing to <..>.referenced_application"
             )
 
-    def run(self, port: int = 5000):
-
+    def run(
+        self,
+        port: int = None,
+        unix_socket: str = None,
+        bind_to_ip_address: str = None,
+        supress_insecure_binding_warning: bool = False,
+    ):
         """Runs the bot with the already-installed Uvicorn webserver.
 
         Args:
-            port (int, optional): Port to run the bot over. Defaults to 5000.
-        """
+            port (int, optional): Run the bot on a specific port.
+            unix_socket (str, optional): [description]. Run the bot and listen on a specific unix domain socket..
 
+        Raises:
+            ArgumentError: [description]
+        """
         uvicorn = self._return_uvicorn_run_function()
-        uvicorn.run(app=self.referenced_application, port=port)
+
+        if unix_socket and port:
+            raise ValueError("You cannot bind to port AND a unix socket")
+        else:
+            if port:
+                if bind_to_ip_address:
+                    if supress_insecure_binding_warning == False:
+                        warnings.warn(
+                            "Binding to a IP Address other than 127.0.0.1 may not be secure! If you are exposing this service to the outside world -- a reverse proxy is strongly recommended.",
+                            InsecureBindingWithCustomHostWarning,
+                        )
+                    uvicorn.run(
+                        app=self.referenced_application,
+                        host=bind_to_ip_address,
+                        port=port,
+                    )
+                else:
+                    uvicorn.run(app=self.referenced_application, port=port)
+            elif unix_socket:
+                if "unix" not in unix_socket:
+                    unix_socket = f"unix:{unix_socket}"
+                else:
+                    uvicorn.run(self.referenced_application, host=unix_socket)
+            if not unix_socket and not port:
+                raise ValueError("You must specify a port or unix socket")

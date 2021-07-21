@@ -36,7 +36,7 @@ from discord.models.incoming IncomingDiscordInteraction
 bot = Dispike(…)
 
 
-@bot.interaction.on("wave")
+@bot.interaction.on("wave", EventTypes.COMMAND)
 async def handle_send_wave(person: int, ctx: IncomingDiscordInteraction) -> DiscordResponse:
   print(“recieved wave command”)
   
@@ -52,7 +52,7 @@ async def handle_send_wave(person: int, ctx: IncomingDiscordInteraction) -> Disc
 
 ```
 
-Take a look at ``@bot.interaction.on(‘wave’)``, you can see that the ``.on`` takes in the command name we registered earlier.
+Take a look at ``@bot.interaction.on('wave', EventTypes.COMMAND)``, you can see that the ``.on`` takes in the command name we registered earlier.
 
 The function also accepts two arguments. Our registered argument is named “person”, as well as the context that we will be receiving.
 

@@ -32,6 +32,7 @@ class FollowUpMessages(object):
 
         self._message_id = None
 
+    @logger.catch(reraise=True)
     def create_follow_up_message(self, message: DiscordResponse):
         """Create an initial follow up message. (Sync)
 
@@ -45,11 +46,11 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if isinstance(message, DiscordResponse) == False:
+        if not isinstance(message, DiscordResponse):
             raise TypeError("Message must be a DiscordResponse")
 
         message._switch_to_followup_message()
-        if self._message_id != None:
+        if self._message_id is not None:
             raise TypeError("Creating a followup message can only be done once.")
         try:
             _request = self._sync_client.post(url=self.base_url, json=message.response)
@@ -65,10 +66,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     async def async_create_follow_up_message(self, message: DiscordResponse):
         """Create an initial follow up message. (Async)
 
@@ -82,11 +81,11 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if isinstance(message, DiscordResponse) == False:
+        if not isinstance(message, DiscordResponse):
             raise TypeError("Message must be a DiscordResponse")
 
         message._switch_to_followup_message()
-        if self._message_id != None:
+        if self._message_id is not None:
             raise TypeError("Creating a followup message can only be done once.")
         try:
             _request = await self._async_client.post(
@@ -104,10 +103,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     def edit_follow_up_message(self, updated_message: DiscordResponse):
         """Edit an already sent initial follow-up message. (Sync)
 
@@ -121,7 +118,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first!")
         try:
             _request = self._sync_client.patch(
@@ -138,10 +135,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     async def async_edit_follow_up_message(self, updated_message: DiscordResponse):
         """Edit an already sent initial follow-up message. (Async)
 
@@ -155,7 +150,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first!")
         try:
             _request = await self._async_client.patch(
@@ -172,10 +167,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     def delete_follow_up_message(self):
         """Deletes an already sent initial follow-up message. (sync)
 
@@ -186,7 +179,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first.")
         try:
             _request = self._sync_client.delete(f"/messages/{self._message_id}")
@@ -200,10 +193,8 @@ class FollowUpMessages(object):
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
             raise
-        except Exception:
-            logger.exception("error creating message.")
-            raise
 
+    @logger.catch(reraise=True)
     async def async_delete_follow_up_message(self):
         """Deletes an already sent initial follow-up message. (Async)
 
@@ -214,7 +205,7 @@ class FollowUpMessages(object):
             DiscordAPIError: Discord returning a non-OK status status_code
             TypeError: Invalid type passed.
         """
-        if self._message_id == None:
+        if self._message_id is None:
             raise TypeError("a followup message must be sent first.")
         try:
             _request = await self._async_client.delete(f"/messages/{self._message_id}")
@@ -227,7 +218,4 @@ class FollowUpMessages(object):
             else:
                 raise DiscordAPIError(_request.status_code, _request.text)
         except DiscordAPIError:
-            raise
-        except Exception:
-            logger.exception("error creating message.")
             raise

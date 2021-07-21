@@ -50,7 +50,12 @@ class CommandTypes(int, Enum):
 @static_check_init_args
 class CommandChoice(BaseModel):
 
-    """Represents a key-value command choice."""
+    """Represents a key-value command choice.
+
+    Attributes:
+        name (str): Name of the choice.
+        value (str): Value of the choice.
+    """
 
     name: str
     value: str
@@ -59,7 +64,16 @@ class CommandChoice(BaseModel):
 @static_check_init_args
 class CommandOption(BaseModel):
 
-    """Represents a standard command option (not a subcommand)."""
+    """Represents a standard command option (not a subcommand).
+
+    Attributes:
+        name (str): Name of the option.
+        description (str): Description of the option.
+        type (CommandTypes): The option type.
+        required (bool): Whether or not this option is required.
+        choices (typing.Union[typing.List[dict], typing.List[CommandChoice]], optional): Possible choices for this option for the user to pick from.
+        options (typing.Union[typing.List[CommandChoice], typing.List], optional): If the option is a subcommand or subcommand group type, this nested options will be the parameters.
+    """
 
     class Config:
         arbitrary_types_allowed = True
@@ -86,7 +100,13 @@ class CommandOption(BaseModel):
 @static_check_init_args
 class SubcommandOption(BaseModel):
 
-    """Represents a subcommand group usually you would put this as an option in a DiscordCommand"""
+    """Represents a subcommand group usually you would put this as an option in a DiscordCommand
+
+    Attributes:
+        name (str): Name of this group.
+        description (str): Description of this group.
+        options (typing.List[CommandOption]): Options for this group.
+    """
 
     class Config:
         arbitrary_types_allowed = True
@@ -117,7 +137,14 @@ class SubcommandOption(BaseModel):
 @static_check_init_args
 class DiscordCommand(BaseModel):
 
-    """Represents a discord command."""
+    """Represents a discord command.
+
+    Attributes:
+        id (int, optional): Id of this command.
+        name (str): Name of this command.
+        description (str): Description of this command.
+        options (typing.List[typing.Union[SubcommandOption, CommandOption]]): Options for this command.
+    """
 
     id: typing.Optional[int]
     name: str
