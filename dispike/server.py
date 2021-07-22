@@ -17,6 +17,7 @@ from dispike.helper.components import ComponentTypes
 import json
 import typing
 import asyncio
+import warnings
 
 router = APIRouter()
 interaction = EventHandler()
@@ -72,6 +73,10 @@ async def handle_interactions(request: Request) -> Response:
     logger.info(f"event name: {_event_name}")
     if not interaction.check_event_exists(_event_name, EventTypes.COMMAND):
         logger.debug("discarding event not existing.")
+        warnings.warn(
+            f"Event {_event_name} does not exist or does not have a callback.",
+            UserWarning,
+        )
         return {"type": 5}
 
     # _event_settings = interaction.return_event_settings(_event_name)
@@ -119,6 +124,14 @@ async def handle_interactions(request: Request) -> Response:
 
     if isinstance(interaction_data, dict):
         return interaction_data
+
+    warnings.warn(
+        f"Command {_event_name} has not been configured with a valid callback function.",
+        UserWarning,
+    )
+    logger.warning(
+        f"Command {_event_name} has not been configured with a valid callback function."
+    )
 
     # Backup response, simply acknowledge. (Type 5)
     return DiscordResponse(
