@@ -4,10 +4,24 @@ from dispike.models.incoming import (
     IncomingDiscordInteraction,
     IncomingDiscordSelectMenuInteraction,
 )
+from dispike import Dispike
 import pytest
 from dispike.eventer import EventTypes
 
-event_handler = EventHandler()
+
+from nacl.encoding import HexEncoder
+from nacl.signing import SigningKey
+
+_generated_signing_key = SigningKey.generate()
+verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+dispike_object = Dispike(
+    client_public_key=verification_key.decode(),
+    bot_token="BOTTOKEN",
+    application_id="APPID",
+)
+
+
+event_handler = dispike_object
 
 
 @event_handler.on("sampleEvent", EventTypes.COMMAND)
