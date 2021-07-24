@@ -1,28 +1,42 @@
-from argparse import ArgumentError
-from dispike.errors.warnings import InsecureBindingWithCustomHostWarning
-import warnings
-from fastapi import FastAPI
+import inspect
 import typing
+import warnings
+from enum import Enum
+
+from fastapi import FastAPI
 from loguru import logger
-from .server import router, DiscordVerificationMiddleware
-from .server import interaction as router_interaction
+
+from dispike.errors.events import InvalidEventType
+from dispike.errors.warnings import InsecureBindingWithCustomHostWarning
+
+from .models import IncomingApplicationCommand
 from .register import RegisterCommands
 from .register.models import DiscordCommand
-from .models import IncomingApplicationCommand
+from .server import DiscordVerificationMiddleware
+from .server import interaction as router_interaction
+from .server import router
+from .interactions import EventCollection, PerCommandRegistrationSettings
+
+
+import asyncio
+
+import httpx
 
 from .errors.network import DiscordAPIError
-import asyncio
-import httpx
 from .register.models.permissions import (
-    ApplicationCommandPermissions,
-    NewApplicationPermission,
     GuildApplicationCommandPermissions,
+    NewApplicationPermission,
 )
 
 if typing.TYPE_CHECKING:
     from .eventer import EventHandler  # pragma: no cover
     from .models.incoming import IncomingDiscordInteraction  # pragma: no cover
     from .response import DiscordResponse  # pragma: no cover
+
+
+class EventTypes(str, Enum):
+    COMMAND = "command"
+    COMPONENT = "component"
 
 
 class Dispike(object):
@@ -58,6 +72,7 @@ class Dispike(object):
             router._user_defined_setting_ctx_value = kwargs.get(
                 "custom_context_argument_name"
             )
+        self.callbacks = {"command": {}, "component": {}}
 
         self._cache_router = router
 
@@ -88,6 +103,7 @@ class Dispike(object):
         )
         self._bot_token = _bot_token
         self._application_id = _application_id
+
         return True
 
     @staticmethod
@@ -537,3 +553,172 @@ class Dispike(object):
                     uvicorn.run(self.referenced_application, host=unix_socket)
             if not unix_socket and not port:
                 raise ValueError("You must specify a port or unix socket")
+
+    def on(
+        self,
+        event: str,
+        type: EventTypes = EventTypes.COMMAND,
+        func: typing.Callable = None,
+    ):
+        """A wrapper over an async function, registers it in .callbacks.
+
+        Args:
+            event (str): Event name
+            type (EventTypes): Type of this event.
+            func (None, optional): function to wrap around
+
+        Returns:
+            <function>: returns the wrapped function
+        """
+
+        if not isinstance(type, EventTypes):
+            if isinstance(type, str):  # pragma: no cover
+                logger.warning(
+                    "Passing a unknown EventType, this may cause issues and is unsupported"
+                )  # noqa
+            else:
+                # TODO: Maybe it's not good to overrwrite a default python function. Maybe change type to a different value?
+                raise InvalidEventType(type)  # pragma: no cover
+
+        def on(func):
+            self._add_function_to_callbacks(event, type, func)
+            return func
+
+        return on(func) if func else on
+
+    def check_event_exists(self, event: str, type: str) -> bool:
+        """Checks if the event in ``.callbacks``
+
+        Args:
+            event (str): event name
+
+        Returns:
+            bool: returns if the event is in callbacks.
+        """
+        return event in self.callbacks[type]
+
+    def return_event_settings(self, event: str, type: str) -> dict:
+        if self.check_event_exists(event, type):
+            return self.callbacks[type][event]["settings"]
+        raise TypeError(
+            f"Event {event} is not in callbacks. Did you register this event?"
+        )
+
+    def return_event_function(self, event: str, type: str) -> dict:
+        if self.check_event_exists(event, type):
+            return self.callbacks[type][event]["function"]
+        raise TypeError(
+            f"Event {event} is not in callbacks. Did you register this event?"
+        )
+
+    def view_event_function_return_type(self, event: str, type: str) -> dict:
+        """Get type hint for event functions
+
+        Args:
+            event (str): Event name
+
+        Returns:
+            dict: Returns .get_type_hints for event
+        """
+        return typing.get_type_hints(self.callbacks[type][event]["function"])
+
+    async def emit(self, event: str, type: str, *args, **kwargs):
+        """'Emits' an event. It will basically call the function from .callbacks and return the function result
+
+        Args:
+            event (str): Event name
+            type (str): Event type
+            *args: extra arguments to pass
+            **kwargs: extra kwargs to pass
+
+        Returns:
+            function result: returns the function result
+
+        Raises:
+            TypeError: raises if event is not registered.
+        """
+        if event not in self.callbacks[type]:
+            raise TypeError(
+                f"event {event} does not have a corresponding handler. Did you register this function/event?"
+            )
+
+        _look_up_function = self.return_event_function(event, type)
+        return await _look_up_function(*args, **kwargs)
+
+    def _add_function_to_callbacks(
+        self, function_name: str, function_type: EventTypes, function: typing.Callable
+    ):
+        if not inspect.iscoroutinefunction(function):
+            raise TypeError("Passed function is not an asynchronous function.")
+
+        if not isinstance(function_type, (EventTypes, str)):
+            raise TypeError(
+                f"Passed function is not the correct type. Expected a <str> but received {type(function_type)}"
+            )
+
+        if function_name in self.callbacks[function_type]:
+            raise TypeError(f"{function_name} ({function_type}) is already registered.")
+        else:
+            logger.debug(f"Adding {function_name} ({function_type}) to callbacks..")
+            self.callbacks[function_type][function_name] = {
+                "settings": {},
+                "function": function,
+            }
+
+    def register_event_command(
+        self,
+        function_event_name: str,
+        function: typing.Callable,
+        function_type: EventTypes = None,
+        **kwargs,
+    ):
+        if function_type is None:
+            # try to see if the function has a _event_type attribute
+            try:
+                function_type = function._dispike_event_type
+            except AttributeError:
+                raise AttributeError(
+                    "Unable to find function event type attribute inside function.. Did you add a decorator to this function?"
+                )
+        else:
+            if isinstance(function_type, EventTypes):
+                function_type = function_type
+
+        self._add_function_to_callbacks(
+            function_name=function_event_name,
+            function_type=function_type,
+            function=function,
+        )
+
+    def register_collection(
+        self,
+        collection: "EventCollection",
+        register_command_with_discord: bool = False,
+        initialze_on_load: bool = False,
+        initalization_arguments: typing.Dict = None,
+    ):
+        """Registers a EventCollection.
+
+        Args:
+            collection (EventCollection): The collection to register.
+        """
+
+        if initialze_on_load:
+            collections = collection(**initalization_arguments)
+
+        for shallow_function in collections.registered_commands():
+            self._add_function_to_callbacks(
+                function=shallow_function,
+                function_name=shallow_function._dispike_event_name,
+                function_type=shallow_function._dispike_event_type,
+            )
+        if register_command_with_discord:
+            for command in collection.command_schemas():
+                if isinstance(command, PerCommandRegistrationSettings):
+                    self.register(
+                        command=command.schema,
+                        guild_only=True,
+                        guild_to_target=command.guild_id,
+                    )
+                else:
+                    self.register(command=command)
