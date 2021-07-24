@@ -40,7 +40,7 @@ on = _shallow_on
 
 
 class PerCommandRegistrationSettings(object):
-    def __init__(self, schema: DiscordCommand, guild_id: str):
+    def __init__(self, schema: "DiscordCommand", guild_id: str):
         self.schema = schema
         self.guild_id = guild_id
 
@@ -48,7 +48,7 @@ class PerCommandRegistrationSettings(object):
 class EventCollection(object):
     @staticmethod
     def command_schemas() -> typing.List[
-        typing.Union[PerCommandRegistrationSettings, DiscordCommand]
+        typing.Union[PerCommandRegistrationSettings, "DiscordCommand"]
     ]:
         return []
 
