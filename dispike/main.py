@@ -28,7 +28,6 @@ from .register.models.permissions import (
 )
 
 if typing.TYPE_CHECKING:
-    from .eventer import EventHandler  # pragma: no cover
     from .models.incoming import IncomingDiscordInteraction  # pragma: no cover
     from .response import DiscordResponse  # pragma: no cover
 
@@ -111,16 +110,6 @@ class Dispike(object):
         return asyncio.create_task(function(*args, **kwargs))
 
     @property
-    def interaction(self) -> "EventHandler":
-        """Returns an already initialized ``EventHandler`` object.
-        You will use this method to handle incoming commands.
-
-        Returns:
-            EventHandler: shared EventHandler
-        """
-        return router_interaction
-
-    @property
     def referenced_application(self) -> FastAPI:
         """Returns the internal FastAPI object that was initialized.
         You are welcome to edit this with the appropriate settings found in
@@ -129,6 +118,12 @@ class Dispike(object):
         Returns:
             FastAPI: a pre-configured FastAPI object with required middlewares.
         """
+
+        if router._dispike_instance == None:
+            logger.debug(f"Adding self to _dispike_instance to router instance.")
+            router._dispike_instance = self
+        else:
+            logger.debug("ApiRouter already has _dispike_instance that is not None.")
         return self._internal_application
 
     @property
