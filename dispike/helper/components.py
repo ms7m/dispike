@@ -1,7 +1,11 @@
 import typing
 from enum import Enum
 
-from dispike.errors.components import InvalidComponentError, ComponentCombinationError, SelectMenuOptionError
+from dispike.errors.components import (
+    InvalidComponentError,
+    ComponentCombinationError,
+    SelectMenuOptionError,
+)
 
 
 class ComponentTypes(int, Enum):
@@ -276,7 +280,9 @@ class ActionRow:
                 raise InvalidComponentError(type(component))
 
         if contains_button and contains_select_menu:
-            raise ComponentCombinationError("You cannot combine buttons and select menus")
+            raise ComponentCombinationError(
+                "You cannot combine buttons and select menus"
+            )
 
         self.components = components
 
