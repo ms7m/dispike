@@ -1,8 +1,9 @@
+import dispike
 from dispike.middlewares.verification import DiscordVerificationMiddleware
 from dispike.models.incoming import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
 from fastapi.testclient import TestClient
-from dispike.eventer import EventHandler, EventTypes
+from dispike.eventer import EventTypes
 from dispike import Dispike
 from unittest.mock import patch, Mock
 
@@ -39,6 +40,11 @@ client = TestClient(app)
 @app.get("/")
 def test_endpoint():
     return {"status": True}
+
+
+def test_if_dispike_object_in_router():
+    assert bot._cache_router._dispike_instance != None
+    assert isinstance(bot._cache_router._dispike_instance, Dispike)
 
 
 def create_mocked_request(command_name):
@@ -89,7 +95,7 @@ def create_mocked_request(command_name):
     return MockResponse
 
 
-async def hinted_mock_functions(mocked_events: EventHandler):
+async def hinted_mock_functions(mocked_events: "Dispike"):
     data = {
         "channel_id": "123123",
         "data": {
@@ -139,7 +145,7 @@ async def hinted_mock_functions(mocked_events: EventHandler):
         return {"sample": "sample"}
 
 
-async def no_hinted_mocked_functions(mocked_events: EventHandler):
+async def no_hinted_mocked_functions(mocked_events: "Dispike"):
     data = {
         "channel_id": "123123",
         "data": {
@@ -192,7 +198,8 @@ async def no_hinted_mocked_functions(mocked_events: EventHandler):
 @pytest.fixture
 @pytest.mark.asyncio
 async def mocked_interaction():
-    mocked_events = EventHandler()
+    mocked_events = bot
+    mocked_events.clear_all_event_callbacks()
     await no_hinted_mocked_functions(mocked_events)
     return mocked_events
 
@@ -200,7 +207,9 @@ async def mocked_interaction():
 @pytest.fixture
 @pytest.mark.asyncio
 async def mocked_interactions_with_hints():
-    mocked_events = EventHandler()
+
+    mocked_events = bot
+    mocked_events.clear_all_event_callbacks()
     await hinted_mock_functions(mocked_events)
     return mocked_events
 
@@ -282,7 +291,7 @@ def test_ack_ping_discord():
 
 @pytest.mark.asyncio
 async def test_proper_response_hints_no_hint_return_discord_response(
-    mocked_interaction, monkeypatch: "MonkeyPatch"
+    mocked_interaction: "Dispike", monkeypatch: "MonkeyPatch"
 ):
     # we honestly just need a specific attribute from the response..
     from dispike import server
@@ -303,7 +312,7 @@ async def test_proper_response_hints_no_hint_return_discord_response(
 
 @pytest.mark.asyncio
 async def test_proper_response_hints_no_hint_return_dict(
-    mocked_interaction, monkeypatch: "MonkeyPatch"
+    mocked_interaction: "Dispike", monkeypatch: "MonkeyPatch"
 ):
     # we honestly just need a specific attribute from the response..
     from dispike import server
