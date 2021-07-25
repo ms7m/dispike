@@ -1,6 +1,5 @@
 from dispike.interactions import EventCollection
 from dispike.errors.events import InvalidEventType
-from dispike.eventer import EventHandler
 from dispike.models.incoming import (
     IncomingDiscordInteraction,
     IncomingDiscordSelectMenuInteraction,
