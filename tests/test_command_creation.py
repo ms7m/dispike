@@ -1,6 +1,6 @@
 from dispike.register import RegisterCommands
 from dispike.register.models import *
-
+from dispike.interactions import PerCommandRegistrationSettings, EventCollection
 
 expectation = {
     "name": "blep",
@@ -127,3 +127,43 @@ def test_subcommand_group():
     assert command_to_create.options[0].description == "testing subcommandgroup"
     assert command_to_create.options[0].options[0].name == "innertest"
     assert command_to_create.options[0].options[0].type == 1
+
+
+def test_per_command_registration_settings():
+    _sample_discord_command = command_to_create = DiscordCommand(
+        name="blep",
+        description="Send a random adorable animal photo",
+        options=[
+            CommandOption(
+                name="animal",
+                description="The type of animal",
+                type=3,
+                required=True,
+                choices=[
+                    CommandChoice(name="Dog", value="animal_dog"),
+                    CommandChoice(name="Cat", value="animal_cat"),
+                    CommandChoice(name="Penguin", value="animal_penguin"),
+                ],
+            ),
+            CommandOption(
+                name="only_smol",
+                description="Whether to show only baby animals",
+                type=5,
+                required=False,
+            ),
+        ],
+    )
+    _sample_per_command = PerCommandRegistrationSettings(schema=_sample_discord_command)
+    assert _sample_per_command.schema == _sample_discord_command
+
+    _sample_per_command = PerCommandRegistrationSettings(
+        schema=_sample_discord_command, guild_id=121212
+    )
+    assert _sample_per_command.schema == _sample_discord_command
+    assert _sample_per_command.guild_id == 121212
+
+
+def test_event_collection_default_functions_are_empty():
+    _sample = EventCollection()
+    assert _sample.command_schemas() == []
+    assert _sample.registered_commands() == []
