@@ -1,7 +1,7 @@
 import asyncio
 import sys
 import warnings
-from dispike import __version__
+from dispike import __version__, interactions
 from dispike import Dispike
 
 import pytest
@@ -229,3 +229,18 @@ async def test_if_background_function_is_called_correctly(dispike_object: Dispik
     await dispike_object.background(sample_task)
     _running_tasks = [x.get_coro().__name__ for x in list(asyncio.all_tasks())]
     assert "sample_task" in _running_tasks
+
+
+@pytest.mark.asyncio
+async def test_detect_functions_with_event_decorator(dispike_object: Dispike):
+    class SampleEventCollectionClass(interactions.EventCollection):
+        @interactions.on("sampleEventCollectionFunction")
+        async def sample_interaction_function(*args, **kwargs):
+            pass
+
+    assert (
+        SampleEventCollectionClass.sample_interaction_function
+        in dispike_object._detect_functions_with_event_decorator(
+            collection=SampleEventCollectionClass
+        )
+    )

@@ -1,3 +1,4 @@
+from dispike.interactions import EventCollection
 from dispike.errors.events import InvalidEventType
 from dispike.eventer import EventHandler
 from dispike.models.incoming import (
@@ -170,3 +171,19 @@ async def pass_invalid_type_to_event_function():
         @event_handler.on("sampleEvent", type=22)
         async def invalid_event_type(*args, **kwargs):
             pass
+
+
+@pytest.mark.asyncio
+async def test_event_collection():
+
+    from dispike import interactions
+
+    event_handler.clear_all_event_callbacks()
+
+    class SampleEventCollection(EventCollection):
+        @interactions.on("sampleEventSubclass")
+        async def test_interaction_function():
+            pass
+
+    event_handler.register_collection(collection=SampleEventCollection)
+    assert "sampleEventSubclass" in event_handler.callbacks[EventTypes.COMMAND]
