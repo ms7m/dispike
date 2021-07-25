@@ -570,14 +570,22 @@ class Dispike(object):
             <function>: returns the wrapped function
         """
 
-        if not isinstance(type, EventTypes):
-            if isinstance(type, str):  # pragma: no cover
+        if isinstance(type, (EventTypes, str)):
+
+            # TODO: This is broken, the only way we can show this warning is by
+            # checking if the value is an Enum, which requires builtin-type (which we overriden)
+            """
+            if not isinstance(type, EventTypes):  # pragma: no cover
+
                 logger.warning(
                     "Passing a unknown EventType, this may cause issues and is unsupported"
                 )  # noqa
             else:
                 # TODO: Maybe it's not good to overrwrite a default python function. Maybe change type to a different value?
                 raise InvalidEventType(type)  # pragma: no cover
+            """
+        else:
+            raise InvalidEventType(type)
 
         def on(func):
             self._add_function_to_callbacks(event, type, func)
@@ -703,10 +711,10 @@ class Dispike(object):
         """
 
         if initialze_on_load:
-            collections = collection(**initalization_arguments)
+            collection = collection(**initalization_arguments)
 
         _load_in_functions = self._detect_functions_with_event_decorator(
-            collection=collections,
+            collection=collection,
         )
 
         # TODO: Maybe re-enable this as a fallback?
@@ -740,7 +748,7 @@ class Dispike(object):
     def clear_all_event_callbacks(self, event_type: "EventTypes" = None):
         """Clears all event callbacks."""
         if not event_type:
-            self.callbacks = {}
+            self.callbacks = {"command": {}, "component": {}}
         else:
             self.callbacks[event_type] = {}
 
