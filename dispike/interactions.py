@@ -6,8 +6,8 @@ import inspect
 import typing
 
 if typing.TYPE_CHECKING:
-    from .main import Dispike
-    from dispike.register.models.options import DiscordCommand
+    from .main import Dispike  # pragma: no cover
+    from dispike.register.models.options import DiscordCommand  # pragma: no cover
 
 
 def _shallow_on(
@@ -40,7 +40,7 @@ on = _shallow_on
 
 
 class PerCommandRegistrationSettings(object):
-    def __init__(self, schema: "DiscordCommand", guild_id: str):
+    def __init__(self, schema: "DiscordCommand", guild_id: str = None):
         self.schema = schema
         self.guild_id = guild_id
 
@@ -53,5 +53,5 @@ class EventCollection(object):
         return []
 
     @staticmethod
-    def registered_commands(self) -> typing.List[typing.Callable]:
+    def registered_commands() -> typing.List[typing.Callable]:
         return []
