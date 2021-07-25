@@ -17,7 +17,6 @@ from .server import interaction as router_interaction
 from .server import router
 from .interactions import EventCollection, PerCommandRegistrationSettings
 
-
 import asyncio
 
 import httpx
@@ -706,12 +705,27 @@ class Dispike(object):
         if initialze_on_load:
             collections = collection(**initalization_arguments)
 
+        _load_in_functions = self._detect_functions_with_event_decorator(
+            collection=collections,
+        )
+
+        # TODO: Maybe re-enable this as a fallback?
+        """
         for shallow_function in collections.registered_commands():
             self._add_function_to_callbacks(
                 function=shallow_function,
                 function_name=shallow_function._dispike_event_name,
                 function_type=shallow_function._dispike_event_type,
             )
+        """
+
+        for shallow_function in _load_in_functions:
+            self._add_function_to_callbacks(
+                function=shallow_function,
+                function_name=shallow_function._dispike_event_name,
+                function_type=shallow_function._dispike_event_type,
+            )
+
         if register_command_with_discord:
             for command in collection.command_schemas():
                 if isinstance(command, PerCommandRegistrationSettings):
@@ -722,3 +736,29 @@ class Dispike(object):
                     )
                 else:
                     self.register(command=command)
+
+    def clear_all_event_callbacks(self, event_type: "EventTypes" = None):
+        """Clears all event callbacks."""
+        if not event_type:
+            self.callbacks = {}
+        else:
+            self.callbacks[event_type] = {}
+
+    @staticmethod
+    def _detect_functions_with_event_decorator(collection: EventCollection):
+        # check if colleciton inherited from EventCollection
+        if isinstance(collection, EventCollection) or issubclass(
+            collection, EventCollection
+        ):
+            _funcs = [
+                function
+                for function in collection.__dict__.values()
+                if hasattr(function, "_dispike_event_type")
+            ]
+
+            if len(_funcs) == 0:
+                raise ValueError(
+                    f"{collection} contains no functions that have the interactions decorator."
+                )
+            return _funcs
+        raise TypeError("Collection passed must subclass EventCollection.")
