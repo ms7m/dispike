@@ -10,7 +10,7 @@ from .models.incoming import (
     IncomingDiscordButtonInteraction,
     IncomingDiscordSelectMenuInteraction,
 )
-from .eventer import EventHandler, EventTypes
+from .eventer import EventTypes
 from .eventer_helpers.determine_event_information import determine_event_information
 from .response import DiscordResponse, DeferredResponse
 from dispike.helper.components import ComponentTypes
@@ -19,8 +19,13 @@ import typing
 import asyncio
 import warnings
 
+
+if typing.TYPE_CHECKING:
+    from .main import Dispike
+
 router = APIRouter()
-interaction = EventHandler()
+router._dispike_instance = None
+interaction = router._dispike_instance  # type: Dispike
 
 
 _RAISE_FOR_TESTING = False
@@ -35,6 +40,11 @@ async def ping():
 
 @router.post("/interactions")
 async def handle_interactions(request: Request) -> Response:
+    if router._dispike_instance == None:
+        return PlainTextResponse(
+            "If you see this, Dispike has not been properly configured. Make sure to create a Dispike instance before starting this endpoint."
+        )
+
     logger.info("interaction recieved.")
 
     _get_request_body = json.loads(request.state._cached_body.decode())
