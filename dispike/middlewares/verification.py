@@ -20,7 +20,13 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
     You should not need to import this directly.
     """
 
-    def __init__(self, app: "FastAPI", *, client_public_key: str):
+    def __init__(
+        self,
+        app: "FastAPI",
+        *,
+        client_public_key: str,
+        testing_skip_verification_of_key: bool = False,
+    ):
         """Initialize middleware
 
         Args:
@@ -31,6 +37,9 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
         self._client_public_key = client_public_key
         logger.info(f"pub: {self._client_public_key}")
         self._verification_key = VerifyKey(bytes.fromhex(self._client_public_key))
+        self._skip_verification_of_key = testing_skip_verification_of_key
+        if self._skip_verification_of_key:
+            logger.warning("Disabling verification of key on middleware!")
 
     def verify_request(self, passed_signature: str, timestamp: str, body):
         """Verifies keys.
@@ -43,6 +52,10 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
         Returns:
             tuple: bool,  status_code
         """
+
+        if self._skip_verification_of_key:
+            return True, 200
+
         try:
             message = timestamp.encode() + body
             self._verification_key.verify(message, bytes.fromhex(passed_signature))

@@ -58,7 +58,7 @@ async def handle_interactions(request: Request) -> Response:
             # Button
             _parse_to_object = IncomingDiscordButtonInteraction(**_get_request_body)
 
-            _get_res = await interaction.emit(
+            _get_res = await router._dispike_instance.emit(
                 _get_request_body["data"]["custom_id"],
                 EventTypes.COMPONENT,
                 _parse_to_object,
@@ -71,7 +71,7 @@ async def handle_interactions(request: Request) -> Response:
             # Select Menu
             _parse_to_object = IncomingDiscordSelectMenuInteraction(**_get_request_body)
 
-            _get_res = await interaction.emit(
+            _get_res = await router._dispike_instance.emit(
                 _get_request_body["data"]["custom_id"],
                 EventTypes.COMPONENT,
                 _parse_to_object,
@@ -81,7 +81,7 @@ async def handle_interactions(request: Request) -> Response:
     _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
     _event_name, arguments = determine_event_information(_parse_to_object)
     logger.info(f"event name: {_event_name}")
-    if not interaction.check_event_exists(_event_name, EventTypes.COMMAND):
+    if not router._dispike_instance.check_event_exists(_event_name, EventTypes.COMMAND):
         logger.debug("discarding event not existing.")
         warnings.warn(
             f"Event {_event_name} does not exist or does not have a callback.",
@@ -89,18 +89,18 @@ async def handle_interactions(request: Request) -> Response:
         )
         return {"type": 5}
 
-    # _event_settings = interaction.return_event_settings(_event_name)
+    # _event_settings = router._dispike_instance.return_event_settings(_event_name)
 
     arguments[router._user_defined_setting_ctx_value] = _parse_to_object
 
     # Check the type hint for the return type, fallback for checking the type if no hints are provided
     try:
-        _type_hinted_request = interaction.view_event_function_return_type(
+        _type_hinted_request = router._dispike_instance.view_event_function_return_type(
             _event_name, EventTypes.COMMAND
         )
         _type_hinted_returned_value = _type_hinted_request["return"]
         if _type_hinted_returned_value == DiscordResponse:
-            _get_res = await interaction.emit(
+            _get_res = await router._dispike_instance.emit(
                 _event_name, EventTypes.COMMAND, **arguments
             )
 
@@ -109,12 +109,16 @@ async def handle_interactions(request: Request) -> Response:
         elif _type_hinted_returned_value == DeferredResponse:
             logger.debug("This is a deferred response...")
             asyncio.create_task(
-                interaction.emit(_event_name, EventTypes.COMMAND, **arguments)
+                router._dispike_instance.emit(
+                    _event_name, EventTypes.COMMAND, **arguments
+                )
             )
             return DeferredResponse.response
 
         elif _type_hinted_returned_value == dict:
-            return await interaction.emit(_event_name, EventTypes.COMMAND, **arguments)
+            return await router._dispike_instance.emit(
+                _event_name, EventTypes.COMMAND, **arguments
+            )
     except KeyError:
         logger.error(
             "unable to find return value for type hint.. resorting to guessing.."
@@ -125,7 +129,7 @@ async def handle_interactions(request: Request) -> Response:
         logger.exception("unhandled exception for returning hinted value")
         raise
 
-    interaction_data = await interaction.emit(
+    interaction_data = await router._dispike_instance.emit(
         _event_name, EventTypes.COMMAND, **arguments
     )
     if isinstance(interaction_data, DiscordResponse):

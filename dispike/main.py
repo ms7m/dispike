@@ -60,8 +60,16 @@ class Dispike(object):
             application_id=self._application_id, bot_token=self._bot_token
         )
         self._internal_application = FastAPI()
+
+        if kwargs.get("middleware_testing_skip_verification_key_request", False):
+            testing_skip_verification_key_request = True
+        else:
+            testing_skip_verification_key_request = False
+
         self._internal_application.add_middleware(
-            DiscordVerificationMiddleware, client_public_key=client_public_key
+            DiscordVerificationMiddleware,
+            client_public_key=client_public_key,
+            testing_skip_verification_of_key=testing_skip_verification_key_request,
         )
         self._internal_application.include_router(router=router)
         if not kwargs.get("custom_context_argument_name"):
