@@ -25,7 +25,9 @@ def determine_event_information(
             if hasattr(interaction.data.options[0], "options"):
                 # gosh this is hella ugly, i need to rewrite this.
                 _event_name = f"{interaction.data.name}.{interaction.data.options[0].name}.{interaction.data.options[0].options[0].name}"
-            else:
+
+            # I don't think below will ever happen, but just in case.
+            else:  # pragma: no cover
                 _event_name = (
                     f"{interaction.data.name}.{interaction.data.options[0].name}"
                 )

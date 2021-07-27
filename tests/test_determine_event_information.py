@@ -151,3 +151,52 @@ def test_interaction_options_none():
     event_name, event_args = determine_event_information(no_options_interaction)
     assert event_name == "quote"
     assert event_args == {}
+
+
+def test_incoming_discord_object_in_options():
+    data = {
+        "channel_id": "234234234324",
+        "data": {
+            "id": "12312344231",
+            "name": "forex",
+            "options": [
+                {
+                    "name": "latest",
+                    "options": [{"name": "test", "value": "testing"}],
+                }
+            ],
+        },
+        "guild_id": "12312123",
+        "id": "1234123",
+        "member": {
+            "deaf": False,
+            "is_pending": False,
+            "joined_at": "2019-05-12T18:36:16.878000+00:00",
+            "mute": False,
+            "nick": None,
+            "pending": False,
+            "permissions": "2147483647",
+            "premium_since": None,
+            "roles": [
+                "123123123123123",
+                "12312123123123",
+                "123123123123123",
+                "123123123123123",
+                "123123123123123",
+            ],
+            "user": {
+                "avatar": "123123asdfsadfwwqeqwe23123",
+                "discriminator": "3333",
+                "id": "213123123123",
+                "public_flags": 121,
+                "username": "aaa",
+            },
+        },
+        "token": "asdfasdf3324",
+        "type": 2,
+        "version": 1,
+    }
+    interaction = IncomingDiscordInteraction(**data)
+    event_name, event_args = determine_event_information(interaction)
+    assert event_name == "forex.latest.test"
+    assert event_args == {"test": "testing"}

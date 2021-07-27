@@ -141,7 +141,26 @@ async def test_mock_create_followup_message_async(
     )
 
     with pytest.raises(TypeError):
-        await followup_message_object.async_create_follow_up_message(
+        await followup_message_object.async_create_follow_up_message(message=None)
+
+
+@respx.mock
+@pytest.mark.asyncio
+async def test_async_follow_up_message_only_once(
+    create_example_response,
+    example_incoming_response,
+    dispike_object,
+):
+    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
+        return_value=Response(200, json={"id": "exampleIncomingToken"})
+    )
+
+    with pytest.raises(TypeError):
+        throwaway_object = FollowUpMessages(
+            bot=dispike_object, interaction=example_incoming_response
+        )
+        throwaway_object._message_id = "1212"
+        ff = await throwaway_object.async_create_follow_up_message(
             message=create_example_response
         )
 
@@ -170,7 +189,7 @@ async def test_mock_create_followup_message_async_fail(
     )
 
     with pytest.raises(DiscordAPIError):
-        await followup_message_object.create_follow_up_message(
+        await followup_message_object.async_create_follow_up_message(
             message=create_example_response
         )
 

@@ -11,6 +11,29 @@ def test_import():
     import dispike
 
 
+def test_if_skip_verification_argument():
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    set_to_false = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="BOTTOKEN",
+        application_id="APPID",
+    )
+    set_to_true = Dispike(
+        client_public_key=verification_key.decode(),
+        bot_token="BOTTOKEN",
+        application_id="APPID",
+        middleware_testing_skip_verification_key_request=True,
+    )
+
+    assert set_to_false._testing_skip_verification_key_request == False
+    assert set_to_true._testing_skip_verification_key_request == True
+
+
 def test_initalization():
     from nacl.encoding import HexEncoder
     from nacl.signing import SigningKey
@@ -68,6 +91,10 @@ def test_valid_shared_client(dispike_object: Dispike):
     assert dispike_object.shared_client.base_url == URL(
         f"https://discord.com/api/v8/applications/{dispike_object._application_id}/"
     )
+
+
+def test_if_interaction_is_pointing_to_on_function(dispike_object: Dispike):
+    assert dispike_object.interaction == dispike_object.on
 
 
 def test_reset_registeration(dispike_object: Dispike):

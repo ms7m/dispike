@@ -39,7 +39,9 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
         self._verification_key = VerifyKey(bytes.fromhex(self._client_public_key))
         self._skip_verification_of_key = testing_skip_verification_of_key
         if self._skip_verification_of_key:
-            logger.warning("Disabling verification of key on middleware!")
+            logger.warning(
+                "Disabling verification of key on middleware!"
+            )  # pragma: no cover
 
     def verify_request(self, passed_signature: str, timestamp: str, body):
         """Verifies keys.
