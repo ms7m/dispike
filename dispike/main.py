@@ -62,14 +62,14 @@ class Dispike(object):
         self._internal_application = FastAPI()
 
         if kwargs.get("middleware_testing_skip_verification_key_request", False):
-            testing_skip_verification_key_request = True
+            self._testing_skip_verification_key_request = True
         else:
-            testing_skip_verification_key_request = False
+            self._testing_skip_verification_key_request = False
 
         self._internal_application.add_middleware(
             DiscordVerificationMiddleware,
             client_public_key=client_public_key,
-            testing_skip_verification_of_key=testing_skip_verification_key_request,
+            testing_skip_verification_of_key=self._testing_skip_verification_key_request,
         )
         self._internal_application.include_router(router=router)
         if not kwargs.get("custom_context_argument_name"):
@@ -160,6 +160,11 @@ class Dispike(object):
 
         This method returns ``self.on`` to ensure compatiablity with the previous versions of dispike.
         """
+
+        warnings.warn(
+            "Using .interaction directly is deprecated and will be removed in future versions of Dispike. Please use the .on method on your dispike object instead.",
+            DeprecationWarning,
+        )  # pragma: no cover
         return self.on
 
     @logger.catch(reraise=True, message="Issue with getting commands from Discord")
@@ -260,6 +265,7 @@ class Dispike(object):
             else:
                 return DiscordCommand(**_send_request.json())
         except DiscordAPIError:
+            # TODO: Maybe don't return false and just raise it?
             logger.exception("Discord API Failure.")
             return False
 
@@ -385,10 +391,9 @@ class Dispike(object):
                 new_message._switch_to_followup_message()
                 response = await client.patch("/@original", json=new_message.response)
                 response.raise_for_status()
-            except httpx.HTTPError:
-                logger.exception(
-                    f"Unable to send deferred message with error: {response.text}"
-                )
+            except httpx.HTTPError as req:
+                logger.exception(f"Unable to send deferred message!")
+                raise
 
     async def async_get_command_permission_in_guild(
         self, command_id, guild_id
@@ -410,15 +415,20 @@ class Dispike(object):
                 )
                 if _request_command_permission.status_code == 404:
                     return None
+                elif _request_command_permission.status_code == 200:
+                    return GuildApplicationCommandPermissions(
+                        **_request_command_permission.json()
+                    )
                 else:
-                    _request_command_permission.raise_for_status()
-                return GuildApplicationCommandPermissions(
-                    **_request_command_permission.json()
-                )
-            except httpx.HTTPError:
-                logger.exception(
+                    raise DiscordAPIError(
+                        status_code=_request_command_permission.status_code,
+                        request_text=_request_command_permission.text,
+                    )
+            except DiscordAPIError:
+                logger.error(
                     f"Unable to get command permission! {_request_command_permission.status_code}"
                 )
+                raise
 
     async def async_get_all_command_permissions_in_guild(
         self, guild_id
@@ -436,15 +446,18 @@ class Dispike(object):
                 _request_command_permission = await client.get(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/permissions"
                 )
-                _request_command_permission.raise_for_status()
+
+                if _request_command_permission.status_code not in [200, 201]:
+                    raise DiscordAPIError(
+                        status_code=_request_command_permission.status_code,
+                        request_text=_request_command_permission.text,
+                    )
                 return [
                     GuildApplicationCommandPermissions(**x)
                     for x in _request_command_permission.json()
                 ]
-            except httpx.HTTPError:
-                logger.exception(
-                    f"Unable to get command permission! {_request_command_permission.status_code}"
-                )
+            except DiscordAPIError:
+                raise
 
     def get_all_command_permissions_in_guild(
         self, guild_id: typing.Union[str, int]
@@ -463,15 +476,17 @@ class Dispike(object):
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/permissions",
                     headers={"Authorization": f"Bot {self._bot_token}"},
                 )
-                _request_command_permission.raise_for_status()
+                if _request_command_permission.status_code not in [200, 201]:
+                    raise DiscordAPIError(
+                        status_code=_request_command_permission.status_code,
+                        request_text=_request_command_permission.text,
+                    )
                 return [
                     GuildApplicationCommandPermissions(**x)
                     for x in _request_command_permission.json()
                 ]
-            except httpx.HTTPError:
-                logger.exception(
-                    f"Unable to get command permission! {_request_command_permission.status_code}"
-                )
+            except DiscordAPIError:
+                raise
 
     def get_command_permission_in_guild(
         self, command_id: typing.Union[str, int], guild_id: typing.Union[str, int]
@@ -494,15 +509,20 @@ class Dispike(object):
                 )
                 if _request_command_permission.status_code == 404:
                     return None
+                elif _request_command_permission.status_code == 200:
+                    return GuildApplicationCommandPermissions(
+                        **_request_command_permission.json()
+                    )
                 else:
-                    _request_command_permission.raise_for_status()
-                return GuildApplicationCommandPermissions(
-                    **_request_command_permission.json()
+                    raise DiscordAPIError(
+                        status_code=_request_command_permission.status_code,
+                        request_text=_request_command_permission.text,
+                    )
+            except DiscordAPIError:
+                logger.error(
+                    f"Unable to get command permission! {_request_command_permission.status_code}"
                 )
-            except httpx.HTTPError:
-                logger.exception(
-                    f"Unable to get command permission! {_request_command_permission.status_code} {_request_command_permission.text}"
-                )
+                raise
 
     @staticmethod
     def _return_uvicorn_run_function():
