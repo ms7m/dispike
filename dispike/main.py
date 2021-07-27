@@ -152,6 +152,16 @@ class Dispike(object):
         """
         return self._registrator._client
 
+    @property
+    def interaction(self):
+        """
+        # This is deprecated and will be removed in a future version of dispike!
+        use `self.on` instead.
+
+        This method returns ``self.on`` to ensure compatiablity with the previous versions of dispike.
+        """
+        return self.on
+
     @logger.catch(reraise=True, message="Issue with getting commands from Discord")
     def get_commands(
         self, guild_only=False, guild_id_passed=None
