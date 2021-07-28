@@ -34,6 +34,7 @@ class CommandTypes(int, Enum):
         SUB_COMMAND_GROUP (int): Represents Type 2
         USER (int): Represents Type 6
         MENTIONABLE (int): Represents Type 9
+        NUMBER (int): Represents Type 10
     """
 
     SUB_COMMAND = 1
@@ -45,6 +46,7 @@ class CommandTypes(int, Enum):
     CHANNEL = 7
     ROLE = 8
     MENTIONABLE = 9
+    NUMBER = 10
 
 
 @static_check_init_args
