@@ -13,6 +13,21 @@ bot = Dispike(...)
 
 
 
+
+
+# Running directly from the bot.
+
+```python
+from dispike import Dispike
+
+bot = Dispike(...)
+
+# Bind port to something higher if you run into problems with root.
+bot.run(bind_to_ip_address="0.0.0.0", port=443)
+```
+
+
+
 ## Running bot with Uvicorn
 
 
@@ -53,8 +68,3 @@ Running on 0.0.0.0:8080 over http (CTRL + C to quit)
 
 ``.referenced_application`` is extremely important.
 
-
-***
-
-# Important notes
-- You may need to bind to 443 -- as discord requires HTTPS.

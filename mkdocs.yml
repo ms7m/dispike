@@ -42,20 +42,11 @@ nav:
   - "Creating Commands":
       - "Subcommands": "CreatingCommands/subcommands.md"
       - "Standard Commands": "CreatingCommands/standard.md"
-  #- Deploying Your Bot:
-  #    - Index: "DeployingToProduction/index.md"
-  #    - Deploying without a Server: "DeployingToProduction/DeployingWithoutServer.md"
-  #    - Setting Up Workers: "DeployingToProduction/SettingUpWorkers.md"
-  #    - Configuring Gunicorn: "DeployingToProduction/SettingUpGunicorn.md"
-  #    - Reverse Proxy Specific:
-  #        - Information: "DeployingToProduction/ReverseProxySpecific/index.md"
-  #        - Nginx: "DeployingToProduction/ReverseProxySpecific/nginx.md"
-  #        - Caddy: "DeployingToProduction/ReverseProxySpecific/caddy.md"
-  #        - Apache: "DeployingToProduction/ReverseProxySpecific/apache.md"
-  #        - Traefik: "DeployingToProduction/ReverseProxySpecific/traefik.md"
-  #    - "Optional: Configuring Firewall & DNS": "DeployingToProduction/firewallConfiguration.md"
-  #    - Finale: "DeployingToProduction/finale.md"
-
+  - Deploying Your Bot:
+      - Index: "DeployingToProduction/index.md"
+      - Deploying without a Server: "DeployingToProduction/DeployingWithoutServer.md"
+      - Deploying to 'Serverless': "DeployingToProduction/DeployingToServerless.md"
+      - Deploying with a Reverse Proxy: "DeployingToProduction/DeployingWithReverseProxy.md"
   - Editing Commands: "EditingCommands/index.md"
   - Deleting Commands: "DeletingCommands/index.md"
   - Getting Commands: "GettingCommands/index.md"

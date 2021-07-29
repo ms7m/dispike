@@ -24,16 +24,25 @@ pip install dispike
 
 ## Learn more
 - Read documentation [here](https://dispike.ms7m.me)
+  - You can also view the status of how much this library covers the API!
 - See an example bot [here](https://github.com/ms7m/dispike-example)
 
 ## Example Code
+
+### Basic
 
 ```python
 
 from dispike import Dispike
 bot = Dispike(..)
 
-@bot.interaction.on("stock"):
+
+command = DiscordCommand(
+  name="stock", description="Get the latest active stocks in the market!"
+)
+
+
+@bot.on("stock"):
 async def handle_stock_request(stockticker: str, ctx: IncomingDiscordInteraction) -> DiscordResponse:
   get_price = function(stockticker...)
   
@@ -45,28 +54,79 @@ async def handle_stock_request(stockticker: str, ctx: IncomingDiscordInteraction
 
 
 if __name__ == "__main__":
+    bot.register(command)
     bot.run()
 ```
 
 
+### Advanced
+```python
+from dispike import Dispike, interactions, DiscordCommand
+from dispike import IncomingDiscordInteraction
 
-## Caveats
+
+class SampleGroupCollection(interactions.EventCollection):
+
+  def __init__(self):
+    self._api_key = "..."
+
+  def command_schemas():
+    return [
+      DiscordCommand(
+        name="lateststocks", description="Get the highest performing stocks in the market currently!"
+      ),
+      interactions.PerCommandRegistrationSettings(
+                schema=DiscordCommand(
+                    name="price",
+                    description="return ticker price for server",
+                    options=[],
+                ),
+                guild_id=11111111,
+      )
+    ]
+
+  def get_stock_information(self, stock_ticker):
+    return ...
+  def get_portfolio_stats(self, user_id):
+    return ...
+
+  @interactions.on("lateststocks")
+  async def latest_stocks(self, ctx: IncomingDiscordInteraction) -> DiscordResponse:
+    embed=discord.Embed()
+
+    # check user's porfolio by looking in the database by their discord ID
+    portfolio_stats = self.get_portfolio_stats(
+      ctx.member.user.id
+    )
+
+    embed.add_field(name="Stocks are doing good!", value=f"Current portfolio is {portfolio_stats}", inline=True)
+    embed.set_footer(text="Request received by {ctx.member.user.username}")
+    return DiscordResponse(embed=embed)
+
+  @interactions.on("price")
+  async def get_stock_price(self, ctx: IncomingDiscordInteraction, ticker: str) -> DiscordResponse:
+  
+    embed=discord.Embed()
+    embed.add_field(name=f"Stock Price for {stockticker}.", value=f"Current price is {self.get_stock_information(ticker)}", inline=True)
+    embed.set_footer(text="Request received by {ctx.member.user.username}")
+    return DiscordResponse(embed=embed)    
+
+
+## Inside seperate file
+
+from dispike import Dispike, DiscordCommad
+bot = Dispike(...)
+
+bot.register_collection(SampleGroupCollection(), register_command_with_discord=True)
+
+if __name__ == "__main__":
+  bot.run(port=5000)
+```
+## Attention
 
 - Python 3.6+
-- Does not speak over the discord gateway. [discord-py-slash-command is what you are looking for.](https://github.com/eunwoo1104/discord-py-slash-command)
-
-<details><summary>Resolved Caveats</summary>
-<p>
-
-- ~~Does not handle registring new commands.~~
-- ~~Does not handle anything other then string responses. (However you are free to return any valid dict in your handler.)~~
-- ~~Not on PyPi~~
-- ~~Handling followup messages.~~
-
-</p>
-</details>
-
-
+- Does not speak over the discord gateway. [discord-py-slash-command is what you are looking for.](https://github.com/eunwoo1104/discord-py-slash-command). 
+- You will need a server to accept connections directly from discord!
 
 
 # Development

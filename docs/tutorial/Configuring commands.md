@@ -68,10 +68,3 @@ Verify that the ``CommandOption.name`` is something you can name in a normal pyt
 Let's move to register this command.
 
 
-
-### Source
-
-```python
---8<-- "dispike/register/models/options.py"
-```
-

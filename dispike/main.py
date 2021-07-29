@@ -557,7 +557,7 @@ class Dispike(object):
             unix_socket (str, optional): [description]. Run the bot and listen on a specific unix domain socket..
 
         Raises:
-            ArgumentError: [description]
+            ArgumentError: Raised if you pass both a port and a unix socket.
         """
         uvicorn = self._return_uvicorn_run_function()
 
@@ -638,6 +638,7 @@ class Dispike(object):
         return event in self.callbacks[type]
 
     def return_event_settings(self, event: str, type: str) -> dict:
+
         if self.check_event_exists(event, type):
             return self.callbacks[type][event]["settings"]
         raise TypeError(
@@ -645,6 +646,18 @@ class Dispike(object):
         )
 
     def return_event_function(self, event: str, type: str) -> dict:
+        """Returns the function registered for the event.
+
+        Args:
+            event (str): Event name
+            type (str): Event typelogger.debug(f"logMessage")
+
+        Raises:
+            TypeError: If Event name is not in callbacks.
+
+        Returns:
+            dict: containing func and settings
+        """
         if self.check_event_exists(event, type):
             return self.callbacks[type][event]["function"]
         raise TypeError(
@@ -688,6 +701,18 @@ class Dispike(object):
     def _add_function_to_callbacks(
         self, function_name: str, function_type: EventTypes, function: typing.Callable
     ):
+        """Internal function, adds a function to the callbacks.
+
+        Args:
+            function_name (str): Function event name, this will be used to look up the function in .callbacks
+            function_type (EventTypes): Function type
+            function (typing.Callable): Actual function, should be an async function.
+
+        Raises:
+            TypeError: If function is not an async function.
+            TypeError: If function name has already been registered
+            TypeError: Invalid EventType
+        """
         if not inspect.iscoroutinefunction(function):
             raise TypeError("Passed function is not an asynchronous function.")
 
@@ -712,6 +737,17 @@ class Dispike(object):
         function_type: EventTypes = None,
         **kwargs,
     ):
+        """This will register an event command.
+        Usually you would use this if you are using dispike.interactions.on; instead of the self.on.
+
+        Args:
+            function_event_name (str): Function event name
+            function (typing.Callable): Function to register. Must be async
+            function_type (EventTypes): [description]. Function type, defaults to None, but will still attempt to find the type. Will raise an error if it cannot.
+
+        Raises:
+            AttributeError: If function_type is not a string or None, and it cannot be found in the functions attributes.
+        """
         if function_type is None:
             # try to see if the function has a _event_type attribute
             try:
@@ -787,6 +823,18 @@ class Dispike(object):
 
     @staticmethod
     def _detect_functions_with_event_decorator(collection: EventCollection):
+        """Internal function, detects functions with the event decorator inside a EventCollection.
+
+        Args:
+            collection (EventCollection): Event collection contatining at least one function with the interactions decorator.
+
+        Raises:
+            ValueError: If the EventCollection contains no functions with the interactions decorator.
+            TypeError: If the collection passed is not a EventCollection or subclass of it.
+
+        Returns:
+            [type]: [description]
+        """
         # check if colleciton inherited from EventCollection
         if isinstance(collection, EventCollection) or issubclass(
             collection, EventCollection
