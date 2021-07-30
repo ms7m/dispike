@@ -38,7 +38,8 @@ class EventTypes(str, Enum):
 
 
 class Dispike(object):
-    """Dispike - python library for interacting with discord slash commands via an independently hosted server.
+    """# Dispike
+    A simple to use, powerful framework for creating stateless, independent bots using Discord Slash Commands.
 
     *Powered by FastAPI*
     """

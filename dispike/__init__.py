@@ -1,4 +1,4 @@
-__version__ = "0.8.9-alpha.0"
+__version__ = "1.0.0-beta.0"
 
 from .main import Dispike
 from .models import IncomingDiscordInteraction, IncomingApplicationCommand

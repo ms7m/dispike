@@ -3,12 +3,18 @@ import sys
 import warnings
 from dispike import __version__, interactions
 from dispike import Dispike
+import toml
 
 import pytest
 
 
 def test_import():
     import dispike
+
+
+def test_version_match():
+    _load_toml = toml.load(open("pyproject.toml", "r"))
+    assert _load_toml["tool"]["poetry"]["version"] == __version__
 
 
 def test_if_skip_verification_argument():
