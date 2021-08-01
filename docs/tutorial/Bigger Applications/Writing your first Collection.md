@@ -16,7 +16,7 @@ class SampleCollection(interactions.EventCollection):
     ...
 ```
 
-++info
+???+ info
 	An `__init__` may be used, but you'll need to let Dispike know to initialize it, or initialize it yourself before passing to dispike.
 
 Add your callbacks..

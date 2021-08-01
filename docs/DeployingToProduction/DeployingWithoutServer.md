@@ -42,12 +42,14 @@ $ pip install uvicorn[standard]
 ### Running the bot on a specific port + allowing outside connections.
 <div class="termy">
 ```console
-$ uvicorn file_containing_bot:bot.referenced_application --host 0.0.0.0 --port 443
+$ uvicorn file_containing_bot:bot.referenced_application --host 0.0.0.0 --port 444 --ssl-keyfile=./key.pem --ssl-certfile=./cert.pem
 <span style="color: green;">INFO</span>:     Uvicorn running on http://0.0.0.0:443 (Press CTRL+C to quit)
 ```
 </div>
 
 ``.referenced_application`` is extremely important.
+
+You may want to read [Uvicorn's documentation](https://www.uvicorn.org/deployment) for more keyword arguments or to deploy with Gunicorn instead.
 
 
 ## Running bot with Hypercorn

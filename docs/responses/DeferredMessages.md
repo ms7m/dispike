@@ -39,3 +39,4 @@ async def generate_secret_code(ctx: IncomingDiscordInteraction) -> DeferredRespo
     )
 ```
 
+Type hinting ``DeferredResponse`` lets Dispike know to immediately respond to Discord, and wait for your function to complet

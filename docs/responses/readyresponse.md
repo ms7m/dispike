@@ -5,12 +5,17 @@ The ``DiscordResponse`` is available as a convenience object to assist you in ge
 Some methods and functions may require you to *only* use a valid ``DiscordResponse``. 
 
 ```python
+from dispike import DiscordResponse
+
+# or
+
 from dispike.responses import DiscordResponse
+
 ```
 
 ``content``, ``embeds``, and ``tts`` is not required immediately, and can be configured later.
 
-However, settings such as ``show_user_input`` and ``folow_up_message`` are set at first initialization and cannot be changed.  
+However, settings such as ``show_user_input`` and ``follow_up_message`` are set at first initialization and cannot be changed.  
 
 
 ```python
@@ -47,7 +52,12 @@ response = DiscordResponse(empherical=True)
 response.content = "Content Text Here"
 ```
 
+![GifOfDeferredMessage](images/EmphericalMessageExample.png)
+
+
+
 ### Update original message
+
 ???+ warning
     You can only update an original message if you are responding to a component interaction
 

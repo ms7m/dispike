@@ -25,11 +25,6 @@
 pip install dispike
 ```
 
-**Bleeding Edge**
-```
-pip install git+https://github.com/ms7m/dispike@dev
-```
-
 ## 📚 Learn more
 - Read documentation [here](https://dispike.ms7m.me)
 - See an example bot [here](https://github.com/ms7m/dispike-example)

@@ -30,6 +30,11 @@ nav:
       - "Registering Commands": "tutorial/Registering Commands.md"
       - "Writing The Handler": "tutorial/Writing the handler.md"
       - "Running The Bot": "tutorial/Running the bot.md"
+      - "Bigger Applications":
+          - "Introduction": "tutorial/Bigger Applications/introduction.md"
+          - "Writing your First Collection": "tutorial/Bigger Applications/Writing your first Collection.md"
+          - "Registering Collections": "tutorial/Bigger Applications/Registering Collection.md"
+          - "Passing Callbacks Directly": "tutorial/Bigger Applications/Passing Callbacks Directly.md"
   - "Models":
       - "Info": "Models/index.md"
       - "Incoming": "Models/Incoming.md"
