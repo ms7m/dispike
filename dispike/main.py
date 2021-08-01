@@ -840,11 +840,13 @@ class Dispike(object):
         if isinstance(collection, EventCollection) or issubclass(
             collection, EventCollection
         ):
-            _funcs = [
-                function
-                for function in collection.__dict__.values()
-                if hasattr(function, "_dispike_event_type")
-            ]
+
+            _funcs = []
+            for _functions in inspect.getmembers(
+                collection, inspect.iscoroutinefunction
+            ):
+                if hasattr(_functions[1], "_dispike_event_name"):
+                    _funcs.append(_functions[1])
 
             if len(_funcs) == 0:
                 raise ValueError(
