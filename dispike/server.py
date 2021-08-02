@@ -12,7 +12,7 @@ from .models.incoming import (
 )
 from .eventer import EventTypes
 from .eventer_helpers.determine_event_information import determine_event_information
-from .response import DiscordResponse, DeferredResponse
+from .response import DiscordResponse, DeferredResponse, DeferredEmphericalResponse
 from dispike.helper.components import ComponentTypes
 import json
 import typing
@@ -29,6 +29,12 @@ interaction = router._dispike_instance  # type: Dispike
 
 
 _RAISE_FOR_TESTING = False
+
+
+async def _run_and_log_async(coroutine: typing.Coroutine) -> None:
+    logger.debug(f"Incoming deferred coroutine.. {coroutine}")
+    await coroutine
+    logger.debug(f"Deferred coroutine completed!")
 
 
 @router.get("/ping")
@@ -106,14 +112,20 @@ async def handle_interactions(request: Request) -> Response:
 
             logger.debug(_get_res.response)
             return _get_res.response
-        elif _type_hinted_returned_value == DeferredResponse:
+        elif (
+            _type_hinted_returned_value == DeferredResponse
+            or _type_hinted_returned_value == DeferredEmphericalResponse
+        ):
             logger.debug("This is a deferred response...")
+
             asyncio.create_task(
-                router._dispike_instance.emit(
-                    _event_name, EventTypes.COMMAND, **arguments
+                _run_and_log_async(
+                    router._dispike_instance.emit(
+                        _event_name, EventTypes.COMMAND, **arguments
+                    )
                 )
             )
-            return DeferredResponse.response
+            return _type_hinted_returned_value.response
 
         elif _type_hinted_returned_value == dict:
             return await router._dispike_instance.emit(
