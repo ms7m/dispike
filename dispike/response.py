@@ -211,6 +211,10 @@ class DeferredResponse:
     response = {"type": 5}
 
 
+class DeferredEmphericalResponse:
+    response = {"type": 5, "data": {"flags": 1 << 6}}
+
+
 class AcknowledgeComponentResponse:
     """Represents an interaction ACK response"""
 
