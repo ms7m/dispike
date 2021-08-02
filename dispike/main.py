@@ -390,6 +390,7 @@ class Dispike(object):
             try:
                 # TODO: Probably change later to inside the DeferredResponse?
                 new_message._switch_to_followup_message()
+                logger.debug(f"sending deferred response : {new_message.response}")
                 response = await client.patch("/@original", json=new_message.response)
                 response.raise_for_status()
             except httpx.HTTPError as req:
