@@ -60,6 +60,25 @@ def test_initalization():
     )
 
 
+def test_initalization_with_no_bot_token():
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    assert (
+        isinstance(
+            Dispike(
+                client_public_key=verification_key.decode(),
+                application_id="APPID",
+            ),
+            Dispike,
+        )
+        == True
+    )
+
+
 @pytest.fixture
 def dispike_object():
     from nacl.encoding import HexEncoder
@@ -75,6 +94,20 @@ def dispike_object():
     )
 
 
+@pytest.fixture
+def dispike_object_no_bot_token():
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    return Dispike(
+        client_public_key=verification_key.decode(),
+        application_id="APPID",
+    )
+
+
 def test_valid_fastapi_attribute(dispike_object: Dispike):
     from fastapi import FastAPI
 
@@ -86,6 +119,14 @@ def test_valid_registrator_object(dispike_object: Dispike):
 
     assert isinstance(dispike_object._registrator, RegisterCommands)
     assert dispike_object._registrator.register == dispike_object.register
+
+
+def test_raises_no_bot_token_registrator_object(dispike_object_no_bot_token: Dispike):
+    from dispike.creating.registrator import RegisterCommands
+    from dispike.errors.dispike import BotTokenNotProvided
+
+    with pytest.raises(BotTokenNotProvided):
+        dispike_object_no_bot_token.register(command=None)
 
 
 def test_valid_shared_client(dispike_object: Dispike):
@@ -200,6 +241,28 @@ def test_reset_registration_with_none_values(dispike_object: Dispike):
     assert (
         _current_dispike_object.reset_registration(
             new_bot_token=None, new_application_id=None
+        )
+        == True
+    )
+    assert _current_dispike_object._bot_token == "BOTTOKEN"
+    assert _current_dispike_object._application_id == "APPID"
+
+
+def test_reset_registration_with_no_initial_bot_token(dispike_object: Dispike):
+    from nacl.encoding import HexEncoder
+    from nacl.signing import SigningKey
+
+    _generated_signing_key = SigningKey.generate()
+    verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+
+    _current_dispike_object = Dispike(
+        client_public_key=verification_key.decode(),
+        application_id="APPID",
+    )
+
+    assert (
+        _current_dispike_object.reset_registration(
+            new_bot_token="BOTTOKEN", new_application_id=None
         )
         == True
     )
