@@ -8,6 +8,7 @@ from loguru import logger
 
 from dispike.errors.events import InvalidEventType
 from dispike.errors.warnings import InsecureBindingWithCustomHostWarning
+from dispike.errors.dispike import BotTokenNotProvided
 
 from .models import IncomingApplicationCommand
 from .register import RegisterCommands
@@ -45,21 +46,30 @@ class Dispike(object):
     """
 
     def __init__(
-        self, client_public_key: str, bot_token: str, application_id: str, **kwargs
+        self,
+        client_public_key: str,
+        application_id: str,
+        bot_token: str = None,
+        **kwargs,
     ):
         """Initialize Dispike Object
 
         Args:
             client_public_key (str): Discord provided client public key.
-            bot_token (str): Discord provided bot token. You must create a bot user to view this!
+            bot_token (str): Discord provided bot token. Optional, but if you do not provide a bot token, you cannot register commands.
             application_id (str): Discord provided Client ID
             custom_context_argument_name (str, optional): Change the name of the context arugment when passing to a function. Set to "ctx".
         """
         self._bot_token = bot_token
         self._application_id = application_id
-        self._registrator = RegisterCommands(
-            application_id=self._application_id, bot_token=self._bot_token
-        )
+
+        if bot_token is not None:
+            self._registrator = RegisterCommands(
+                application_id=self._application_id, bot_token=self._bot_token
+            )
+        else:
+            self._registrator = False
+
         self._internal_application = FastAPI()
 
         if kwargs.get("middleware_testing_skip_verification_key_request", False):
@@ -82,6 +92,9 @@ class Dispike(object):
         self.callbacks = {"command": {}, "component": {}}
 
         self._cache_router = router
+        self._client = httpx.Client(
+            base_url=f"https://discord.com/api/v8/applications/{self._application_id}/"
+        )
 
     @logger.catch(reraise=True)
     def reset_registration(self, new_bot_token=None, new_application_id=None):
@@ -142,6 +155,8 @@ class Dispike(object):
         Returns:
             RegisterCommands.register: internal RegisterCommands Object
         """
+        if self._registrator == False:
+            raise BotTokenNotProvided("Registrating commands")
         return self._registrator.register
 
     @property
@@ -151,7 +166,7 @@ class Dispike(object):
         Returns:
             httpx.Client: used for network requests to discord.
         """
-        return self._registrator._client
+        return self._client
 
     @property
     def interaction(self):
