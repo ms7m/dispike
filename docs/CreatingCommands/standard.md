@@ -5,7 +5,7 @@ Dispike assists you in creating a valid JSON, and will provide auto-completion a
 
 ```python
 
-from dispike.register.models import (
+from dispike.creating import (
     DiscordCommand,
     CommandChoice,
     CommandOption,

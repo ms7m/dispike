@@ -1,5 +1,5 @@
-from dispike.register import RegisterCommands
-from dispike.register.models import *
+from dispike.creating import RegisterCommands
+from dispike.creating.models import *
 from dispike.interactions import PerCommandRegistrationSettings, EventCollection
 
 expectation = {

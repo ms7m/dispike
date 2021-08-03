@@ -21,7 +21,7 @@ Guild-level editing command is available by configuring parameters
 ```python
 
 from dispike import Dispike
-from dispike.register.models import (
+from dispike.creating import (
     DiscordCommand
 )
 
@@ -38,7 +38,7 @@ bot.edit_command(
 
 ```python
 from dispike import Dispike
-from dispike.register.models import DiscordCommand
+from dispike.creating.models import DiscordCommand
 
 
 bot = Dispike(...)
@@ -76,7 +76,7 @@ Not reading the documentation may result in you creating dangerous commands for 
 ## Getting Started
 Import the following:
 ```python
-from dispike.register.models.permissions import (
+from dispike.creating.models.permissions import (
     ApplicationCommandPermissions,
     NewApplicationPermission,
     ApplicationCommandPermissionType,

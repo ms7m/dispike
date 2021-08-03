@@ -1,6 +1,8 @@
 import typing
 from enum import Enum
 
+from pydantic import BaseModel
+
 from dispike.errors.components import (
     InvalidComponentError,
     ComponentCombinationError,
@@ -252,6 +254,8 @@ class SelectMenu:
             "placeholder": self.placeholder,
             "disabled": self.disabled,
         }
+
+
 
 
 class ActionRow:

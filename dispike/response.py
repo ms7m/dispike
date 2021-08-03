@@ -1,5 +1,5 @@
 from .helper.embed import Embed
-from .helper.components import ActionRow
+from .creating.components import ActionRow
 import typing
 from .errors.network import DiscordAPIError
 from loguru import logger
@@ -13,8 +13,8 @@ except ImportError:  # pragma: no cover
 
 if typing.TYPE_CHECKING:
     from .main import Dispike  # pragma: no cover
-    from .models import IncomingDiscordInteraction  # pragma: no cover
-    from .models.allowed_mentions import AllowedMentions  # pragma: no cover
+    from .creating import IncomingDiscordInteraction  # pragma: no cover
+    from .creating.allowed_mentions import AllowedMentions  # pragma: no cover
 
 
 class DiscordResponse(object):

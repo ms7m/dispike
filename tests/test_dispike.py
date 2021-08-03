@@ -82,7 +82,7 @@ def test_valid_fastapi_attribute(dispike_object: Dispike):
 
 
 def test_valid_registrator_object(dispike_object: Dispike):
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     assert isinstance(dispike_object._registrator, RegisterCommands)
     assert dispike_object._registrator.register == dispike_object.register

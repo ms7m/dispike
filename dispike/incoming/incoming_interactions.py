@@ -2,7 +2,7 @@ from pydantic import BaseModel, ValidationError, validator
 import typing
 from .discord_types.member import Member
 
-from ..register.models import CommandOption, SubcommandOption
+from ..creating import CommandOption, SubcommandOption
 
 try:
     from typing import Literal  # pragma: no cover

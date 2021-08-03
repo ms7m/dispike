@@ -1,5 +1,5 @@
 import pytest
-from dispike.models import IncomingDiscordInteraction
+from dispike.incoming import IncomingDiscordInteraction
 from dispike.eventer_helpers.determine_event_information import (
     determine_event_information,
 )

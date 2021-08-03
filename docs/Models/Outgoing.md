@@ -3,7 +3,7 @@
 To import these models
 
 ```python
-from dispike.register.models.options import <Object>
+from dispike.creating.models.options import <Object>
 ```
 
 

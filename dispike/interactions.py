@@ -7,7 +7,7 @@ import typing
 
 if typing.TYPE_CHECKING:
     from .main import Dispike  # pragma: no cover
-    from dispike.register.models.options import DiscordCommand  # pragma: no cover
+    from dispike.creating.models.options import DiscordCommand  # pragma: no cover
 
 
 def on(

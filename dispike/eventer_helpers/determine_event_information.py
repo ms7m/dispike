@@ -1,4 +1,4 @@
-from ..models.incoming import (
+from dispike.incoming import (
     IncomingDiscordInteraction,
     IncomingDiscordOptionList,
     SubcommandIncomingDiscordOptionList,

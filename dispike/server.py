@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Response
 from fastapi.responses import PlainTextResponse
 from loguru import logger
 from .middlewares.verification import DiscordVerificationMiddleware
-from .models.incoming import (
+from dispike.incoming import (
     IncomingDiscordInteraction,
     IncomingDiscordOptionList,
     SubcommandIncomingDiscordOptionList,
@@ -13,7 +13,7 @@ from .models.incoming import (
 from .eventer import EventTypes
 from .eventer_helpers.determine_event_information import determine_event_information
 from .response import DiscordResponse, DeferredResponse, DeferredEmphericalResponse
-from dispike.helper.components import ComponentTypes
+from dispike.creating.components import ComponentTypes
 import json
 import typing
 import asyncio

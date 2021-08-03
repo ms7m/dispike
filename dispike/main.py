@@ -10,9 +10,9 @@ from dispike.errors.events import InvalidEventType
 from dispike.errors.warnings import InsecureBindingWithCustomHostWarning
 from dispike.errors.dispike import BotTokenNotProvided
 
-from .models import IncomingApplicationCommand
-from .register import RegisterCommands
-from .register.models import DiscordCommand
+from .incoming import IncomingApplicationCommand
+from .creating import RegisterCommands
+from .creating.models import DiscordCommand
 from .server import DiscordVerificationMiddleware
 from .server import interaction as router_interaction
 from .server import router
@@ -23,13 +23,13 @@ import asyncio
 import httpx
 
 from .errors.network import DiscordAPIError
-from .register.models.permissions import (
+from .creating.models.permissions import (
     GuildApplicationCommandPermissions,
     NewApplicationPermission,
 )
 
 if typing.TYPE_CHECKING:
-    from .models.incoming import IncomingDiscordInteraction  # pragma: no cover
+    from .creating.incoming import IncomingDiscordInteraction  # pragma: no cover
     from .response import DiscordResponse  # pragma: no cover
 
 

@@ -8,7 +8,7 @@ from dispike.errors.network import DiscordAPIError
 
 if typing.TYPE_CHECKING:
     from dispike import Dispike
-    from dispike.models.incoming import (
+    from dispike.incoming.incoming_interactions import (
         IncomingApplicationCommand,
         IncomingDiscordInteraction,
     )
@@ -38,7 +38,7 @@ def dispike_object():
 
 @pytest.fixture
 def example_incoming_response():
-    from dispike.models.incoming import IncomingDiscordInteraction
+    from dispike.incoming.incoming_interactions import IncomingDiscordInteraction
 
     _example_response = {
         "channel_id": "1231123123",

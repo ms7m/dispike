@@ -1,19 +1,19 @@
 import httpx
 from dispike.response import DiscordResponse
-from dispike.register.models.permissions import (
+from dispike.creating.models.permissions import (
     ApplicationCommandPermissionType,
     ApplicationCommandPermissions,
     GuildApplicationCommandPermissions,
     NewApplicationPermission,
 )
-from dispike.register.models.options import (
+from dispike.creating.models.options import (
     CommandChoice,
     CommandOption,
     CommandTypes,
     DiscordCommand,
 )
 from httpx import Response
-from dispike.models.incoming import (
+from dispike.incoming.incoming_interactions import (
     IncomingApplicationCommand,
     IncomingDiscordInteraction,
 )

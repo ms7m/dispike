@@ -1,6 +1,6 @@
 import dispike
 from dispike.middlewares.verification import DiscordVerificationMiddleware
-from dispike.models.incoming import IncomingDiscordInteraction
+from dispike.incoming.incoming_interactions import IncomingDiscordInteraction
 from dispike.response import DiscordResponse
 from fastapi.testclient import TestClient
 from dispike.eventer import EventTypes

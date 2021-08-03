@@ -1,5 +1,5 @@
 import typing_extensions, typing
-from dispike.register.models import permissions
+from dispike.creating.models import permissions
 
 
 class PermissionGenerator(object):

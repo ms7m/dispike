@@ -16,9 +16,9 @@ Let's get started
 
 ```python
 # Import
-from dispike.register.models import DiscordCommand, CommandOption, CommandChoice, CommandTypes
+from dispike.creating import DiscordCommand, CommandOption, CommandChoice, CommandTypes
 
-from dispike.register.models import (
+from dispike.creating import (
   DiscordCommand,
   CommandOption,
   CommandChoice,

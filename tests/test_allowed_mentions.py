@@ -1,4 +1,4 @@
-from dispike.models.allowed_mentions import AllowedMentions, AllowedMentionTypes
+from dispike.creating import AllowedMentions, AllowedMentionTypes
 from dispike.response import DiscordResponse
 import json
 

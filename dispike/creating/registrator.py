@@ -6,12 +6,12 @@ from ..errors.network import DiscordAPIError
 
 
 class RegisterCommands(object):
-
     """This object contains methods to help registering a command to Discord.
     While you shouldn't need to import this directly, it's still accessible if you
     prefer not to initalize a Dispike object.
 
     Important to remember all methods are not async.
+
     """
 
     def __init__(self, application_id: str, bot_token: str):
