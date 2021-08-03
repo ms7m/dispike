@@ -208,10 +208,14 @@ class DiscordResponse(object):
 
 
 class DeferredResponse:
+    """Use this class to hint to dispike that the response will be deferred."""
+
     response = {"type": 5}
 
 
 class DeferredEmphericalResponse:
+    """Use this class to hint to dispike that the response will be deferred and empherical."""
+
     response = {"type": 5, "data": {"flags": 1 << 6}}
 
 
