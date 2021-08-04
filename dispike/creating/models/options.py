@@ -60,7 +60,7 @@ class CommandChoice(BaseModel):
     """
 
     name: str
-    value: str
+    value: typing.Union[str, int, float]
 
 
 @static_check_init_args
