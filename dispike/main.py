@@ -14,7 +14,6 @@ from .incoming import IncomingApplicationCommand
 from .creating import RegisterCommands
 from .creating.models import DiscordCommand
 from .server import DiscordVerificationMiddleware
-from .server import interaction as router_interaction
 from .server import router
 from .interactions import EventCollection, PerCommandRegistrationSettings
 
@@ -29,7 +28,7 @@ from .creating.models.permissions import (
 )
 
 if typing.TYPE_CHECKING:
-    from .creating.incoming import IncomingDiscordInteraction  # pragma: no cover
+    from .incoming import IncomingDiscordInteraction  # pragma: no cover
     from .response import DiscordResponse  # pragma: no cover
 
 
@@ -125,6 +124,11 @@ class Dispike(object):
         self._application_id = _application_id
 
         return True
+
+    def return_bot_token_headers(self):
+        if self._bot_token is not None:
+            return {"Authorization": f"Bot {self._bot_token}"}
+        raise BotTokenNotProvided("Authorizing Requests")
 
     @staticmethod
     async def background(function: typing.Callable, *args, **kwargs):
@@ -342,7 +346,7 @@ class Dispike(object):
                 _set_command_permissions = client.put(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
                     json=new_permissions.dict(),
-                    headers={"Authorization": f"Bot {self._bot_token}"},
+                    headers=self.return_bot_token_headers(),
                 )
                 _set_command_permissions.raise_for_status()
                 return True
@@ -374,7 +378,7 @@ class Dispike(object):
                 _set_command_permissions = await client.put(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
                     data=new_permissions.dict(),
-                    headers={"Authorization": f"Bot {self._bot_token}"},
+                    headers=self.return_bot_token_headers(),
                 )
                 _set_command_permissions.raise_for_status()
                 return True
@@ -398,7 +402,6 @@ class Dispike(object):
         async with httpx.AsyncClient(
             base_url=f"https://discord.com/api/v8/webhooks/{self._application_id}/{original_context.token}/messages/",
             headers={
-                "Authorization": f"Bot {self._bot_token}",
                 "Content-Type": "application/json",
             },
         ) as client:
@@ -491,7 +494,7 @@ class Dispike(object):
             try:
                 _request_command_permission = client.get(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/permissions",
-                    headers={"Authorization": f"Bot {self._bot_token}"},
+                    headers=self.return_bot_token_headers(),
                 )
                 if _request_command_permission.status_code not in [200, 201]:
                     raise DiscordAPIError(
@@ -522,7 +525,7 @@ class Dispike(object):
             try:
                 _request_command_permission = client.get(
                     f"https://discord.com/api/v8/applications/{self._application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
-                    headers={"Authorization": f"Bot {self._bot_token}"},
+                    headers=self.return_bot_token_headers(),
                 )
                 if _request_command_permission.status_code == 404:
                     return None
