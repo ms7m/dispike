@@ -5,6 +5,7 @@ from dispike.interactions import PerCommandRegistrationSettings, EventCollection
 expectation = {
     "name": "blep",
     "description": "Send a random adorable animal photo",
+    "default_permission": True,
     "options": [
         {
             "name": "animal",
