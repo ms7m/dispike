@@ -146,9 +146,11 @@ class DiscordCommand(BaseModel):
         name (str): Name of this command.
         description (str): Description of this command.
         options (typing.List[typing.Union[SubcommandOption, CommandOption]]): Options for this command.
+        default_permission (boolean): whether the command is enabled by default when the app is added to a guild. Defaults to True.
     """
 
     id: typing.Optional[int]
     name: str
     description: str
     options: typing.List[typing.Union[SubcommandOption, CommandOption]]
+    default_permission: bool = True
