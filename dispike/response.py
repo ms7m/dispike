@@ -2,6 +2,7 @@ from .helper.embed import Embed
 from .creating.components import ActionRow
 import typing
 from .errors.network import DiscordAPIError
+from .errors.response import ContentIsEmpty, InvalidDiscordResponse
 from loguru import logger
 import warnings
 
@@ -138,7 +139,7 @@ class DiscordResponse(object):
 
     @content.setter
     def content(self, new_content_string: str):
-        self._content = new_content_string
+        self._content = str(new_content_string)
 
     @property
     def tts(self) -> bool:
@@ -161,6 +162,7 @@ class DiscordResponse(object):
             dict: a valid discord response.
         """
 
+        # Watch this, this may cause an issue.
         self.content = "" if self.content is None else self.content
 
         if self._is_followup:
@@ -193,6 +195,11 @@ class DiscordResponse(object):
             _req["data"]["flags"] = 1 << 6
 
         if self._action_row:
+            if self.content == None or self.embeds == [] or self.content == "":
+                raise InvalidDiscordResponse(
+                    "If creating a response with an action row, content or an embed must be present!"
+                )
+
             _req["data"]["components"] = [self.action_row.to_dict()]
 
         if self._allowed_mentions:
