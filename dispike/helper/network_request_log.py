@@ -3,15 +3,15 @@ import httpx
 
 
 def dispike_httpx_event_hook_outgoing_request(request: httpx.Request):
-    logger.log(
+    logger.opt(colors=True).log(
         "NETWORK",
-        f"Outgoing request <bold yellow>[{request.method}]</bold yellow> <bold white>{request.url}</>: headers: <bold white>{request.headers}</>",
+        f"Outgoing request <yellow>[{request.method}]</yellow> <white>{request.url}</white>: headers: <white>{request.headers}</white>",
     )
 
 
 def dispike_httpx_event_hook_incoming_request(response: httpx.Response):
     request = response.request  # type: httpx.Request
-    logger.log(
+    logger.opt(colors=True).log(
         "NETWORK",
-        f"Incoming request: <bold yellow>[{request.method}:{response.status_code}]</bold yellow> <bold white>{request.url}</>: headers: <bold white>{request.headers}</> ",
+        f"Incoming request: <yellow>[{request.method}:{response.status_code}]</yellow> url: <white>{request.url}</white>: headers: <white>{request.headers}</white> ",
     )
