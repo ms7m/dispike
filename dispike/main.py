@@ -9,7 +9,10 @@ from loguru import logger
 from dispike.errors.events import InvalidEventType
 from dispike.errors.warnings import InsecureBindingWithCustomHostWarning
 from dispike.errors.dispike import BotTokenNotProvided
-
+from dispike.helper.network_request_log import (
+    dispike_httpx_event_hook_incoming_request,
+    dispike_httpx_event_hook_outgoing_request,
+)
 from .incoming import IncomingApplicationCommand
 from .creating import RegisterCommands
 from .creating.models import DiscordCommand
@@ -92,7 +95,11 @@ class Dispike(object):
 
         self._cache_router = router
         self._client = httpx.Client(
-            base_url=f"https://discord.com/api/v8/applications/{self._application_id}/"
+            base_url=f"https://discord.com/api/v8/applications/{self._application_id}/",
+            event_hooks={
+                "response": [dispike_httpx_event_hook_incoming_request],
+                "request": [dispike_httpx_event_hook_outgoing_request],
+            },
         )
 
     @logger.catch(reraise=True)
