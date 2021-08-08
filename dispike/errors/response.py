@@ -8,3 +8,7 @@ class ContentIsEmpty(Exception):
 
 class InvalidDiscordResponse(Exception):
     pass
+
+
+class NoResolvedInteractions(Exception):
+    pass
