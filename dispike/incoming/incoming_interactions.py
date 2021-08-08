@@ -1,6 +1,9 @@
+from dispike.errors.response import NoResolvedInteractions
+from .attribute_helpers import lookup_resolved_member_helper
 from pydantic import BaseModel, ValidationError, validator
 import typing
-from .discord_types.member import Member
+from .discord_types.member import Member, PartialMember
+from loguru import logger
 
 from ..creating import CommandOption, SubcommandOption
 
@@ -58,6 +61,7 @@ class SubcommandIncomingDiscordOptionList(BaseModel):
         typing.List[IncomingDiscordOption],
         typing.List[SubcommandIncomingDiscordOptionListChild],
     ]
+    resolved: typing.Optional[typing.Dict]
 
 
 class IncomingDiscordOptionList(BaseModel):
@@ -82,6 +86,7 @@ class IncomingDiscordOptionList(BaseModel):
             typing.List[SubcommandIncomingDiscordOptionList],
         ]
     ] = None
+    resolved: typing.Optional[typing.Dict]
 
 
 class IncomingDiscordButtonData(BaseModel):
@@ -135,6 +140,14 @@ class IncomingDiscordInteraction(BaseModel):
     member: Member
     token: str
     version: typing.Optional[Literal[1]] = None
+
+    def lookup_resolved_member(
+        self: "IncomingDiscordInteraction", member_id: str
+    ) -> "PartialMember":
+        if self.data.resolved != {}:
+            return lookup_resolved_member_helper(cls=self, member_id=member_id)
+        else:
+            raise NoResolvedInteractions
 
 
 class IncomingDiscordButtonInteraction(BaseModel):
@@ -213,3 +226,4 @@ class IncomingApplicationCommand(BaseModel):
 
     # ? not listed in docs but appears in request
     version: typing.Optional[str]
+    resolved: typing.Dict
