@@ -2,13 +2,21 @@ from pydantic import BaseModel
 import typing
 
 
+"""
 class RoleTags(BaseModel):
-    bot_id: typing.Optional[typing.Any]
-    intergration_id: typing.Optional[typing.Any]
-    permium_subscriber = typing.Optional[typing.Any]
+    class Config:
+        arbitrary_types_allowed = True
+
+    bot_id: typing.Optional[typing.Any] = None
+    intergration_id: typing.Optional[typing.Any] = None
+    permium_subscriber = typing.Optional[typing.Any] = None
+"""
 
 
 class Role(BaseModel):
+    class Config:
+        arbitrary_types_allowed = True
+
     id: int
     name: str
     color: str
@@ -17,4 +25,4 @@ class Role(BaseModel):
     permissions: str
     managed: str
     mentionable: bool
-    tags: typing.Optional[RoleTags]
+    tags: typing.Optional[typing.Dict] = {}
