@@ -32,7 +32,7 @@ def resolved_interactions_finder(
     """
 
     try:
-        _grab_member = cls.data.resolved["members"].get(query, None)
+        _grab_member = cls.data.resolved[type_to_determine].get(query, None)
         if _grab_member is not None:
             return _class_return[type_to_determine](**_grab_member)
         return _grab_member
@@ -41,16 +41,16 @@ def resolved_interactions_finder(
 
 
 def lookup_resolved_member_helper(cls, member_id: str) -> PartialMember:
-    return resolved_interactions_finder(cls, member_id, "members")
+    return resolved_interactions_finder(cls, str(member_id), "members")
 
 
 def lookup_resolved_channel_helper(cls, channel_id: str) -> PartialChannel:
-    return resolved_interactions_finder(cls, channel_id, "channels")
+    return resolved_interactions_finder(cls, str(channel_id), "channels")
 
 
 def lookup_resolved_user_helper(cls, user_id: str) -> User:
-    return resolved_interactions_finder(cls, int(user_id), "users")
+    return resolved_interactions_finder(cls, str(user_id), "users")
 
 
 def lookup_resolved_role_helper(cls, role_id: str) -> Role:
-    return resolved_interactions_finder(cls, int(role_id), "roles")
+    return resolved_interactions_finder(cls, str(role_id), "roles")
