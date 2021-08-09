@@ -18,6 +18,7 @@ _class_return = {
 }
 
 
+@logger.catch(reraise=True, message="Unable to lookup query for resolve")
 def resolved_interactions_finder(
     cls: "IncomingDiscordInteraction",
     query: typing.Union[str, int],
@@ -30,14 +31,10 @@ def resolved_interactions_finder(
     :param type_to_determine: The type of interaction to search for.
     :return: A list of all interactions that are resolved.
     """
-
-    try:
-        _grab_member = cls.data.resolved[type_to_determine].get(query, None)
-        if _grab_member is not None:
-            return _class_return[type_to_determine](**_grab_member)
-        return _grab_member
-    except Exception:
-        logger.exception(f"Unable to find query: {query} in resolved interactions..")
+    _grab_member = cls.data.resolved[type_to_determine].get(query, None)
+    if _grab_member is not None:
+        return _class_return[type_to_determine](**_grab_member)
+    return _grab_member
 
 
 def lookup_resolved_member_helper(cls, member_id: str) -> PartialMember:
