@@ -69,7 +69,7 @@ class SubcommandIncomingDiscordOptionList(BaseModel):
         typing.List[IncomingDiscordOption],
         typing.List[SubcommandIncomingDiscordOptionListChild],
     ]
-    resolved: typing.Optional[typing.Dict]
+    resolved: typing.Optional[typing.Dict] = {}
 
 
 class IncomingDiscordOptionList(BaseModel):
@@ -94,7 +94,7 @@ class IncomingDiscordOptionList(BaseModel):
             typing.List[SubcommandIncomingDiscordOptionList],
         ]
     ] = None
-    resolved: typing.Optional[typing.Dict]
+    resolved: typing.Optional[typing.Dict] = {}
 
 
 class IncomingDiscordButtonData(BaseModel):
@@ -258,4 +258,3 @@ class IncomingApplicationCommand(BaseModel):
 
     # ? not listed in docs but appears in request
     version: typing.Optional[str]
-    resolved: typing.Dict
