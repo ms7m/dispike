@@ -86,7 +86,7 @@ async def handle_interactions(request: Request) -> Response:
 
     _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
     _event_name, arguments = determine_event_information(_parse_to_object)
-    logger.info(f"event name: {_event_name}")
+    logger.debug(f"incoming event name: {_event_name}")
     if not router._dispike_instance.check_event_exists(_event_name, EventTypes.COMMAND):
         logger.debug("discarding event not existing.")
         warnings.warn(
