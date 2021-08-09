@@ -1,8 +1,16 @@
 from dispike.errors.response import NoResolvedInteractions
-from .attribute_helpers import lookup_resolved_member_helper
+from .attribute_helpers import (
+    lookup_resolved_member_helper,
+    lookup_resolved_user_helper,
+    lookup_resolved_channel_helper,
+    lookup_resolved_role_helper,
+)
 from pydantic import BaseModel, ValidationError, validator
 import typing
 from .discord_types.member import Member, PartialMember
+from .discord_types.user import User
+from .discord_types.role import Role
+from .discord_types.channel import PartialChannel
 from loguru import logger
 
 from ..creating import CommandOption, SubcommandOption
@@ -146,6 +154,30 @@ class IncomingDiscordInteraction(BaseModel):
     ) -> "PartialMember":
         if self.data.resolved != {}:
             return lookup_resolved_member_helper(cls=self, member_id=member_id)
+        else:
+            raise NoResolvedInteractions
+
+    def lookup_resolved_user(
+        self: "IncomingDiscordInteraction", user_id: str
+    ) -> "User":
+        if self.data.resolved != {}:
+            return lookup_resolved_user_helper(cls=self, user_id=user_id)
+        else:
+            raise NoResolvedInteractions
+
+    def lookup_resolved_channel(
+        self: "IncomingDiscordInteraction", channel_id: str
+    ) -> "PartialChannel":
+        if self.data.resolved != {}:
+            return lookup_resolved_channel_helper(cls=self, channel_id=channel_id)
+        else:
+            raise NoResolvedInteractions
+
+    def lookup_resolved_role(
+        self: "IncomingDiscordInteraction", role_id: str
+    ) -> "Role":
+        if self.data.resolved != {}:
+            return lookup_resolved_role_helper(cls=self, role_id=role_id)
         else:
             raise NoResolvedInteractions
 
