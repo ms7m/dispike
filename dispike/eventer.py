@@ -8,3 +8,5 @@ from enum import Enum
 class EventTypes(str, Enum):
     COMMAND = "command"
     COMPONENT = "component"
+    MESSAGE_COMMAND = "message_command"
+    USER_COMMAND = "user_command"

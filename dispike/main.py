@@ -91,7 +91,12 @@ class Dispike(object):
             router._user_defined_setting_ctx_value = kwargs.get(
                 "custom_context_argument_name"
             )
-        self.callbacks = {"command": {}, "component": {}}
+        self.callbacks = {
+            "command": {},
+            "component": {},
+            "message_command": {},
+            "user_command": {},
+        }
 
         self._cache_router = router
         self._client = httpx.Client(
