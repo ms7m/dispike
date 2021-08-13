@@ -48,6 +48,20 @@ class OptionTypes(int, Enum):
     NUMBER = 10
 
 
+class CommandTypes(int, Enum):
+    """Easy access to command types.
+
+    Attributes:
+        SLASH (int): Represents Type 1
+        USER (int): Represents Type 2
+        MESSAGE (int): Represents Type 3
+    """
+
+    SLASH = 1
+    USER = 2
+    MESSAGE = 3
+
+
 @static_check_init_args
 class CommandChoice(BaseModel):
 
