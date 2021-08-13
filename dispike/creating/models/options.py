@@ -167,3 +167,4 @@ class DiscordCommand(BaseModel):
     description: str
     options: typing.List[typing.Union[SubcommandOption, CommandOption]]
     default_permission: bool = True
+    type: int = CommandTypes.SLASH
