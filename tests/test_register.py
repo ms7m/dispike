@@ -3,7 +3,7 @@ from dispike.creating.models import (
     DiscordCommand,
     CommandOption,
     CommandChoice,
-    CommandTypes,
+    OptionTypes,
 )
 import pytest
 from dispike.errors.network import DiscordAPIError
@@ -28,7 +28,7 @@ def test_register_command_globally_successful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -54,7 +54,7 @@ def test_register_command_globally_unsuccessful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -82,7 +82,7 @@ def test_register_command_guild_only_successful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -112,7 +112,7 @@ def test_register_command_guild_only_unsuccessful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -136,7 +136,7 @@ def test_register_command_guild_only_invalid_arguments():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )

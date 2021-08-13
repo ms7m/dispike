@@ -20,9 +20,8 @@ else:
         return cls
 
 
-class CommandTypes(int, Enum):
-
-    """Easy access to command types.
+class OptionTypes(int, Enum):
+    """Easy access to option types.
 
     Attributes:
         BOOLEAN (int): Represents Type 5
@@ -71,7 +70,7 @@ class CommandOption(BaseModel):
     Attributes:
         name (str): Name of the option.
         description (str): Description of the option.
-        type (CommandTypes): The option type.
+        type (OptionTypes): The option type.
         required (bool): Whether or not this option is required.
         choices (typing.Union[typing.List[dict], typing.List[CommandChoice]], optional): Possible choices for this option for the user to pick from.
         options (typing.Union[typing.List[CommandChoice], typing.List], optional): If the option is a subcommand or subcommand group type, this nested options will be the parameters.
@@ -82,7 +81,7 @@ class CommandOption(BaseModel):
 
     name: str
     description: str
-    type: CommandTypes
+    type: OptionTypes
     required: bool = False
     choices: typing.Optional[
         typing.Union[typing.List[dict], typing.List[CommandChoice]]

@@ -9,7 +9,7 @@ from dispike.creating.models.permissions import (
 from dispike.creating.models.options import (
     CommandChoice,
     CommandOption,
-    CommandTypes,
+    OptionTypes,
     DiscordCommand,
 )
 from httpx import Response
@@ -253,7 +253,7 @@ def example_edit_command():
         options=[
             CommandOption(
                 name="exampleOption",
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
                 description="exampleOptionDescription",
                 required=True,
                 choices=[CommandChoice(name="test", value="value")],
