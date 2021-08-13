@@ -164,7 +164,19 @@ class DiscordCommand(BaseModel):
 
     id: typing.Optional[int]
     name: str
-    description: str
-    options: typing.List[typing.Union[SubcommandOption, CommandOption]]
+    description: str = ""
+    options: typing.List[typing.Union[SubcommandOption, CommandOption]] = []
     default_permission: bool = True
     type: int = CommandTypes.SLASH
+
+    def __init__(self, type=CommandTypes.SLASH, description="", options=[], **data) -> None:
+        if type == CommandTypes.SLASH:
+            if description == "":
+                raise AttributeError("Slash commands require a description")
+        if type == CommandTypes.MESSAGE or type == CommandTypes.USER:
+            if description != "":
+                raise AttributeError("Context commands cannot have a description")
+            if options:
+                raise AttributeError("Context commands cannot have options")
+
+        super().__init__(type=type.value, **data)
