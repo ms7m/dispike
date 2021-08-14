@@ -179,4 +179,4 @@ class DiscordCommand(BaseModel):
             if options:
                 raise AttributeError("Context commands cannot have options")
 
-        super().__init__(type=type.value, **data)
+        super().__init__(type=type.value, description=description, options=options, **data)
