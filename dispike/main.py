@@ -2,7 +2,7 @@ import inspect
 import typing
 import warnings
 from enum import Enum
-
+from dispike.eventer import EventTypes
 from fastapi import FastAPI
 from loguru import logger
 
@@ -33,11 +33,6 @@ from .creating.models.permissions import (
 if typing.TYPE_CHECKING:
     from .incoming import IncomingDiscordInteraction  # pragma: no cover
     from .response import DiscordResponse  # pragma: no cover
-
-
-class EventTypes(str, Enum):
-    COMMAND = "command"
-    COMPONENT = "component"
 
 
 class Dispike(object):
