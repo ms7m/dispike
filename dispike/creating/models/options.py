@@ -160,6 +160,7 @@ class DiscordCommand(BaseModel):
         description (str): Description of this command.
         options (typing.List[typing.Union[SubcommandOption, CommandOption]]): Options for this command.
         default_permission (boolean): whether the command is enabled by default when the app is added to a guild. Defaults to True.
+        type (CommandTypes): The type of command. This defaults to SLASH
     """
 
     id: typing.Optional[int]
