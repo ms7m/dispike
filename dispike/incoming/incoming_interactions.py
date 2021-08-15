@@ -97,6 +97,7 @@ class IncomingDiscordSlashData(BaseModel):
         ]
     ] = None
     resolved: typing.Optional[typing.Dict] = {}
+    type: CommandTypes = CommandTypes.SLASH
 
 
 class IncomingDiscordButtonData(BaseModel):
