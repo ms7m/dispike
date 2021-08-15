@@ -6,8 +6,8 @@ from .incoming.incoming_interactions import IncomingDiscordUserCommandInteractio
     IncomingDiscordMessageCommandInteraction
 from .middlewares.verification import DiscordVerificationMiddleware
 from dispike.incoming import (
-    IncomingDiscordInteraction,
-    IncomingDiscordOptionList,
+    IncomingDiscordSlashInteraction,
+    IncomingDiscordSlashData,
     SubcommandIncomingDiscordOptionList,
     IncomingDiscordOption,
     IncomingDiscordButtonInteraction,
@@ -143,7 +143,7 @@ async def handle_interactions(request: Request) -> Response:
             )
             return _get_res.response
 
-    _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
+    _parse_to_object = IncomingDiscordSlashInteraction(**_get_request_body)
     _event_name, arguments = determine_event_information(_parse_to_object)
     logger.debug(f"incoming event name: {_event_name}")
     if not router._dispike_instance.check_event_exists(_event_name, EventTypes.COMMAND):

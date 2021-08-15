@@ -31,7 +31,7 @@ from .creating.models.permissions import (
 )
 
 if typing.TYPE_CHECKING:
-    from .incoming import IncomingDiscordInteraction  # pragma: no cover
+    from .incoming import IncomingDiscordSlashInteraction  # pragma: no cover
     from .response import DiscordResponse  # pragma: no cover
 
 
@@ -397,13 +397,13 @@ class Dispike(object):
 
     async def send_deferred_message(
         self,
-        original_context: "IncomingDiscordInteraction",
+        original_context: "IncomingDiscordSlashInteraction",
         new_message: "DiscordResponse",
     ):
         """Send a deferred message.
 
         Args:
-            original_context (IncomingDiscordInteraction): The orginal context of the message.
+            original_context (IncomingDiscordSlashInteraction): The orginal context of the message.
             new_message (DiscordResponse): Message to send.
         """
         async with httpx.AsyncClient(

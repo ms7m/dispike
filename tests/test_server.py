@@ -1,6 +1,6 @@
 import dispike
 from dispike.middlewares.verification import DiscordVerificationMiddleware
-from dispike.incoming.incoming_interactions import IncomingDiscordInteraction
+from dispike.incoming.incoming_interactions import IncomingDiscordSlashInteraction
 from dispike.response import DiscordResponse
 from fastapi.testclient import TestClient
 from dispike.eventer import EventTypes
@@ -90,7 +90,7 @@ def create_mocked_request(command_name):
     }
 
     class MockState:
-        _cached_body = IncomingDiscordInteraction(**data).json().encode()
+        _cached_body = IncomingDiscordSlashInteraction(**data).json().encode()
 
     class MockResponse:
         state = MockState

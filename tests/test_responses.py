@@ -6,7 +6,7 @@ from dispike.creating.components import (
     LinkButton,
     SelectMenu,
 )
-from dispike.incoming.incoming_interactions import IncomingDiscordInteraction
+from dispike.incoming.incoming_interactions import IncomingDiscordSlashInteraction
 from dispike.response import DiscordResponse
 from dispike.helper.embed import Embed
 from .test_dispike import dispike_object

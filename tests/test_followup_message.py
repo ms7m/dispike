@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
     from dispike import Dispike
     from dispike.incoming.incoming_interactions import (
         IncomingApplicationCommand,
-        IncomingDiscordInteraction,
+        IncomingDiscordSlashInteraction,
     )
 
 
@@ -38,7 +38,7 @@ def dispike_object():
 
 @pytest.fixture
 def example_incoming_response():
-    from dispike.incoming.incoming_interactions import IncomingDiscordInteraction
+    from dispike.incoming.incoming_interactions import IncomingDiscordSlashInteraction
 
     _example_response = {
         "channel_id": "1231123123",
@@ -72,7 +72,7 @@ def example_incoming_response():
         "version": 1,
     }
 
-    return IncomingDiscordInteraction(**_example_response)
+    return IncomingDiscordSlashInteraction(**_example_response)
 
 
 @pytest.fixture
@@ -88,7 +88,7 @@ def create_example_response():
 
 
 def test_initalization_of_object(
-    dispike_object: "Dispike", example_incoming_response: "IncomingDiscordInteraction"
+    dispike_object: "Dispike", example_incoming_response: "IncomingDiscordSlashInteraction"
 ):
     _create_object = FollowUpMessages(dispike_object, example_incoming_response)
     assert _create_object._application_id == "APPID"

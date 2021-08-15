@@ -7,7 +7,7 @@ from ..discord_types.role import Role
 from loguru import logger
 
 if typing.TYPE_CHECKING:
-    from ..incoming_interactions import IncomingDiscordInteraction
+    from ..incoming_interactions import IncomingDiscordSlashInteraction
 
 
 _class_return = {
@@ -20,7 +20,7 @@ _class_return = {
 
 @logger.catch(reraise=True, message="Unable to lookup query for resolve")
 def resolved_interactions_finder(
-    cls: "IncomingDiscordInteraction",
+    cls: "IncomingDiscordSlashInteraction",
     query: typing.Union[str, int],
     type_to_determine: str,
 ) -> typing.Union[PartialMember, None]:

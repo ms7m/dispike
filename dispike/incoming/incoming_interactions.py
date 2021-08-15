@@ -15,6 +15,7 @@ from .discord_types.channel import PartialChannel
 from loguru import logger
 
 from ..creating import CommandOption, SubcommandOption
+from ..creating.models.options import CommandTypes
 
 try:
     from typing import Literal  # pragma: no cover
@@ -73,7 +74,7 @@ class SubcommandIncomingDiscordOptionList(BaseModel):
     resolved: typing.Optional[typing.Dict] = {}
 
 
-class IncomingDiscordOptionList(BaseModel):
+class IncomingDiscordSlashData(BaseModel):
 
     """An incoming discord option list, this is not intended for you to edit, and will not
     be accepted as an argument in any function nor accepted in DiscordCommand
@@ -156,14 +157,14 @@ class IncomingDiscordMessageCommandData(BaseModel):
     name: str
 
 
-class IncomingDiscordInteraction(BaseModel):
+class IncomingDiscordSlashInteraction(BaseModel):
 
     """An incoming discord interaction that was triggered by a command, this is not intended for you to edit, and will not
     be accepted as an argument in any function.
 
     Attributes:
         id (int): Id of the interaction.
-        data (IncomingDiscordOptionList): Options from the command.
+        data (IncomingDiscordSlashData): Options from the command.
         guild_id (int): Guild ID where this happened.
         channel_id (int): Channel ID where this happened.
         member (Member): Member that used this interaction.
@@ -175,7 +176,7 @@ class IncomingDiscordInteraction(BaseModel):
 
     type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
     id: int
-    data: IncomingDiscordOptionList
+    data: IncomingDiscordSlashData
     guild_id: int
     channel_id: int
     member: Member
@@ -183,7 +184,7 @@ class IncomingDiscordInteraction(BaseModel):
     version: typing.Optional[Literal[1]] = None
 
     def lookup_resolved_member(
-        self: "IncomingDiscordInteraction", member_id: str
+        self: "IncomingDiscordSlashInteraction", member_id: str
     ) -> "PartialMember":
         if self.data.resolved != {}:
             return lookup_resolved_member_helper(cls=self, member_id=member_id)
@@ -191,7 +192,7 @@ class IncomingDiscordInteraction(BaseModel):
             raise NoResolvedInteractions
 
     def lookup_resolved_user(
-        self: "IncomingDiscordInteraction", user_id: str
+        self: "IncomingDiscordSlashInteraction", user_id: str
     ) -> "User":
         if self.data.resolved != {}:
             return lookup_resolved_user_helper(cls=self, user_id=user_id)
@@ -199,7 +200,7 @@ class IncomingDiscordInteraction(BaseModel):
             raise NoResolvedInteractions
 
     def lookup_resolved_channel(
-        self: "IncomingDiscordInteraction", channel_id: str
+        self: "IncomingDiscordSlashInteraction", channel_id: str
     ) -> "PartialChannel":
         if self.data.resolved != {}:
             return lookup_resolved_channel_helper(cls=self, channel_id=channel_id)
@@ -207,7 +208,7 @@ class IncomingDiscordInteraction(BaseModel):
             raise NoResolvedInteractions
 
     def lookup_resolved_role(
-        self: "IncomingDiscordInteraction", role_id: str
+        self: "IncomingDiscordSlashInteraction", role_id: str
     ) -> "Role":
         if self.data.resolved != {}:
             return lookup_resolved_role_helper(cls=self, role_id=role_id)

@@ -1,6 +1,6 @@
 from dispike.incoming import (
-    IncomingDiscordInteraction,
-    IncomingDiscordOptionList,
+    IncomingDiscordSlashInteraction,
+    IncomingDiscordSlashData,
     SubcommandIncomingDiscordOptionList,
     IncomingDiscordOption,
     SubcommandIncomingDiscordOptionListChild,
@@ -10,10 +10,10 @@ from loguru import logger
 
 
 def determine_event_information(
-    interaction: IncomingDiscordInteraction,
+    interaction: IncomingDiscordSlashInteraction,
 ) -> typing.Tuple[str, dict]:
 
-    if isinstance(interaction, IncomingDiscordInteraction):
+    if isinstance(interaction, IncomingDiscordSlashInteraction):
 
         if interaction.data.options is None:
             return interaction.data.name, {}

@@ -16,7 +16,7 @@ from dispike.creating.models.options import (
 from httpx import Response
 from dispike.incoming.incoming_interactions import (
     IncomingApplicationCommand,
-    IncomingDiscordInteraction,
+    IncomingDiscordSlashInteraction,
 )
 from dispike import Dispike
 
@@ -564,7 +564,7 @@ async def test_send_defer_message(
             200,
         ),
     )
-    _sample_interaction = IncomingDiscordInteraction(
+    _sample_interaction = IncomingDiscordSlashInteraction(
         **{
             "channel_id": "123123",
             "data": {
@@ -622,7 +622,7 @@ async def test_send_defer_message_failed(
             500,
         ),
     )
-    _sample_interaction = IncomingDiscordInteraction(
+    _sample_interaction = IncomingDiscordSlashInteraction(
         **{
             "channel_id": "123123",
             "data": {

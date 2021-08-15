@@ -67,67 +67,70 @@ if __name__ == "__main__":
 
 
 ### Advanced
+
 ```python
 from dispike import Dispike, interactions, DiscordCommand
-from dispike import IncomingDiscordInteraction
+from dispike import IncomingDiscordSlashInteraction
 
 
 class SampleGroupCollection(interactions.EventCollection):
 
-  def __init__(self):
-    self._api_key = "..."
+    def __init__(self):
+        self._api_key = "..."
 
-  def command_schemas():
-    return [
-      DiscordCommand(
-        name="lateststocks", description="Get the highest performing stocks in the market currently!"
-      ),
-      interactions.PerCommandRegistrationSettings(
+    def command_schemas():
+        return [
+            DiscordCommand(
+                name="lateststocks", description="Get the highest performing stocks in the market currently!"
+            ),
+            interactions.PerCommandRegistrationSettings(
                 schema=DiscordCommand(
                     name="price",
                     description="return ticker price for server",
                     options=[],
                 ),
                 guild_id=11111111,
-      )
-    ]
+            )
+        ]
 
-  def get_stock_information(self, stock_ticker):
-    return ...
-  def get_portfolio_stats(self, user_id):
-    return ...
+    def get_stock_information(self, stock_ticker):
+        return ...
 
-  @interactions.on("lateststocks")
-  async def latest_stocks(self, ctx: IncomingDiscordInteraction) -> DiscordResponse:
-    embed=discord.Embed()
+    def get_portfolio_stats(self, user_id):
+        return ...
 
-    # check user's porfolio by looking in the database by their discord ID
-    portfolio_stats = self.get_portfolio_stats(
-      ctx.member.user.id
-    )
+    @interactions.on("lateststocks")
+    async def latest_stocks(self, ctx: IncomingDiscordSlashInteraction) -> DiscordResponse:
+        embed = discord.Embed()
 
-    embed.add_field(name="Stocks are doing good!", value=f"Current portfolio is {portfolio_stats}", inline=True)
-    embed.set_footer(text="Request received by {ctx.member.user.username}")
-    return DiscordResponse(embed=embed)
+        # check user's porfolio by looking in the database by their discord ID
+        portfolio_stats = self.get_portfolio_stats(
+            ctx.member.user.id
+        )
 
-  @interactions.on("price")
-  async def get_stock_price(self, ctx: IncomingDiscordInteraction, ticker: str) -> DiscordResponse:
-  
-    embed=discord.Embed()
-    embed.add_field(name=f"Stock Price for {stockticker}.", value=f"Current price is {self.get_stock_information(ticker)}", inline=True)
-    embed.set_footer(text="Request received by {ctx.member.user.username}")
-    return DiscordResponse(embed=embed)    
+        embed.add_field(name="Stocks are doing good!", value=f"Current portfolio is {portfolio_stats}", inline=True)
+        embed.set_footer(text="Request received by {ctx.member.user.username}")
+        return DiscordResponse(embed=embed)
 
+    @interactions.on("price")
+    async def get_stock_price(self, ctx: IncomingDiscordSlashInteraction, ticker: str) -> DiscordResponse:
+        embed = discord.Embed()
+        embed.add_field(name=f"Stock Price for {stockticker}.",
+                        value=f"Current price is {self.get_stock_information(ticker)}", inline=True)
+        embed.set_footer(text="Request received by {ctx.member.user.username}")
+        return DiscordResponse(embed=embed)
 
-## Inside seperate file
+    ## Inside seperate file
+
 
 from dispike import Dispike, DiscordCommad
+
 bot = Dispike(...)
 
 bot.register_collection(SampleGroupCollection(), register_command_with_discord=True)
 
 if __name__ == "__main__":
-  bot.run(port=5000)
+    bot.run(port=5000)
 ```
 
 ## Discord API Coverage
