@@ -160,7 +160,7 @@ class DiscordCommand(BaseModel):
         description (str): Description of this command.
         options (typing.List[typing.Union[SubcommandOption, CommandOption]]): Options for this command.
         default_permission (boolean): whether the command is enabled by default when the app is added to a guild. Defaults to True.
-        type (CommandTypes): The type of command. This defaults to SLASH
+        type (Union[CommandTypes, int]): The type of command. This defaults to SLASH
     """
 
     id: typing.Optional[int]
@@ -168,7 +168,7 @@ class DiscordCommand(BaseModel):
     description: str = ""
     options: typing.List[typing.Union[SubcommandOption, CommandOption]] = []
     default_permission: bool = True
-    type: int = CommandTypes.SLASH
+    type: typing.Union[CommandTypes, int] = CommandTypes.SLASH
 
     def __init__(self, type=CommandTypes.SLASH, description="", options=[], **data) -> None:
         if type == CommandTypes.SLASH:
@@ -180,4 +180,7 @@ class DiscordCommand(BaseModel):
             if options:
                 raise AttributeError("Context commands cannot have options")
 
-        super().__init__(type=type.value, description=description, options=options, **data)
+        if isinstance(type, CommandTypes):
+            type = type.value
+
+        super().__init__(type=type, description=description, options=options, **data)
