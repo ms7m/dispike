@@ -11,6 +11,7 @@ from dispike.creating.models.options import (
     CommandOption,
     OptionTypes,
     DiscordCommand,
+    CommandTypes,
 )
 from httpx import Response
 from dispike.incoming.incoming_interactions import (
@@ -259,6 +260,7 @@ def example_edit_command():
                 choices=[CommandChoice(name="test", value="value")],
             )
         ],
+        type=CommandTypes.SLASH,
     )
 
 

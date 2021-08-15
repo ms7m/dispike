@@ -1,5 +1,5 @@
-from dispike.creating import RegisterCommands
 from dispike.creating.models import *
+from dispike.creating.models.options import CommandTypes
 from dispike.interactions import PerCommandRegistrationSettings, EventCollection
 
 expectation = {
@@ -25,6 +25,7 @@ expectation = {
             "required": False,
         },
     ],
+    "type": 1,
 }
 
 
@@ -51,6 +52,7 @@ def test_command_creation():
                 required=False,
             ),
         ],
+        type=CommandTypes.SLASH,
     )
 
     # return command_to_create
@@ -76,6 +78,7 @@ def test_mulitple_subcommands():
                     "options": [],
                 },
             ],
+            "type": 1,
         }
     )
     assert command_to_create.name == "testsubcommand", "Unexpected command name"
@@ -118,6 +121,7 @@ def test_subcommand_group():
                     ],
                 }
             ],
+            "type": 1,
         }
     )
     assert command_to_create.name == "testsubcommand"
@@ -153,6 +157,7 @@ def test_per_command_registration_settings():
                 required=False,
             ),
         ],
+        type=CommandTypes.SLASH,
     )
     _sample_per_command = PerCommandRegistrationSettings(schema=_sample_discord_command)
     assert _sample_per_command.schema == _sample_discord_command
