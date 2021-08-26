@@ -1,7 +1,7 @@
 import dataclasses
 import typing
 
-from pydantic import BaseModel, Extra, validator
+from pydantic import BaseModel, Extra, validator, root_validator
 from pydantic.error_wrappers import ValidationError
 from pydantic.errors import ArbitraryTypeError
 from enum import Enum
@@ -170,17 +170,26 @@ class DiscordCommand(BaseModel):
     default_permission: bool = True
     type: typing.Union[CommandTypes, int] = CommandTypes.SLASH
 
-    def __init__(self, type=CommandTypes.SLASH, description="", options=[], **data) -> None:
+    @root_validator
+    def validate_correct_type_requirements(cls, values):
+        _cls_type, _cls_description, _cls_options = (
+            values.get("type"),
+            values.get("description"),
+            values.get("options"),
+        )
         if type == CommandTypes.SLASH:
-            if description == "":
-                raise AttributeError("Slash commands require a description")
+            if _cls_description == "":
+                raise ValueError("Slash commands require a description")
         if type == CommandTypes.MESSAGE or type == CommandTypes.USER:
-            if description != "":
-                raise AttributeError("Context commands cannot have a description")
-            if options:
-                raise AttributeError("Context commands cannot have options")
+            if _cls_description != "":
+                raise ValueError("Context commands cannot have a description")
+            if _cls_description:
+                raise ValueError("Context commands cannot have options")
 
-        if isinstance(type, CommandTypes):
-            type = type.value
+        return values
 
-        super().__init__(type=type, description=description, options=options, **data)
+    @validator("type", pre=True, always=True)
+    def set_value_type(cls, v):
+        if isinstance(v, CommandTypes):
+            return v.value
+        return v
