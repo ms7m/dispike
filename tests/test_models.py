@@ -45,7 +45,7 @@ def test_valid_incoming_one_option():
         "type": 2,
         "version": 1,
     }
-    _create_model = IncomingDiscordInteraction(**data)
+    _create_model = IncomingDiscordSlashInteraction(**data)
     assert len(_create_model.data.options) == 1
 
 
@@ -173,7 +173,7 @@ def test_valid_incoming_multiple_options():
         "type": 2,
         "version": 1,
     }
-    _create_model = IncomingDiscordInteraction(**data)
+    _create_model = IncomingDiscordSlashInteraction(**data)
     assert len(_create_model.data.options) == 2
 
 
@@ -215,5 +215,5 @@ def test_valid_interaction_name():
         "type": 2,
         "version": 1,
     }
-    _created_object = IncomingDiscordInteraction(**data)
+    _created_object = IncomingDiscordSlashInteraction(**data)
     assert _created_object.data.name == "sendmessage"

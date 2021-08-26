@@ -1,6 +1,6 @@
 import dispike
 from dispike.middlewares.verification import DiscordVerificationMiddleware
-from dispike.incoming.incoming_interactions import IncomingDiscordInteraction
+from dispike.incoming.incoming_interactions import IncomingDiscordSlashInteraction
 from dispike.response import DiscordResponse
 from fastapi.testclient import TestClient
 from dispike.eventer import EventTypes
@@ -56,6 +56,7 @@ def create_mocked_request(command_name):
             "id": "12312312",
             "name": command_name,
             "options": [{"name": "message", "value": "test"}],
+            "type": 1,
         },
         "guild_id": "123123",
         "id": "123123123132",
@@ -89,7 +90,7 @@ def create_mocked_request(command_name):
     }
 
     class MockState:
-        _cached_body = IncomingDiscordInteraction(**data).json().encode()
+        _cached_body = IncomingDiscordSlashInteraction(**data).json().encode()
 
     class MockResponse:
         state = MockState
@@ -104,6 +105,7 @@ async def hinted_mock_functions(mocked_events: "Dispike"):
             "id": "12312312",
             "name": "sendmessage",
             "options": [{"name": "message", "value": "test"}],
+            "type": 1,
         },
         "guild_id": "123123",
         "id": "123123123132",
@@ -154,6 +156,7 @@ async def no_hinted_mocked_functions(mocked_events: "Dispike"):
             "id": "12312312",
             "name": "sendmessage",
             "options": [{"name": "message", "value": "test"}],
+            "type": 1,
         },
         "guild_id": "123123",
         "id": "123123123132",
@@ -327,6 +330,7 @@ def test_interactions_endpoint():
             "id": "12312312",
             "name": "hint_return_discord_response",
             "options": [{"name": "message", "value": "test"}],
+            "type": 1,
         },
         "guild_id": "123123",
         "id": "123123123132",

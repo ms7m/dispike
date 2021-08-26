@@ -1,7 +1,7 @@
 from dispike.interactions import EventCollection
 from dispike.errors.events import InvalidEventType
 from dispike.incoming.incoming_interactions import (
-    IncomingDiscordInteraction,
+    IncomingDiscordSlashInteraction,
     IncomingDiscordSelectMenuInteraction,
 )
 from dispike import Dispike
@@ -104,7 +104,7 @@ async def test_dynamic_arguments_event_handler():
         "version": 1,
     }
 
-    discord_interaction = IncomingDiscordInteraction(**data)
+    discord_interaction = IncomingDiscordSlashInteraction(**data)
     dymanic_kwargs = {x.name: x.value for x in discord_interaction.data.options}
     dymanic_kwargs["payload"] = discord_interaction
     assert (

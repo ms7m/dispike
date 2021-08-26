@@ -9,13 +9,14 @@ from dispike.creating.models.permissions import (
 from dispike.creating.models.options import (
     CommandChoice,
     CommandOption,
-    CommandTypes,
+    OptionTypes,
     DiscordCommand,
+    CommandTypes,
 )
 from httpx import Response
 from dispike.incoming.incoming_interactions import (
     IncomingApplicationCommand,
-    IncomingDiscordInteraction,
+    IncomingDiscordSlashInteraction,
 )
 from dispike import Dispike
 
@@ -253,12 +254,13 @@ def example_edit_command():
         options=[
             CommandOption(
                 name="exampleOption",
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
                 description="exampleOptionDescription",
                 required=True,
                 choices=[CommandChoice(name="test", value="value")],
             )
         ],
+        type=CommandTypes.SLASH,
     )
 
 
@@ -562,7 +564,7 @@ async def test_send_defer_message(
             200,
         ),
     )
-    _sample_interaction = IncomingDiscordInteraction(
+    _sample_interaction = IncomingDiscordSlashInteraction(
         **{
             "channel_id": "123123",
             "data": {
@@ -620,7 +622,7 @@ async def test_send_defer_message_failed(
             500,
         ),
     )
-    _sample_interaction = IncomingDiscordInteraction(
+    _sample_interaction = IncomingDiscordSlashInteraction(
         **{
             "channel_id": "123123",
             "data": {

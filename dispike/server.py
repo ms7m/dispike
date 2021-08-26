@@ -1,14 +1,17 @@
 from fastapi import APIRouter, Request, Response
 from fastapi.responses import PlainTextResponse
 from loguru import logger
+
+from .incoming.incoming_interactions import IncomingDiscordUserCommandInteraction, \
+    IncomingDiscordMessageCommandInteraction
 from .middlewares.verification import DiscordVerificationMiddleware
 from dispike.incoming import (
-    IncomingDiscordInteraction,
-    IncomingDiscordOptionList,
+    IncomingDiscordSlashInteraction,
+    IncomingDiscordSlashData,
     SubcommandIncomingDiscordOptionList,
     IncomingDiscordOption,
     IncomingDiscordButtonInteraction,
-    IncomingDiscordSelectMenuInteraction,
+    IncomingDiscordSelectMenuInteraction, Member, Message
 )
 from .eventer import EventTypes
 from .eventer_helpers.determine_event_information import determine_event_information
@@ -59,6 +62,62 @@ async def handle_interactions(request: Request) -> Response:
         logger.info("handling ACK Ping.")
         return {"type": 1}
 
+    if _get_request_body["type"] == 2:
+        # ["data"]["type"] represents if its a message or user command
+
+        if _get_request_body["data"]["type"] == 2:
+            # 2 is user command
+
+            _parse_to_object = IncomingDiscordUserCommandInteraction(
+                **_get_request_body
+            )
+
+            # Confusingly construct a member object
+            _member = Member(
+                **{
+                    **_get_request_body["data"]["resolved"]["members"][
+                        _parse_to_object.data.target_id
+                    ],
+                    "user": {
+                        **_get_request_body["data"]["resolved"]["users"][
+                            _parse_to_object.data.target_id
+                        ]
+                    },
+                }
+            )
+
+            # Set that member object as the target
+            _parse_to_object.data.__setattr__("target", _member)
+
+            _get_res = await router._dispike_instance.emit(
+                _get_request_body["data"]["name"],
+                EventTypes.USER_COMMAND,
+                _parse_to_object,
+            )
+            return _get_res.response
+        elif _get_request_body["data"]["type"] == 3:
+            # 3 is message command
+
+            _parse_to_object = IncomingDiscordMessageCommandInteraction(
+                **_get_request_body
+            )
+
+            _message = Message(
+                **_get_request_body["data"]["resolved"]["messages"][
+                    _parse_to_object.data.target_id
+                ]
+            )
+
+            # Set that message object as the target
+            _parse_to_object.data.__setattr__("target", _message)
+
+            _get_res = await router._dispike_instance.emit(
+                _get_request_body["data"]["name"],
+                EventTypes.MESSAGE_COMMAND,
+                _parse_to_object,
+            )
+            return _get_res.response
+
     if _get_request_body["type"] == 3:
         if _get_request_body["data"]["component_type"] == ComponentTypes.BUTTON.value:
             # Button
@@ -84,7 +143,7 @@ async def handle_interactions(request: Request) -> Response:
             )
             return _get_res.response
 
-    _parse_to_object = IncomingDiscordInteraction(**_get_request_body)
+    _parse_to_object = IncomingDiscordSlashInteraction(**_get_request_body)
     _event_name, arguments = determine_event_information(_parse_to_object)
     logger.debug(f"incoming event name: {_event_name}")
     if not router._dispike_instance.check_event_exists(_event_name, EventTypes.COMMAND):

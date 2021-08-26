@@ -2,7 +2,7 @@ import inspect
 import typing
 import warnings
 from enum import Enum
-
+from dispike.eventer import EventTypes
 from fastapi import FastAPI
 from loguru import logger
 
@@ -31,13 +31,8 @@ from .creating.models.permissions import (
 )
 
 if typing.TYPE_CHECKING:
-    from .incoming import IncomingDiscordInteraction  # pragma: no cover
+    from .incoming import IncomingDiscordSlashInteraction  # pragma: no cover
     from .response import DiscordResponse  # pragma: no cover
-
-
-class EventTypes(str, Enum):
-    COMMAND = "command"
-    COMPONENT = "component"
 
 
 class Dispike(object):
@@ -91,7 +86,12 @@ class Dispike(object):
             router._user_defined_setting_ctx_value = kwargs.get(
                 "custom_context_argument_name"
             )
-        self.callbacks = {"command": {}, "component": {}}
+        self.callbacks = {
+            "command": {},
+            "component": {},
+            "message_command": {},
+            "user_command": {},
+        }
 
         self._cache_router = router
         self._client = httpx.Client(
@@ -397,13 +397,13 @@ class Dispike(object):
 
     async def send_deferred_message(
         self,
-        original_context: "IncomingDiscordInteraction",
+        original_context: "IncomingDiscordSlashInteraction",
         new_message: "DiscordResponse",
     ):
         """Send a deferred message.
 
         Args:
-            original_context (IncomingDiscordInteraction): The orginal context of the message.
+            original_context (IncomingDiscordSlashInteraction): The orginal context of the message.
             new_message (DiscordResponse): Message to send.
         """
         async with httpx.AsyncClient(

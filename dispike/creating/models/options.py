@@ -20,9 +20,8 @@ else:
         return cls
 
 
-class CommandTypes(int, Enum):
-
-    """Easy access to command types.
+class OptionTypes(int, Enum):
+    """Easy access to option types.
 
     Attributes:
         BOOLEAN (int): Represents Type 5
@@ -49,6 +48,20 @@ class CommandTypes(int, Enum):
     NUMBER = 10
 
 
+class CommandTypes(int, Enum):
+    """Easy access to command types.
+
+    Attributes:
+        SLASH (int): Represents Type 1
+        USER (int): Represents Type 2
+        MESSAGE (int): Represents Type 3
+    """
+
+    SLASH = 1
+    USER = 2
+    MESSAGE = 3
+
+
 @static_check_init_args
 class CommandChoice(BaseModel):
 
@@ -71,7 +84,7 @@ class CommandOption(BaseModel):
     Attributes:
         name (str): Name of the option.
         description (str): Description of the option.
-        type (CommandTypes): The option type.
+        type (OptionTypes): The option type.
         required (bool): Whether or not this option is required.
         choices (typing.Union[typing.List[dict], typing.List[CommandChoice]], optional): Possible choices for this option for the user to pick from.
         options (typing.Union[typing.List[CommandChoice], typing.List], optional): If the option is a subcommand or subcommand group type, this nested options will be the parameters.
@@ -82,7 +95,7 @@ class CommandOption(BaseModel):
 
     name: str
     description: str
-    type: CommandTypes
+    type: OptionTypes
     required: bool = False
     choices: typing.Optional[
         typing.Union[typing.List[dict], typing.List[CommandChoice]]
@@ -147,10 +160,27 @@ class DiscordCommand(BaseModel):
         description (str): Description of this command.
         options (typing.List[typing.Union[SubcommandOption, CommandOption]]): Options for this command.
         default_permission (boolean): whether the command is enabled by default when the app is added to a guild. Defaults to True.
+        type (Union[CommandTypes, int]): The type of command. This defaults to SLASH
     """
 
     id: typing.Optional[int]
     name: str
-    description: str
-    options: typing.List[typing.Union[SubcommandOption, CommandOption]]
+    description: str = ""
+    options: typing.List[typing.Union[SubcommandOption, CommandOption]] = []
     default_permission: bool = True
+    type: typing.Union[CommandTypes, int] = CommandTypes.SLASH
+
+    def __init__(self, type=CommandTypes.SLASH, description="", options=[], **data) -> None:
+        if type == CommandTypes.SLASH:
+            if description == "":
+                raise AttributeError("Slash commands require a description")
+        if type == CommandTypes.MESSAGE or type == CommandTypes.USER:
+            if description != "":
+                raise AttributeError("Context commands cannot have a description")
+            if options:
+                raise AttributeError("Context commands cannot have options")
+
+        if isinstance(type, CommandTypes):
+            type = type.value
+
+        super().__init__(type=type, description=description, options=options, **data)
