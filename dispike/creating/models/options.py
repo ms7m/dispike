@@ -177,10 +177,10 @@ class DiscordCommand(BaseModel):
             values.get("description"),
             values.get("options"),
         )
-        if type == CommandTypes.SLASH:
+        if _cls_type == CommandTypes.SLASH:
             if _cls_description == "":
                 raise ValueError("Slash commands require a description")
-        if type == CommandTypes.MESSAGE or type == CommandTypes.USER:
+        if _cls_type == CommandTypes.MESSAGE or _cls_type == CommandTypes.USER:
             if _cls_description != "":
                 raise ValueError("Context commands cannot have a description")
             if _cls_description:

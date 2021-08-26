@@ -42,5 +42,5 @@ def test_message_command_creation():
 
 
 def test_incorrect_command():
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         DiscordCommand(name="blep", type=CommandTypes.MESSAGE, description="!!")
