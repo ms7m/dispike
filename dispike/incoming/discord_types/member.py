@@ -30,9 +30,9 @@ class Member(BaseModel):
     permissions: str
     pending: bool
     nick: typing.Union[None, str]
-    mute: bool = None
+    mute: typing.Optional[bool] = None
     joined_at: datetime
-    deaf: bool = None
+    deaf: typing.Optional[bool] = None
 
 
 class PartialMember(BaseModel):
