@@ -44,3 +44,10 @@ def test_message_command_creation():
 def test_incorrect_command():
     with pytest.raises(ValueError):
         DiscordCommand(name="blep", type=CommandTypes.MESSAGE, description="!!")
+
+    with pytest.raises(ValueError):
+        DiscordCommand(name="blep", type=CommandTypes.SLASH, description="")
+    
+    with pytest.raises(ValueError):
+        DiscordCommand(name="blep", type=CommandTypes.MESSAGE, description="!!", options=CommandOption(name="test", description="test", type=OptionTypes.BOOLEAN))
+        

@@ -183,7 +183,7 @@ class DiscordCommand(BaseModel):
         if _cls_type == CommandTypes.MESSAGE or _cls_type == CommandTypes.USER:
             if _cls_description != "":
                 raise ValueError("Context commands cannot have a description")
-            if _cls_description:
+            if _cls_options:
                 raise ValueError("Context commands cannot have options")
 
         return values
