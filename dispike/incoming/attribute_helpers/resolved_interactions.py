@@ -6,8 +6,8 @@ from ..discord_types.role import Role
 
 from loguru import logger
 
-if typing.TYPE_CHECKING:
-    from ..incoming_interactions import IncomingDiscordSlashInteraction
+if typing.TYPE_CHECKING: # pragma: no cover
+    from ..incoming_interactions import IncomingDiscordSlashInteraction 
 
 
 _class_return = {
