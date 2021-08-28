@@ -3,7 +3,7 @@
 If you created a collection in a different file, you'll will need to register it with dispike.
 
 ???+ warning
-	If your event collection needs to be initialized, do it before passing it to dispike. Otherwise, dispike can initialize it for you.. Passing your arguments to ``initalization_arguments`` and let dispike know to initialize it by passing ``initialze_on_load`` to ``register_collection`` function.
+	If your event collection needs to be initialized, do it before passing it to dispike. Otherwise, dispike can initialize it for you.. Passing your arguments to ``initialization_arguments`` and let dispike know to initialize it by passing ``initialze_on_load`` to ``register_collection`` function.
 
 
 

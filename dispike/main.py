@@ -798,7 +798,7 @@ class Dispike(object):
         collection: "EventCollection",
         register_command_with_discord: bool = False,
         initialze_on_load: bool = False,
-        initalization_arguments: typing.Dict = None,
+        initialization_arguments: typing.Dict = None,
     ):
         """Registers a EventCollection.
 
@@ -807,7 +807,7 @@ class Dispike(object):
         """
 
         if initialze_on_load:
-            collection = collection(**initalization_arguments)
+            collection = collection(**initialization_arguments)
 
         _load_in_functions = self._detect_functions_with_event_decorator(
             collection=collection,
