@@ -31,6 +31,8 @@ This library enables middleware to verify and accept connections **only from Dis
 If you want to do local testing before creating a server, you can use free tools such as [Ngrok](https://ngrok.com/). 
 
 
+[Join our Discord Server for discussion and help](https://discord.gg/yGgRmEYjju)
+
 
 This library is **only tested** on python versions
 
@@ -44,29 +46,6 @@ This library is **only tested** on python versions
 
 ***
 
-# Quick Start
-
-- Get started by creating a new discord application.
-	???+ info
-	Creating a bot user is not required, but might be needed for certain actions.
-
-### Creating your first bot
-```python
-
-from dispike import Dispike
-
-bot = Dispike(
-    client_public_key="...",
-    application_id="...",
-    bot_token="...." # Optional, but you may need to add a bot token for certain actions.
-)
-
-
-
-
-
-
-```
 
 # API Parity List
 
