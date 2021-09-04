@@ -200,3 +200,5 @@ def test_incoming_discord_object_in_options():
     event_name, event_args = determine_event_information(interaction)
     assert event_name == "forex.latest"
     assert event_args == {"test": "testing"}
+
+

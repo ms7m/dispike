@@ -228,13 +228,6 @@ def test_ping_endpoint():
     )
 
 
-@pytest.mark.asyncio
-@pytest.fixture
-async def configure_bot_with_middleware_disabled():
-    @bot_with_middleware_verification_disabled.on("testinginteractions")
-    async def sample(*args, **kwargs):
-        pass
-
 
 def test_valid_key_request_redirect():
     response = client.get(

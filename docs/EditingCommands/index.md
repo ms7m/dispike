@@ -119,7 +119,7 @@ The example above starts out with creating a new command using ``NewApplicationP
 
 You can manually use a normal ``int`` value for ``type`` parameter, otherwise you can use a helper class called ``ApplicationCommandPermissionType``. 
 
-:::dispike.register.models.permissions.ApplicationCommandPermissionType
+:::dispike.creating.models.permissions.ApplicationCommandPermissionType
 
 
 

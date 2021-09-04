@@ -44,7 +44,32 @@ This library is **only tested** on python versions
 
 ***
 
+# Quick Start
+
+- Get started by creating a new discord application.
+	???+ info
+	Creating a bot user is not required, but might be needed for certain actions.
+
+### Creating your first bot
+```python
+
+from dispike import Dispike
+
+bot = Dispike(
+    client_public_key="...",
+    application_id="...",
+    bot_token="...." # Optional, but you may need to add a bot token for certain actions.
+)
+
+
+
+
+
+
+```
+
 # API Parity List
+
 ???+ info
 	Just because it's been implemented does not mean it's in the best way. Help out by contributing to this library!
 
@@ -75,7 +100,8 @@ This library is **only tested** on python versions
 | Action Rows (Message Components) | **✅ Implemented** |
 | Message Select (Message Components) | **✅ Implemented** |
 
-[^1]: Message select is currently being tested and is not available..
+
+
 ### Special Thanks
 - [Squidtoon99](https://github.com/Squidtoon99)
 - [marshmallow](https://github.com/mrshmllow)

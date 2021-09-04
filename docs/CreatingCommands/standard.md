@@ -68,3 +68,23 @@ CommandChoice(name="Prime Minster Jacinda Ardern", value="ardern"),
 
 Your handler will recieve the ``value`` of the choice. Not the ``name``.
 Meaning if I chose ``Chancellor Angela Merkel``, my bot would recieve ``merkel``.
+
+
+
+
+
+### Creating commands while preventing circular Import loops.
+
+Circular import loops may occur (especially when creating EventCollections, as you attempt to import ``on`` method of your ``Dispike bot, while also attempting to register the event collection). 
+
+Instead of using the ``on`` method on your bot, you can 
+
+```python
+from dispike import interactions
+
+@interactions.on(...)
+async def handler(...):
+  ...
+```
+
+Remember to register your event collection with your initialized bot otherwise your events may go unhandled.

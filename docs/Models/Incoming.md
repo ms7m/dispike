@@ -8,4 +8,4 @@ It allows you to view context from the command/button/menu from where it was sen
 	If you want to change the keyword argument name in where the context will be passed to, you can pass ``custom_context_argument_name`` to ``Dispike``.
 
 
-:::dispike.models.incoming
+:::dispike.incoming

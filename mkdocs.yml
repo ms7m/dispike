@@ -23,7 +23,7 @@ nav:
   - "API Reference":
       - "Dispike": "APIRef/Dispike.md"
       - "RegisterCommands": "APIRef/RegCommands.md"
-      - "EventHandler": "APIRef/EventHandler.md"
+      - "Event Types": "APIRef/EventTypes.md"
   - "Tutorial":
       - "Getting Started": "tutorial/Getting Started.md"
       - "Configuring Commands": "tutorial/Configuring commands.md"
@@ -79,4 +79,4 @@ extra_css:
   - css/termynal.css
 repo_url: https://github.com/ms7m/dispike
 repo_name: ms7m/dispike
-copyright: Copyright &copy; 2020 - 2021 Mustafa Mohamed
+copyright: Copyright &copy; 2020 - 2021 github/ms7m
