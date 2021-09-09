@@ -8,6 +8,24 @@ There may be some example configurations for your reverse proxy available [here]
 
 ## Creating your configuration (Nginx)
 
+
+
+### Configure a process manager
+
+Configuring a process manager is recommended, as it can allow you to 
+
+- Automatically restart if the bot goes down
+- Run the bot in the background
+
+
+
+There are a number of process managers available such as:
+
+- Supervisord
+- PM2 
+
+
+
 ### Run the bot with Uvicorn and bind to a UNIX socket.
 
 <div class="termy">
@@ -16,6 +34,8 @@ $ uvicorn file_containing_bot:bot.referenced_application --bind=unix:/tmp/dispik
 <span style="color: green;">INFO</span>:     Uvicorn running on unix:/tmp/dispike.sock (Press CTRL+C to quit)
 ```
 </div>
+
+
 
 
 

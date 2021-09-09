@@ -137,3 +137,12 @@ There is a function available in the bot instance that will allow you to update 
 
 :::dispike.main.Dispike.set_command_permission
 
+
+
+
+
+
+
+## Overwriting Commands
+
+If you prefer to overwrite an existing commands, you can 

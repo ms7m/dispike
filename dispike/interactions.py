@@ -15,7 +15,7 @@ def on(
     type: EventTypes = EventTypes.COMMAND,
     func: typing.Callable = None,
 ):
-    """A Shallow decorator for registering commands. This decorator will add a number of attributes within the object.
+    """A proxy decorator for registering commands. This decorator will add a number of attributes within the object.
     You can use this decorator to register commands with ``.register_command`` function on the main Dispike object.
 
     Args:
