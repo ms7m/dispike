@@ -56,6 +56,7 @@ class DiscordVerificationMiddleware(BaseHTTPMiddleware):
         """
 
         if self._skip_verification_of_key:
+            logger.warning("Verification is disabled! Please re-enable by passing middleware_testing_skip_verification_key_request to False in the main Dispike instance, or set testing_skip_verification_of_key to False.")
             return True, 200
 
         try:
