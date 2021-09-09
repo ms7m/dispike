@@ -36,10 +36,11 @@ if typing.TYPE_CHECKING:
 
 
 class Dispike(object):
-    """# Dispike
-    A simple to use, powerful framework for creating stateless, independent bots using Discord Slash Commands.
-
-    *Powered by FastAPI*
+    """
+    # Dispike
+    An independent, simple to use, powerful framework for creating interaction-based Discord bots. 
+    
+    Powered by FastAPI
     """
 
     def __init__(
@@ -56,6 +57,7 @@ class Dispike(object):
             bot_token (str): Discord provided bot token. Optional, but if you do not provide a bot token, you cannot register commands.
             application_id (str): Discord provided Client ID
             custom_context_argument_name (str, optional): Change the name of the context arugment when passing to a function. Set to "ctx".
+            middleware_testing_skip_verification_key_request: (bool, optional): Skip middleware verification (NOT RECOMMENDED)
         """
         self._bot_token = bot_token
         self._application_id = application_id
@@ -235,7 +237,7 @@ class Dispike(object):
     def edit_command(
         self,
         new_command: typing.Union[typing.List[DiscordCommand], DiscordCommand],
-        command_id: int = None,
+        command_id: typing.Union[int, IncomingApplicationCommand] = None,
         bulk=False,
         guild_only=False,
         guild_id_passed=False,
@@ -257,6 +259,14 @@ class Dispike(object):
             DiscordAPIError: any Discord returned errors.
         """
 
+        
+        if isinstance(command_id, IncomingApplicationCommand):
+            command_id = command_id.id
+        elif isinstance(command_id, (str, int)):
+            command_id = int(command_id)
+        else:
+            raise TypeError("The command ID must be either an interger or an IncomingApplicationCommand object.")
+        
         if not isinstance(new_command, (DiscordCommand, dict, list)):
             raise TypeError("New command must be a DiscordCommand or a valid dict.")
 
@@ -298,12 +308,12 @@ class Dispike(object):
 
     @logger.catch(reraise=True, message="Issue with deleting commands from Discord")
     def delete_command(
-        self, command_id: int, guild_only=False, guild_id_passed=None
+        self, command_id: typing.Union[int, IncomingApplicationCommand], guild_only=False, guild_id_passed=None
     ) -> bool:
         """Deletes a command, provided with a command_id
 
         Args:
-            command_id (int): Command ID required
+            command_id (typing.Union[int, IncomingApplicationCommand]): Command ID required
             guild_only (bool, optional): Whether to be a global action or target a guild. Defaults to False.
             guild_id_passed ([type], optional): Guild ID if guild_only is set to True. Defaults to None.
 
@@ -314,6 +324,14 @@ class Dispike(object):
             TypeError: Invalid types passed.
             DiscordAPIError: any Discord returned errors.
         """
+
+        if isinstance(command_id, IncomingApplicationCommand):
+            command_id = command_id.id
+        elif isinstance(command_id, (str, int)):
+            command_id = int(command_id)
+        else:
+            raise TypeError("The command ID must be either an interger or an IncomingApplicationCommand object.")
+        
         if guild_only:
             if not guild_id_passed:
                 raise TypeError(
@@ -335,18 +353,26 @@ class Dispike(object):
             raise
 
     def set_command_permission(
-        self, command_id, guild_id, new_permissions: "NewApplicationPermission"
+        self, command_id: typing.Union[int, IncomingApplicationCommand], guild_id: int, new_permissions: "NewApplicationPermission"
     ) -> bool:
         """Set a permissions for a command in a specific guild. This function is sync!
 
         Args:
-            command_id (int): Command ID
-            guild_id (int): Guild ID
+            command_id (typing.Union[int, IncomingApplicationCommand]): Either a command id int or a IncomingApplicationCommand (obtained from .get_command)
+            guild_id (int): The guild to be targeted.
             new_permissions (NewApplicationPermission): Permissions for this command.
 
         Returns:
-            [bool]: True, if the command has been successfully edited.
+            bool: True, if the command has been successfully edited.
         """
+        
+        if isinstance(command_id, IncomingApplicationCommand):
+            command_id = command_id.id
+        elif isinstance(command_id, (str, int)):
+            command_id = int(command_id)
+        else:
+            raise TypeError("The command ID must be either an interger or an IncomingApplicationCommand object.")
+        
         with httpx.Client() as client:
             try:
 
@@ -367,18 +393,26 @@ class Dispike(object):
                 return False
 
     async def async_set_command_permission(
-        self, command_id, guild_id, new_permissions: "NewApplicationPermission"
+        self, command_id: typing.Union[int, IncomingApplicationCommand], guild_id, new_permissions: "NewApplicationPermission"
     ) -> bool:
-        """Set a permissions for a command in a specific guild. This function is async!
+        """Set permissions for a command in a specific guild. This function is async!
 
         Args:
-            command_id (int): Command ID
-            guild_id (int): Guild ID
+            command_id (typing.Union[int, IncomingApplicationCommand]): Either a command id int or a IncomingApplicationCommand (obtained from .get_command)
+            guild_id (int): The guild to be targeted.
             new_permissions (NewApplicationPermission): Permissions for this command.
 
         Returns:
-            [bool]: True, if the command has been successfully edited.
-        """
+            bool: True, if the command has been successfully edited.
+        """        
+
+        if isinstance(command_id, IncomingApplicationCommand):
+            command_id = command_id.id
+        elif isinstance(command_id, (str, int)):
+            command_id = int(command_id)
+        else:
+            raise TypeError("The command ID must be either an interger or an IncomingApplicationCommand object.")
+        
         async with httpx.AsyncClient() as client:
             try:
 
