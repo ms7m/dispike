@@ -259,13 +259,14 @@ class Dispike(object):
             DiscordAPIError: any Discord returned errors.
         """
 
-        
-        if isinstance(command_id, IncomingApplicationCommand):
-            command_id = command_id.id
-        elif isinstance(command_id, (str, int)):
-            command_id = int(command_id)
-        else:
-            raise TypeError("The command ID must be either an interger or an IncomingApplicationCommand object.")
+    
+        if command_id:
+            if isinstance(command_id, IncomingApplicationCommand):
+                command_id = command_id.id
+            elif isinstance(command_id, (str, int)):
+                command_id = int(command_id)
+            else:
+                raise TypeError("The command ID must be either an interger or an IncomingApplicationCommand object.")
         
         if not isinstance(new_command, (DiscordCommand, dict, list)):
             raise TypeError("New command must be a DiscordCommand or a valid dict.")
