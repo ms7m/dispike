@@ -1,6 +1,6 @@
-from ..models.incoming import (
-    IncomingDiscordInteraction,
-    IncomingDiscordOptionList,
+from dispike.incoming import (
+    IncomingDiscordSlashInteraction,
+    IncomingDiscordSlashData,
     SubcommandIncomingDiscordOptionList,
     IncomingDiscordOption,
     SubcommandIncomingDiscordOptionListChild,
@@ -10,10 +10,10 @@ from loguru import logger
 
 
 def determine_event_information(
-    interaction: IncomingDiscordInteraction,
+    interaction: IncomingDiscordSlashInteraction,
 ) -> typing.Tuple[str, dict]:
 
-    if isinstance(interaction, IncomingDiscordInteraction):
+    if isinstance(interaction, IncomingDiscordSlashInteraction):
 
         if interaction.data.options is None:
             return interaction.data.name, {}
@@ -24,8 +24,16 @@ def determine_event_information(
 
             if hasattr(interaction.data.options[0], "options"):
                 # gosh this is hella ugly, i need to rewrite this.
-                _event_name = f"{interaction.data.name}.{interaction.data.options[0].name}.{interaction.data.options[0].options[0].name}"
-            else:
+                _event_name = (
+                    f"{interaction.data.name}.{interaction.data.options[0].name}"
+                )
+                if isinstance(
+                    interaction.data.options[0].options[0],
+                    SubcommandIncomingDiscordOptionListChild,
+                ):
+                    _event_name += "." + interaction.data.options[0].options[0].name
+            # I don't think below will ever happen, but just in case.
+            else:  # pragma: no cover
                 _event_name = (
                     f"{interaction.data.name}.{interaction.data.options[0].name}"
                 )

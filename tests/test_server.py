@@ -1,10 +1,11 @@
+import dispike
 from dispike.middlewares.verification import DiscordVerificationMiddleware
-from dispike.models.incoming import IncomingDiscordInteraction
+from dispike.incoming.incoming_interactions import IncomingDiscordSlashInteraction
 from dispike.response import DiscordResponse
 from fastapi.testclient import TestClient
-from dispike.eventer import EventHandler, EventTypes
+from dispike.eventer import EventTypes
 from dispike import Dispike
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey
@@ -32,13 +33,20 @@ bot = Dispike(
     bot_token="NotNeeded",
     application_id="NotNeeded",
 )
+
 app = bot.referenced_application
 client = TestClient(app)
+# async_client = AsyncClient(app)
 
 
 @app.get("/")
 def test_endpoint():
     return {"status": True}
+
+
+def test_if_dispike_object_in_router():
+    assert bot._cache_router._dispike_instance != None
+    assert isinstance(bot._cache_router._dispike_instance, Dispike)
 
 
 def create_mocked_request(command_name):
@@ -48,6 +56,7 @@ def create_mocked_request(command_name):
             "id": "12312312",
             "name": command_name,
             "options": [{"name": "message", "value": "test"}],
+            "type": 1,
         },
         "guild_id": "123123",
         "id": "123123123132",
@@ -81,7 +90,7 @@ def create_mocked_request(command_name):
     }
 
     class MockState:
-        _cached_body = IncomingDiscordInteraction(**data).json().encode()
+        _cached_body = IncomingDiscordSlashInteraction(**data).json().encode()
 
     class MockResponse:
         state = MockState
@@ -89,13 +98,14 @@ def create_mocked_request(command_name):
     return MockResponse
 
 
-async def hinted_mock_functions(mocked_events: EventHandler):
+async def hinted_mock_functions(mocked_events: "Dispike"):
     data = {
         "channel_id": "123123",
         "data": {
             "id": "12312312",
             "name": "sendmessage",
             "options": [{"name": "message", "value": "test"}],
+            "type": 1,
         },
         "guild_id": "123123",
         "id": "123123123132",
@@ -139,13 +149,14 @@ async def hinted_mock_functions(mocked_events: EventHandler):
         return {"sample": "sample"}
 
 
-async def no_hinted_mocked_functions(mocked_events: EventHandler):
+async def no_hinted_mocked_functions(mocked_events: "Dispike"):
     data = {
         "channel_id": "123123",
         "data": {
             "id": "12312312",
             "name": "sendmessage",
             "options": [{"name": "message", "value": "test"}],
+            "type": 1,
         },
         "guild_id": "123123",
         "id": "123123123132",
@@ -192,7 +203,8 @@ async def no_hinted_mocked_functions(mocked_events: EventHandler):
 @pytest.fixture
 @pytest.mark.asyncio
 async def mocked_interaction():
-    mocked_events = EventHandler()
+    mocked_events = bot
+    mocked_events.clear_all_event_callbacks()
     await no_hinted_mocked_functions(mocked_events)
     return mocked_events
 
@@ -200,7 +212,9 @@ async def mocked_interaction():
 @pytest.fixture
 @pytest.mark.asyncio
 async def mocked_interactions_with_hints():
-    mocked_events = EventHandler()
+
+    mocked_events = bot
+    mocked_events.clear_all_event_callbacks()
     await hinted_mock_functions(mocked_events)
     return mocked_events
 
@@ -212,6 +226,7 @@ def test_ping_endpoint():
         response.text
         == "If you see this, Your instance is working and accepting requests."
     )
+
 
 
 def test_valid_key_request_redirect():
@@ -280,9 +295,84 @@ def test_ack_ping_discord():
     assert response.json() == {"type": 1}
 
 
+from dispike import interactions
+
+
+@interactions.on("testfunction")
+async def sample_function(*args, **kwargs):
+    return DiscordResponse(content="sample")
+
+
+@pytest.mark.asyncio
+def test_interactions_endpoint():
+    # enable testing mode
+    # add callback manually (for some reason there is an error with pytest -- throws "this event loop is already running"
+    bot.callbacks = {
+        "command": {
+            "hint_return_discord_response": {
+                "settings": {},
+                "function": sample_function,
+            }
+        },
+        "component": {},
+    }
+    bot._internal_application.middleware_stack.app._skip_verification_of_key = True
+    _incoming_interaction = {
+        "channel_id": "123123",
+        "data": {
+            "id": "12312312",
+            "name": "hint_return_discord_response",
+            "options": [{"name": "message", "value": "test"}],
+            "type": 1,
+        },
+        "guild_id": "123123",
+        "id": "123123123132",
+        "member": {
+            "deaf": False,
+            "is_pending": False,
+            "joined_at": "2019-05-12T18:36:16.878000+00:00",
+            "mute": False,
+            "nick": None,
+            "pending": False,
+            "permissions": "2147483647",
+            "premium_since": None,
+            "roles": [
+                "123123",
+                "123123",
+                "1231233",
+                "1231233133",
+                "12412412414",
+            ],
+            "user": {
+                "avatar": "b723979992a56",
+                "discriminator": "3333",
+                "id": "234234213122123",
+                "public_flags": 768,
+                "username": "exo",
+            },
+        },
+        "token": "Null",
+        "type": 2,
+        "version": 1,
+    }
+
+    response = client.post(
+        "/interactions",
+        headers={
+            "X-Signature-Ed25519": signed_value.signature.decode(),
+            "x-Signature-Timestamp": _created_timestamp,
+        },
+        json=_incoming_interaction,
+    )
+    assert response.status_code == 200
+    assert response.json() == DiscordResponse(content="sample").response
+    bot._internal_application.middleware_stack.app._skip_verification_of_key = False
+    bot.clear_all_event_callbacks()
+
+
 @pytest.mark.asyncio
 async def test_proper_response_hints_no_hint_return_discord_response(
-    mocked_interaction, monkeypatch: "MonkeyPatch"
+    mocked_interaction: "Dispike", monkeypatch: "MonkeyPatch"
 ):
     # we honestly just need a specific attribute from the response..
     from dispike import server
@@ -303,7 +393,7 @@ async def test_proper_response_hints_no_hint_return_discord_response(
 
 @pytest.mark.asyncio
 async def test_proper_response_hints_no_hint_return_dict(
-    mocked_interaction, monkeypatch: "MonkeyPatch"
+    mocked_interaction: "Dispike", monkeypatch: "MonkeyPatch"
 ):
     # we honestly just need a specific attribute from the response..
     from dispike import server

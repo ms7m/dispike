@@ -19,5 +19,7 @@ keys.json
 dist/*
 test_bot.py
 test_cov.py
+debug_test_*
+debug_*
 
 site/*

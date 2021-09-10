@@ -1,1 +1,1 @@
-:::dispike.register.RegisterCommands
+:::dispike.creating.RegisterCommands

@@ -1,7 +1,7 @@
 import dataclasses
 import typing
 
-from pydantic import BaseModel, Extra, validator
+from pydantic import BaseModel, Extra, validator, root_validator
 from pydantic.error_wrappers import ValidationError
 from pydantic.errors import ArbitraryTypeError
 from enum import Enum
@@ -20,9 +20,8 @@ else:
         return cls
 
 
-class CommandTypes(int, Enum):
-
-    """Easy access to command types.
+class OptionTypes(int, Enum):
+    """Easy access to option types.
 
     Attributes:
         BOOLEAN (int): Represents Type 5
@@ -34,6 +33,7 @@ class CommandTypes(int, Enum):
         SUB_COMMAND_GROUP (int): Represents Type 2
         USER (int): Represents Type 6
         MENTIONABLE (int): Represents Type 9
+        NUMBER (int): Represents Type 10
     """
 
     SUB_COMMAND = 1
@@ -45,6 +45,21 @@ class CommandTypes(int, Enum):
     CHANNEL = 7
     ROLE = 8
     MENTIONABLE = 9
+    NUMBER = 10
+
+
+class CommandTypes(int, Enum):
+    """Easy access to command types.
+
+    Attributes:
+        SLASH (int): Represents Type 1
+        USER (int): Represents Type 2
+        MESSAGE (int): Represents Type 3
+    """
+
+    SLASH = 1
+    USER = 2
+    MESSAGE = 3
 
 
 @static_check_init_args
@@ -58,7 +73,7 @@ class CommandChoice(BaseModel):
     """
 
     name: str
-    value: str
+    value: typing.Union[str, int, float]
 
 
 @static_check_init_args
@@ -69,7 +84,7 @@ class CommandOption(BaseModel):
     Attributes:
         name (str): Name of the option.
         description (str): Description of the option.
-        type (CommandTypes): The option type.
+        type (OptionTypes): The option type.
         required (bool): Whether or not this option is required.
         choices (typing.Union[typing.List[dict], typing.List[CommandChoice]], optional): Possible choices for this option for the user to pick from.
         options (typing.Union[typing.List[CommandChoice], typing.List], optional): If the option is a subcommand or subcommand group type, this nested options will be the parameters.
@@ -80,7 +95,7 @@ class CommandOption(BaseModel):
 
     name: str
     description: str
-    type: CommandTypes
+    type: OptionTypes
     required: bool = False
     choices: typing.Optional[
         typing.Union[typing.List[dict], typing.List[CommandChoice]]
@@ -144,9 +159,37 @@ class DiscordCommand(BaseModel):
         name (str): Name of this command.
         description (str): Description of this command.
         options (typing.List[typing.Union[SubcommandOption, CommandOption]]): Options for this command.
+        default_permission (boolean): whether the command is enabled by default when the app is added to a guild. Defaults to True.
+        type (Union[CommandTypes, int]): The type of command. This defaults to SLASH
     """
 
     id: typing.Optional[int]
     name: str
-    description: str
-    options: typing.List[typing.Union[SubcommandOption, CommandOption]]
+    description: str = ""
+    options: typing.List[typing.Union[SubcommandOption, CommandOption]] = []
+    default_permission: bool = True
+    type: typing.Union[CommandTypes, int] = CommandTypes.SLASH
+
+    @root_validator
+    def validate_correct_type_requirements(cls, values):
+        _cls_type, _cls_description, _cls_options = (
+            values.get("type"),
+            values.get("description"),
+            values.get("options"),
+        )
+        if _cls_type == CommandTypes.SLASH:
+            if _cls_description == "":
+                raise ValueError("Slash commands require a description")
+        if _cls_type == CommandTypes.MESSAGE or _cls_type == CommandTypes.USER:
+            if _cls_description != "":
+                raise ValueError("Context commands cannot have a description")
+            if _cls_options:
+                raise ValueError("Context commands cannot have options")
+
+        return values
+
+    @validator("type", pre=True, always=True)
+    def set_value_type(cls, v):
+        if isinstance(v, CommandTypes):
+            return v.value
+        return v

@@ -3,15 +3,19 @@ from httpx import Client
 from .models import DiscordCommand
 from loguru import logger
 from ..errors.network import DiscordAPIError
+from ..helper.network_request_log import (
+    dispike_httpx_event_hook_outgoing_request,
+    dispike_httpx_event_hook_incoming_request,
+)
 
 
 class RegisterCommands(object):
-
     """This object contains methods to help registering a command to Discord.
     While you shouldn't need to import this directly, it's still accessible if you
     prefer not to initalize a Dispike object.
 
     Important to remember all methods are not async.
+
     """
 
     def __init__(self, application_id: str, bot_token: str):
@@ -24,7 +28,11 @@ class RegisterCommands(object):
         self.__bot_token = bot_token
         self._application_id = application_id
         self._client = Client(
-            base_url=f"https://discord.com/api/v8/applications/{self._application_id}/"
+            base_url=f"https://discord.com/api/v8/applications/{self._application_id}/",
+            event_hooks={
+                "response": [dispike_httpx_event_hook_incoming_request],
+                "request": [dispike_httpx_event_hook_outgoing_request],
+            },
         )
 
     @logger.catch(reraise=True, message="Issue with bulk overrwriting commands")

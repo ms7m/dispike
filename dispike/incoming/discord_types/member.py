@@ -30,6 +30,26 @@ class Member(BaseModel):
     permissions: str
     pending: bool
     nick: typing.Union[None, str]
-    mute: bool
+    mute: typing.Optional[bool] = None
     joined_at: datetime
-    deaf: bool
+    deaf: typing.Optional[bool] = None
+
+
+class PartialMember(BaseModel):
+    """A partial representation for a discord user. This is found in a Application Command Interaction Data Resolved Structure
+
+    Partial Member objects are missing user, deaf and mute attributes.
+
+    """
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    roles: typing.List[str]
+    premium_since: typing.Union[
+        None, str, int
+    ]  # ? Discord docs doesn't talk about this so..
+    permissions: str
+    pending: bool
+    nick: typing.Union[None, str]
+    joined_at: datetime

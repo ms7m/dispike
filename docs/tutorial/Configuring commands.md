@@ -16,9 +16,9 @@ Let's get started
 
 ```python
 # Import
-from dispike.register.models import DiscordCommand, CommandOption, CommandChoice, CommandTypes
+from dispike.creating import DiscordCommand, CommandOption, CommandChoice, CommandTypes
 
-from dispike.register.models import (
+from dispike.creating import (
   DiscordCommand,
   CommandOption,
   CommandChoice,
@@ -67,11 +67,4 @@ Verify that the ``CommandOption.name`` is something you can name in a normal pyt
 
 Let's move to register this command.
 
-
-
-### Source
-
-```python
---8<-- "dispike/register/models/options.py"
-```
 

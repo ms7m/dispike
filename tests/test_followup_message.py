@@ -8,9 +8,9 @@ from dispike.errors.network import DiscordAPIError
 
 if typing.TYPE_CHECKING:
     from dispike import Dispike
-    from dispike.models.incoming import (
+    from dispike.incoming.incoming_interactions import (
         IncomingApplicationCommand,
-        IncomingDiscordInteraction,
+        IncomingDiscordSlashInteraction,
     )
 
 
@@ -38,7 +38,7 @@ def dispike_object():
 
 @pytest.fixture
 def example_incoming_response():
-    from dispike.models.incoming import IncomingDiscordInteraction
+    from dispike.incoming.incoming_interactions import IncomingDiscordSlashInteraction
 
     _example_response = {
         "channel_id": "1231123123",
@@ -72,7 +72,7 @@ def example_incoming_response():
         "version": 1,
     }
 
-    return IncomingDiscordInteraction(**_example_response)
+    return IncomingDiscordSlashInteraction(**_example_response)
 
 
 @pytest.fixture
@@ -88,7 +88,7 @@ def create_example_response():
 
 
 def test_initalization_of_object(
-    dispike_object: "Dispike", example_incoming_response: "IncomingDiscordInteraction"
+    dispike_object: "Dispike", example_incoming_response: "IncomingDiscordSlashInteraction"
 ):
     _create_object = FollowUpMessages(dispike_object, example_incoming_response)
     assert _create_object._application_id == "APPID"
@@ -141,7 +141,26 @@ async def test_mock_create_followup_message_async(
     )
 
     with pytest.raises(TypeError):
-        await followup_message_object.async_create_follow_up_message(
+        await followup_message_object.async_create_follow_up_message(message=None)
+
+
+@respx.mock
+@pytest.mark.asyncio
+async def test_async_follow_up_message_only_once(
+    create_example_response,
+    example_incoming_response,
+    dispike_object,
+):
+    respx.post(f"https://discord.com/api/v8/webhooks/APPID/exampleToken").mock(
+        return_value=Response(200, json={"id": "exampleIncomingToken"})
+    )
+
+    with pytest.raises(TypeError):
+        throwaway_object = FollowUpMessages(
+            bot=dispike_object, interaction=example_incoming_response
+        )
+        throwaway_object._message_id = "1212"
+        ff = await throwaway_object.async_create_follow_up_message(
             message=create_example_response
         )
 
@@ -170,7 +189,7 @@ async def test_mock_create_followup_message_async_fail(
     )
 
     with pytest.raises(DiscordAPIError):
-        await followup_message_object.create_follow_up_message(
+        await followup_message_object.async_create_follow_up_message(
             message=create_example_response
         )
 

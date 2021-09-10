@@ -17,7 +17,7 @@ bot = Dispike(
   application_id=".."
 )
 
-bot.register.(command_to_be_created)
+bot.register(command_to_be_created)
 ```
 
-:::dispike.register.RegisterCommands.register
+:::dispike.creating

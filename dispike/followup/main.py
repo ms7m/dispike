@@ -8,9 +8,8 @@ from ..errors.network import DiscordAPIError
 
 if typing.TYPE_CHECKING:
     from ..main import Dispike  # pragma: no cover
-    from ..models import IncomingDiscordInteraction  # pragma: no cover
-
-
+    #from ..models import IncomingDiscordInteraction  # pragma: no cover
+    from ..incoming import IncomingDiscordSlashInteraction as IncomingDiscordInteraction # pragma: no cover
 class FollowUpMessages(object):
     def __init__(
         self,

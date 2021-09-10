@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "dispike"
-version = "0.9.8-alpha.0"
-description = "library for interacting with discord slash commands via an independently hosted server. Powered by FastAPI"
+version = "1.0.1-beta.0"
+description = "An independent, simple to use, powerful framework for creating interaction-based Discord bots. Powered by FastAPI"
 authors = ["Mustafa Mohamed <ms7mohamed@gmail.com>"]
 repository = "https://github.com/ms7m/dispike"
 readme = "README.md"
 license = "MIT"
-documentation = ""
+documentation = "https://dispike.ms7m.me?ref=pypi"
 
 
 [tool.poetry.dependencies]
@@ -38,6 +38,7 @@ mkdocs-markdownextradata-plugin = "^0.2.0"
 pymdown-extensions = "^8.1"
 twine = "^3.3.0"
 pytest-sugar = "^0.9.4"
+async-asgi-testclient = "^1.4.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

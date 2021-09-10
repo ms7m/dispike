@@ -1,8 +1,21 @@
+from dispike.errors.response import NoResolvedInteractions
+from .attribute_helpers import (
+    lookup_resolved_member_helper,
+    lookup_resolved_user_helper,
+    lookup_resolved_channel_helper,
+    lookup_resolved_role_helper,
+)
 from pydantic import BaseModel, ValidationError, validator
 import typing
-from .discord_types.member import Member
+from .discord_types.member import Member, PartialMember
+from .discord_types.message import Message
+from .discord_types.user import User
+from .discord_types.role import Role
+from .discord_types.channel import PartialChannel
+from loguru import logger
 
-from ..register.models import CommandOption, SubcommandOption
+from ..creating import CommandOption, SubcommandOption
+from ..creating.models.options import CommandTypes
 
 try:
     from typing import Literal  # pragma: no cover
@@ -58,9 +71,10 @@ class SubcommandIncomingDiscordOptionList(BaseModel):
         typing.List[IncomingDiscordOption],
         typing.List[SubcommandIncomingDiscordOptionListChild],
     ]
+    resolved: typing.Optional[typing.Dict] = {}
 
 
-class IncomingDiscordOptionList(BaseModel):
+class IncomingDiscordSlashData(BaseModel):
 
     """An incoming discord option list, this is not intended for you to edit, and will not
     be accepted as an argument in any function nor accepted in DiscordCommand
@@ -82,6 +96,8 @@ class IncomingDiscordOptionList(BaseModel):
             typing.List[SubcommandIncomingDiscordOptionList],
         ]
     ] = None
+    resolved: typing.Optional[typing.Dict] = {}
+    type: CommandTypes = CommandTypes.SLASH
 
 
 class IncomingDiscordButtonData(BaseModel):
@@ -110,14 +126,46 @@ class IncomingDiscordSelectMenuData(BaseModel):
     values: typing.List[str]
 
 
-class IncomingDiscordInteraction(BaseModel):
+class IncomingDiscordUserCommandData(BaseModel):
+
+    """
+    Incoming user command data.
+
+    Attributes:
+        target_id (str): The id of the targeted user.
+        target (Member): The targeted member.
+        name (str): The name of the user command.
+    """
+
+    target_id: str
+    target: Member = None
+    name: str
+
+
+class IncomingDiscordMessageCommandData(BaseModel):
+
+    """
+    Incoming message command data.
+
+    Attributes:
+        target_id (str): The id of the targeted message.
+        target (Message): The target message.
+        name (str): The name of the message command.
+    """
+
+    target_id: str
+    target: Message = None
+    name: str
+
+
+class IncomingDiscordSlashInteraction(BaseModel):
 
     """An incoming discord interaction that was triggered by a command, this is not intended for you to edit, and will not
     be accepted as an argument in any function.
 
     Attributes:
         id (int): Id of the interaction.
-        data (IncomingDiscordOptionList): Options from the command.
+        data (IncomingDiscordSlashData): Options from the command.
         guild_id (int): Guild ID where this happened.
         channel_id (int): Channel ID where this happened.
         member (Member): Member that used this interaction.
@@ -129,12 +177,44 @@ class IncomingDiscordInteraction(BaseModel):
 
     type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
     id: int
-    data: IncomingDiscordOptionList
+    data: IncomingDiscordSlashData
     guild_id: int
     channel_id: int
     member: Member
     token: str
     version: typing.Optional[Literal[1]] = None
+
+    def lookup_resolved_member(
+        self: "IncomingDiscordSlashInteraction", member_id: str
+    ) -> "PartialMember":
+        if self.data.resolved != {}:
+            return lookup_resolved_member_helper(cls=self, member_id=member_id)
+        else:
+            raise NoResolvedInteractions
+
+    def lookup_resolved_user(
+        self: "IncomingDiscordSlashInteraction", user_id: str
+    ) -> "User":
+        if self.data.resolved != {}:
+            return lookup_resolved_user_helper(cls=self, user_id=user_id)
+        else:
+            raise NoResolvedInteractions
+
+    def lookup_resolved_channel(
+        self: "IncomingDiscordSlashInteraction", channel_id: str
+    ) -> "PartialChannel":
+        if self.data.resolved != {}:
+            return lookup_resolved_channel_helper(cls=self, channel_id=channel_id)
+        else:
+            raise NoResolvedInteractions
+
+    def lookup_resolved_role(
+        self: "IncomingDiscordSlashInteraction", role_id: str
+    ) -> "Role":
+        if self.data.resolved != {}:
+            return lookup_resolved_role_helper(cls=self, role_id=role_id)
+        else:
+            raise NoResolvedInteractions
 
 
 class IncomingDiscordButtonInteraction(BaseModel):
@@ -178,6 +258,54 @@ class IncomingDiscordSelectMenuInteraction(BaseModel):
     type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
     id: int
     data: IncomingDiscordSelectMenuData
+    guild_id: int
+    channel_id: int
+    member: Member
+    token: str
+    version: typing.Optional[Literal[1]] = None
+
+
+class IncomingDiscordUserCommandInteraction(BaseModel):
+
+    """An incoming discord interaction that was triggered by a user command interaction, this is not intended for you to edit, and will not
+    be accepted as an argument in any function.
+
+    Attributes:
+        id (int): Id of the interaction.
+        data (IncomingDiscordUserCommandData): Data from the interaction.
+        guild_id (int): Guild ID where this happened.
+        channel_id (int): Channel ID where this happened.
+        member (Member): Member that called the command.
+        token (str): Token of this interaction.
+    """
+
+    type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
+    id: int
+    data: IncomingDiscordUserCommandData
+    guild_id: int
+    channel_id: int
+    member: Member
+    token: str
+    version: typing.Optional[Literal[1]] = None
+
+
+class IncomingDiscordMessageCommandInteraction(BaseModel):
+
+    """An incoming discord interaction that was triggered by a message command interaction, this is not intended for you to edit, and will not
+    be accepted as an argument in any function.
+
+    Attributes:
+        id (int): Id of the interaction.
+        data (IncomingDiscordMessageCommandData): Data from the interaction.
+        guild_id (int): Guild ID where this happened.
+        channel_id (int): Channel ID where this happened.
+        member (Member): Member that called the command.
+        token (str): Token of this interaction.
+    """
+
+    type: Literal[2, 3, 4, 5, 6, 7, 8]  # 1 is removed, this lib will handle PING
+    id: int
+    data: IncomingDiscordMessageCommandData
     guild_id: int
     channel_id: int
     member: Member

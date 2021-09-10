@@ -20,9 +20,11 @@ Your handler must be
     async def ...(argument_one, argument_two, ctx) -> ...
     ```
 
-- Contain a ``bot.interaction.on(<command-identifier>, <event type>)`` decorator.
+- Contain a ``bot.on(<command-identifier>, <event type>)`` decorator.
 
+  OR
 
+- Contain ``dispike.interactions.on(<command-identifier>, <event type>)`` decorator
 
 
 
@@ -32,7 +34,7 @@ Your handler must be
 
 #### Normal commands
 
-Finding the command identifier is a simple feat. If you are writing a normal (non-subcommand) command, it's often just the command name.
+Finding the command identifier is simple. If you are writing a normal (non-subcommand) command, it's often just the command name.
 
 ```json
 command_to_be_registered = DiscordCommand(
@@ -110,6 +112,12 @@ When a user uses this command in discord. They'd use it as
 The command identifier would be represented as
 
 ``forex.latest.convert``
+
+
+
+## Buttons and Select Menus
+
+Finding the command identifier for buttons or select menus can be found by finding the ``custom_id`` attribute in either ``Buttons`` or ``SelectMenu``.
 
 
 

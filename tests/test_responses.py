@@ -1,12 +1,12 @@
 import json
-from dispike.helper.components import (
+from dispike.creating.components import (
     Button,
     PartialEmoji,
     ActionRow,
     LinkButton,
     SelectMenu,
 )
-from dispike.models.incoming import IncomingDiscordInteraction
+from dispike.incoming.incoming_interactions import IncomingDiscordSlashInteraction
 from dispike.response import DiscordResponse
 from dispike.helper.embed import Embed
 from .test_dispike import dispike_object
@@ -15,7 +15,7 @@ import pytest
 import typing
 import respx
 from httpx import Response
-from dispike.models.allowed_mentions import AllowedMentions, AllowedMentionTypes
+from dispike.creating import AllowedMentions, AllowedMentionTypes
 
 if typing.TYPE_CHECKING:
     from dispike import Dispike

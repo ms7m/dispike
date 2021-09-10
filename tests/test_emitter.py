@@ -1,13 +1,27 @@
+from dispike.interactions import EventCollection
 from dispike.errors.events import InvalidEventType
-from dispike.eventer import EventHandler
-from dispike.models.incoming import (
-    IncomingDiscordInteraction,
+from dispike.incoming.incoming_interactions import (
+    IncomingDiscordSlashInteraction,
     IncomingDiscordSelectMenuInteraction,
 )
+from dispike import Dispike
 import pytest
 from dispike.eventer import EventTypes
 
-event_handler = EventHandler()
+
+from nacl.encoding import HexEncoder
+from nacl.signing import SigningKey
+
+_generated_signing_key = SigningKey.generate()
+verification_key = _generated_signing_key.verify_key.encode(encoder=HexEncoder)
+dispike_object = Dispike(
+    client_public_key=verification_key.decode(),
+    bot_token="BOTTOKEN",
+    application_id="APPID",
+)
+
+
+event_handler = dispike_object
 
 
 @event_handler.on("sampleEvent", EventTypes.COMMAND)
@@ -90,7 +104,7 @@ async def test_dynamic_arguments_event_handler():
         "version": 1,
     }
 
-    discord_interaction = IncomingDiscordInteraction(**data)
+    discord_interaction = IncomingDiscordSlashInteraction(**data)
     dymanic_kwargs = {x.name: x.value for x in discord_interaction.data.options}
     dymanic_kwargs["payload"] = discord_interaction
     assert (
@@ -156,3 +170,19 @@ async def pass_invalid_type_to_event_function():
         @event_handler.on("sampleEvent", type=22)
         async def invalid_event_type(*args, **kwargs):
             pass
+
+
+@pytest.mark.asyncio
+async def test_event_collection():
+
+    from dispike import interactions
+
+    event_handler.clear_all_event_callbacks()
+
+    class SampleEventCollection(EventCollection):
+        @interactions.on("sampleEventSubclass")
+        async def test_interaction_function():
+            pass
+
+    event_handler.register_collection(collection=SampleEventCollection)
+    assert "sampleEventSubclass" in event_handler.callbacks[EventTypes.COMMAND]

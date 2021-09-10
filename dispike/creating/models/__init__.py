@@ -3,5 +3,5 @@ from .options import (
     CommandChoice,
     CommandOption,
     SubcommandOption,
-    CommandTypes,
+    OptionTypes,
 )

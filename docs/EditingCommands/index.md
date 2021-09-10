@@ -21,7 +21,7 @@ Guild-level editing command is available by configuring parameters
 ```python
 
 from dispike import Dispike
-from dispike.register.models import (
+from dispike.creating import (
     DiscordCommand
 )
 
@@ -38,7 +38,7 @@ bot.edit_command(
 
 ```python
 from dispike import Dispike
-from dispike.register.models import DiscordCommand
+from dispike.creating.models import DiscordCommand
 
 
 bot = Dispike(...)
@@ -76,7 +76,7 @@ Not reading the documentation may result in you creating dangerous commands for 
 ## Getting Started
 Import the following:
 ```python
-from dispike.register.models.permissions import (
+from dispike.creating.models.permissions import (
     ApplicationCommandPermissions,
     NewApplicationPermission,
     ApplicationCommandPermissionType,
@@ -119,7 +119,7 @@ The example above starts out with creating a new command using ``NewApplicationP
 
 You can manually use a normal ``int`` value for ``type`` parameter, otherwise you can use a helper class called ``ApplicationCommandPermissionType``. 
 
-:::dispike.register.models.permissions.ApplicationCommandPermissionType
+:::dispike.creating.models.permissions.ApplicationCommandPermissionType
 
 
 
@@ -137,3 +137,12 @@ There is a function available in the bot instance that will allow you to update 
 
 :::dispike.main.Dispike.set_command_permission
 
+
+
+
+
+
+
+## Overwriting Commands
+
+If you prefer to overwrite an existing commands, you can 

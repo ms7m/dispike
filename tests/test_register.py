@@ -1,9 +1,9 @@
 from httpx import Response
-from dispike.register.models import (
+from dispike.creating.models import (
     DiscordCommand,
     CommandOption,
     CommandChoice,
-    CommandTypes,
+    OptionTypes,
 )
 import pytest
 from dispike.errors.network import DiscordAPIError
@@ -15,7 +15,7 @@ def test_register_command_globally_successful():
     respx.post("https://discord.com/api/v8/applications/EXAMPLE_APP_ID/commands").mock(
         return_value=Response(200)
     )
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -28,7 +28,7 @@ def test_register_command_globally_successful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -41,7 +41,7 @@ def test_register_command_globally_unsuccessful():
         return_value=Response(404)
     )
 
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -54,7 +54,7 @@ def test_register_command_globally_unsuccessful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -69,7 +69,7 @@ def test_register_command_guild_only_successful():
         "https://discord.com/api/v8/applications/EXAMPLE_APP_ID/guilds/EXAMPLE_GUILD/commands"
     ).mock(return_value=Response(200))
 
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -82,7 +82,7 @@ def test_register_command_guild_only_successful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -99,7 +99,7 @@ def test_register_command_guild_only_unsuccessful():
         "https://discord.com/api/v8/applications/EXAMPLE_APP_ID/guilds/EXAMPLE_GUILD/commands"
     ).mock(return_value=Response(500))
 
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -112,7 +112,7 @@ def test_register_command_guild_only_unsuccessful():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -123,7 +123,7 @@ def test_register_command_guild_only_unsuccessful():
 
 
 def test_register_command_guild_only_invalid_arguments():
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -136,7 +136,7 @@ def test_register_command_guild_only_invalid_arguments():
                 name="person",  # this is the attribute assigned to the value passed.,
                 description="person to target",  # this describes the value to pass,
                 required=True,
-                type=CommandTypes.USER,
+                type=OptionTypes.USER,
             )
         ],
     )
@@ -145,7 +145,7 @@ def test_register_command_guild_only_invalid_arguments():
 
 
 def test_requests_headers_correct():
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -155,7 +155,7 @@ def test_requests_headers_correct():
 
 
 def test_permission_error_for_viewing_bot_token_directly():
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -166,7 +166,7 @@ def test_permission_error_for_viewing_bot_token_directly():
 
 
 def test_updating_bot_token():
-    from dispike.register.registrator import RegisterCommands
+    from dispike.creating.registrator import RegisterCommands
 
     target_item = RegisterCommands(
         application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"
@@ -179,7 +179,7 @@ def test_updating_bot_token():
 
 def test_fail_updating_bot_token_same():
     with pytest.raises(TypeError):
-        from dispike.register.registrator import RegisterCommands
+        from dispike.creating.registrator import RegisterCommands
 
         target_item = RegisterCommands(
             application_id="EXAMPLE_APP_ID", bot_token="EXAMPLE_BOT_TOKEN"

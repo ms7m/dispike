@@ -23,13 +23,18 @@ nav:
   - "API Reference":
       - "Dispike": "APIRef/Dispike.md"
       - "RegisterCommands": "APIRef/RegCommands.md"
-      - "EventHandler": "APIRef/EventHandler.md"
+      - "Event Types": "APIRef/EventTypes.md"
   - "Tutorial":
       - "Getting Started": "tutorial/Getting Started.md"
       - "Configuring Commands": "tutorial/Configuring commands.md"
       - "Registering Commands": "tutorial/Registering Commands.md"
       - "Writing The Handler": "tutorial/Writing the handler.md"
       - "Running The Bot": "tutorial/Running the bot.md"
+      - "Bigger Applications":
+          - "Introduction": "tutorial/Bigger Applications/introduction.md"
+          - "Writing your First Collection": "tutorial/Bigger Applications/Writing your first Collection.md"
+          - "Registering Collections": "tutorial/Bigger Applications/Registering Collection.md"
+          - "Passing Callbacks Directly": "tutorial/Bigger Applications/Passing Callbacks Directly.md"
   - "Models":
       - "Info": "Models/index.md"
       - "Incoming": "Models/Incoming.md"
@@ -42,20 +47,10 @@ nav:
   - "Creating Commands":
       - "Subcommands": "CreatingCommands/subcommands.md"
       - "Standard Commands": "CreatingCommands/standard.md"
-  #- Deploying Your Bot:
-  #    - Index: "DeployingToProduction/index.md"
-  #    - Deploying without a Server: "DeployingToProduction/DeployingWithoutServer.md"
-  #    - Setting Up Workers: "DeployingToProduction/SettingUpWorkers.md"
-  #    - Configuring Gunicorn: "DeployingToProduction/SettingUpGunicorn.md"
-  #    - Reverse Proxy Specific:
-  #        - Information: "DeployingToProduction/ReverseProxySpecific/index.md"
-  #        - Nginx: "DeployingToProduction/ReverseProxySpecific/nginx.md"
-  #        - Caddy: "DeployingToProduction/ReverseProxySpecific/caddy.md"
-  #        - Apache: "DeployingToProduction/ReverseProxySpecific/apache.md"
-  #        - Traefik: "DeployingToProduction/ReverseProxySpecific/traefik.md"
-  #    - "Optional: Configuring Firewall & DNS": "DeployingToProduction/firewallConfiguration.md"
-  #    - Finale: "DeployingToProduction/finale.md"
-
+  - Deploying Your Bot:
+      - Deploying without a Server: "DeployingToProduction/DeployingWithoutServer.md"
+      - Deploying to 'Serverless': "DeployingToProduction/DeployingToServerless.md"
+      - Deploying with a Reverse Proxy: "DeployingToProduction/DeployingWithReverseProxy.md"
   - Editing Commands: "EditingCommands/index.md"
   - Deleting Commands: "DeletingCommands/index.md"
   - Getting Commands: "GettingCommands/index.md"
@@ -83,4 +78,4 @@ extra_css:
   - css/termynal.css
 repo_url: https://github.com/ms7m/dispike
 repo_name: ms7m/dispike
-copyright: Copyright &copy; 2020 - 2021 Mustafa Mohamed
+copyright: Copyright &copy; 2020 - 2021 github/ms7m
