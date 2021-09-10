@@ -48,7 +48,6 @@ nav:
       - "Subcommands": "CreatingCommands/subcommands.md"
       - "Standard Commands": "CreatingCommands/standard.md"
   - Deploying Your Bot:
-      - Index: "DeployingToProduction/index.md"
       - Deploying without a Server: "DeployingToProduction/DeployingWithoutServer.md"
       - Deploying to 'Serverless': "DeployingToProduction/DeployingToServerless.md"
       - Deploying with a Reverse Proxy: "DeployingToProduction/DeployingWithReverseProxy.md"
