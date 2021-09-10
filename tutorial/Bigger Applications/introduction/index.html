@@ -9,19 +9,19 @@
       
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.6">
     
     
       
-        <title>Deploying to Production - Dispike</title>
+        <title>Introduction - Dispike</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.875de78c.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.875de78c.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.f1a3b89f.min.css">
         
       
     
@@ -36,7 +36,7 @@
     
     
     
-      <link rel="stylesheet" href="../css/termynal.css">
+      <link rel="stylesheet" href="../../../css/termynal.css">
     
     
 <script async defer src="https://sa.dispike.ms7m.me/latest.js"></script>
@@ -56,7 +56,7 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
       <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deploying-to-production" class="md-skip">
+        <a href="#writing-bigger-organized-projects" class="md-skip">
           Skip to content
         </a>
       
@@ -80,11 +80,13 @@
         <path fill="currentColor"
             d="M576 240c0-23.63-12.95-44.04-32-55.12V32.01C544 23.26 537.02 0 512 0c-7.12 0-14.19 2.38-19.98 7.02l-85.03 68.03C364.28 109.19 310.66 128 256 128H64c-35.35 0-64 28.65-64 64v96c0 35.35 28.65 64 64 64h33.7c-1.39 10.48-2.18 21.14-2.18 32 0 39.77 9.26 77.35 25.56 110.94 5.19 10.69 16.52 17.06 28.4 17.06h74.28c26.05 0 41.69-29.84 25.9-50.56-16.4-21.52-26.15-48.36-26.15-77.44 0-11.11 1.62-21.79 4.41-32H256c54.66 0 108.28 18.81 150.98 52.95l85.03 68.03a32.023 32.023 0 0 0 19.98 7.02c24.92 0 32-22.78 32-32V295.13C563.05 284.04 576 263.63 576 240zm-96 141.42l-33.05-26.44C392.95 311.78 325.12 288 256 288v-96c69.12 0 136.95-23.78 190.95-66.98L480 98.58v282.84z">
         </path>
-    </svg> </span> <strong style="margin-left: 2px;"> Warning</strong>: This library is in alpha. If you find bugs,
+    </svg> </span> <strong style="margin-left: 2px;"> Warning</strong>: This library is in beta. If you find bugs,
 please open a Github Issue.
-Please also
-consider
-assisting in helping write documentation!
+<a href="https://discord.gg/yGgRmEYjju" style="color: white; text-decoration: underline;">
+    Please also
+    consider
+    joining our Discord server!
+</a>
 
           </div>
         </aside>
@@ -93,7 +95,7 @@ assisting in helping write documentation!
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Dispike" class="md-header__button md-logo" aria-label="Dispike" data-md-component="logo">
+    <a href="../../.." title="Dispike" class="md-header__button md-logo" aria-label="Dispike" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -112,7 +114,7 @@ assisting in helping write documentation!
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deploying to Production
+              Introduction
             
           </span>
         </div>
@@ -208,7 +210,7 @@ assisting in helping write documentation!
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Dispike" class="md-nav__button md-logo" aria-label="Dispike" data-md-component="logo">
+    <a href="../../.." title="Dispike" class="md-nav__button md-logo" aria-label="Dispike" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -240,7 +242,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -276,7 +278,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../APIRef/Dispike/" class="md-nav__link">
+      <a href="../../../APIRef/Dispike/" class="md-nav__link">
         Dispike
       </a>
     </li>
@@ -288,7 +290,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../APIRef/RegCommands/" class="md-nav__link">
+      <a href="../../../APIRef/RegCommands/" class="md-nav__link">
         RegisterCommands
       </a>
     </li>
@@ -300,8 +302,8 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../APIRef/EventHandler/" class="md-nav__link">
-        EventHandler
+      <a href="../../../APIRef/EventTypes/" class="md-nav__link">
+        Event Types
       </a>
     </li>
   
@@ -319,12 +321,14 @@ assisting in helping write documentation!
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       <label class="md-nav__link" for="__nav_3">
         Tutorial
@@ -342,7 +346,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../tutorial/Getting%20Started/" class="md-nav__link">
+      <a href="../../Getting%20Started/" class="md-nav__link">
         Getting Started
       </a>
     </li>
@@ -354,7 +358,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../tutorial/Configuring%20commands/" class="md-nav__link">
+      <a href="../../Configuring%20commands/" class="md-nav__link">
         Configuring Commands
       </a>
     </li>
@@ -366,7 +370,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../tutorial/Registering%20Commands/" class="md-nav__link">
+      <a href="../../Registering%20Commands/" class="md-nav__link">
         Registering Commands
       </a>
     </li>
@@ -378,7 +382,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../tutorial/Writing%20the%20handler/" class="md-nav__link">
+      <a href="../../Writing%20the%20handler/" class="md-nav__link">
         Writing The Handler
       </a>
     </li>
@@ -390,9 +394,96 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../tutorial/Running%20the%20bot/" class="md-nav__link">
+      <a href="../../Running%20the%20bot/" class="md-nav__link">
         Running The Bot
       </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_6" type="checkbox" id="__nav_3_6" checked>
+      
+      <label class="md-nav__link" for="__nav_3_6">
+        Bigger Applications
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Bigger Applications" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          Bigger Applications
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Introduction
+      </a>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Writing%20your%20first%20Collection/" class="md-nav__link">
+        Writing your First Collection
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Registering%20Collection/" class="md-nav__link">
+        Registering Collections
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Passing%20Callbacks%20Directly/" class="md-nav__link">
+        Passing Callbacks Directly
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -432,7 +523,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../Models/" class="md-nav__link">
+      <a href="../../../Models/" class="md-nav__link">
         Info
       </a>
     </li>
@@ -444,7 +535,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../Models/Incoming/" class="md-nav__link">
+      <a href="../../../Models/Incoming/" class="md-nav__link">
         Incoming
       </a>
     </li>
@@ -456,7 +547,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../Models/Outgoing/" class="md-nav__link">
+      <a href="../../../Models/Outgoing/" class="md-nav__link">
         Outgoing
       </a>
     </li>
@@ -498,7 +589,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../responses/" class="md-nav__link">
+      <a href="../../../responses/" class="md-nav__link">
         Info
       </a>
     </li>
@@ -510,7 +601,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../responses/readyresponse/" class="md-nav__link">
+      <a href="../../../responses/readyresponse/" class="md-nav__link">
         Ready Responses
       </a>
     </li>
@@ -522,7 +613,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../responses/writinghandler/" class="md-nav__link">
+      <a href="../../../responses/writinghandler/" class="md-nav__link">
         Writing your Handler
       </a>
     </li>
@@ -534,7 +625,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../responses/DeferredMessages/" class="md-nav__link">
+      <a href="../../../responses/DeferredMessages/" class="md-nav__link">
         Deferred Responses
       </a>
     </li>
@@ -576,7 +667,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../CreatingCommands/subcommands/" class="md-nav__link">
+      <a href="../../../CreatingCommands/subcommands/" class="md-nav__link">
         Subcommands
       </a>
     </li>
@@ -588,7 +679,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../CreatingCommands/standard/" class="md-nav__link">
+      <a href="../../../CreatingCommands/standard/" class="md-nav__link">
         Standard Commands
       </a>
     </li>
@@ -608,8 +699,74 @@ assisting in helping write documentation!
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" data-md-state="indeterminate" type="checkbox" id="__nav_7" checked>
+      
+      <label class="md-nav__link" for="__nav_7">
+        Deploying Your Bot
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Deploying Your Bot" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Deploying Your Bot
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../EditingCommands/" class="md-nav__link">
+      <a href="../../../DeployingToProduction/DeployingWithoutServer/" class="md-nav__link">
+        Deploying without a Server
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../DeployingToProduction/DeployingToServerless/" class="md-nav__link">
+        Deploying to 'Serverless'
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../DeployingToProduction/DeployingWithReverseProxy/" class="md-nav__link">
+        Deploying with a Reverse Proxy
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../EditingCommands/" class="md-nav__link">
         Editing Commands
       </a>
     </li>
@@ -624,7 +781,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../DeletingCommands/" class="md-nav__link">
+      <a href="../../../DeletingCommands/" class="md-nav__link">
         Deleting Commands
       </a>
     </li>
@@ -639,7 +796,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../GettingCommands/" class="md-nav__link">
+      <a href="../../../GettingCommands/" class="md-nav__link">
         Getting Commands
       </a>
     </li>
@@ -654,7 +811,7 @@ assisting in helping write documentation!
   
   
     <li class="md-nav__item">
-      <a href="../FollowUpMessages/" class="md-nav__link">
+      <a href="../../../FollowUpMessages/" class="md-nav__link">
         Follow Up Messages
       </a>
     </li>
@@ -680,21 +837,6 @@ assisting in helping write documentation!
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#do-i-need-to-use-a-reverse-proxy" class="md-nav__link">
-    Do I Need to use a Reverse Proxy?
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -705,26 +847,16 @@ assisting in helping write documentation!
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ms7m/dispike/edit/master/docs/DeployingToProduction/index.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/ms7m/dispike/edit/master/docs/tutorial/Bigger Applications/introduction.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="deploying-to-production">Deploying to Production<a class="headerlink" href="#deploying-to-production" title="Permanent link">&para;</a></h1>
-<p>After completing development of your bot, and fully tested it in a controlled environment.. It's time to deploy it and allow requests from Discord.</p>
-<p>For security reasons, Dispike does not <strong>allow you to bind to any other address other than local</strong>. This means that no one can access your bot unless it's coming from the machine itself. </p>
-<p>I highly recommend that you deploy behind a <a href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">reverse proxy</a>. Not deploying behind a reverse proxy can result in degradation of user experience, security intrusions, etc. There are sample configurations provided here that can be used as a starting point for configuring your reverse proxy correctly. </p>
-<p>This guide will also provide links to some production-ready configurations for the most popular servers out there. Otherwise, it's recommended to read through the whole guide to understand -- and ultimately build the perfect configuration for your bot.</p>
-<details class="info" open="open"><summary>Info</summary><p>View a problem with a sample configuration? Proficient in a different reverse proxy server and don't see a configuration? Contribute to the docs to help out your fellow colleagues!</p>
-</details>
-<h2 id="do-i-need-to-use-a-reverse-proxy">Do I Need to use a Reverse Proxy?<a class="headerlink" href="#do-i-need-to-use-a-reverse-proxy" title="Permanent link">&para;</a></h2>
-<p>99% of the time, it's the best choice. </p>
-<p>If your cloud provider/deployment service already provides services for load balancing and security</p>
-<details class="warning" open="open"><summary>Warning</summary><p>Google Cloud App Engine and AWS Elastic Beanstalk =/= the typical servers that are under the same companies. These are specialized services that facilitate things like load balancing.</p>
-</details>
+                <h1 id="writing-bigger-organized-projects">Writing Bigger, Organized Projects<a class="headerlink" href="#writing-bigger-organized-projects" title="Permanent link">&para;</a></h1>
+<p>The <a href="/docs/tutorial/Bigger Applications/Registering Collection.md">earlier tutorial</a> taught you how to write a simple bot. However this may not be reasonable, as you may want to split commands into different files or subfolders.</p>
+<p>This tutorial is going to show you a sample project that uses the <code>EventCollection</code> class to help you register and 'group' similarly grouped commands..</p>
 <hr />
-<p>It's time to configure your workers.</p>
-<hr />
+<p>In this tutorial, we are going to create a sample project, that contains two classes inherited with  <code>EventCollection</code>.</p>
                 
               
               
@@ -741,12 +873,45 @@ assisting in helping write documentation!
         
 <footer class="md-footer">
   
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../../Running%20the%20bot/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Running The Bot
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../Writing%20your%20first%20Collection/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Writing your First Collection
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2020 - 2021 Mustafa Mohamed
+            Copyright &copy; 2020 - 2021 github/ms7m
           </div>
         
         Made with
@@ -764,14 +929,14 @@ assisting in helping write documentation!
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.expand"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.34eae1b6.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.34eae1b6.min.js"></script>
       
-        <script src="../js/termynal.js"></script>
+        <script src="../../../js/termynal.js"></script>
       
-        <script src="../js/custom.js"></script>
+        <script src="../../../js/custom.js"></script>
       
     
   </body>
