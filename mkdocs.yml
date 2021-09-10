@@ -20,6 +20,7 @@ theme:
     - navigation.expand
 nav:
   - Home: "index.md"
+  - Migration from <1.0.0b: "MigrationGuide/MigrationGuide.md"
   - "API Reference":
       - "Dispike": "APIRef/Dispike.md"
       - "RegisterCommands": "APIRef/RegCommands.md"
@@ -55,6 +56,7 @@ nav:
   - Deleting Commands: "DeletingCommands/index.md"
   - Getting Commands: "GettingCommands/index.md"
   - Follow Up Messages: "FollowUpMessages.md"
+  
 
 plugins:
   - search
