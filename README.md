@@ -167,6 +167,7 @@ if __name__ == "__main__":
 | Buttons (Message Components) | **✅ Implemented** |
 | Action Rows (Message Components) | **✅ Implemented** |
 | Message Select (Message Components) | **✅ Implemented** |
+| Message Attachments | **⚠️ Not Implemented** |
 
 </p>
 </details>

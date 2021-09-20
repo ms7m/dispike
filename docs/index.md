@@ -78,6 +78,7 @@ This library is **only tested** on python versions
 | Buttons (Message Components) | **✅ Implemented** |
 | Action Rows (Message Components) | **✅ Implemented** |
 | Message Select (Message Components) | **✅ Implemented** |
+| Message Attachments | **⚠️ Not Implemented** |
 
 
 
