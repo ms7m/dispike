@@ -16,7 +16,7 @@ fastapi = "^0.63.0"
 pydantic = "1.8.2"
 typing-extensions = "^3.7.4"
 PyNaCl = "^1.4.0"
-httpx = "^0.16.1"
+httpx = "^0.19.0"
 uvicorn = "^0.13.2"
 async-timeout = "^3.0.1"
 
