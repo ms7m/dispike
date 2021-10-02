@@ -128,6 +128,13 @@ class DiscordResponse(object):
         else:
             raise TypeError("embed must be a Embed object.")
 
+    def add_new_action_row(self, action_row_to_add: ActionRow):
+        """Append a new action row, provided with a proper ActionRow object """
+        if isinstance(action_row_to_add, ActionRow):
+            self._action_row = action_row_to_add
+        else:
+            raise TypeError(f"action_row_to_add must be a ActionRow object. Recieved: {type(action_row_to_add)}")
+
     @property
     def content(self) -> str:
         """Either set or view the plain-text response to the user.
