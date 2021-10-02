@@ -5,6 +5,7 @@ from pydantic import BaseModel, Extra, validator, root_validator
 from pydantic.error_wrappers import ValidationError
 from pydantic.errors import ArbitraryTypeError
 from enum import Enum
+from dispike.incoming.discord_types.channel import ChannelTypes
 
 try:
     from typing import Literal  # pragma: no cover
@@ -104,6 +105,9 @@ class CommandOption(BaseModel):
     options: typing.Optional[
         typing.Union[typing.List[CommandChoice], typing.List]
     ] = None
+    channel_types: typing.Optional[
+        typing.List[ChannelTypes]
+    ] = []
 
     # @validator("options")
     # def options_allow_only_if_subcommand(cls, v):
