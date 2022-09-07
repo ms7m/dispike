@@ -16,6 +16,13 @@
   <br>
 </div>
 
+### Notice
+****
+As of 2022, I simply don't have the time to maintain this library. This library should function normally until Discord disables the v8 API. I hope I can resurrect this project in the future. If you would like to maintain or take over, I'm happy to help in the discord server, or sending me a quick email. :)
+***
+
+
+
 
 ## 📦 Installation
 
